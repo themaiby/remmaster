@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Vendor\CreateVendorRequest;
-use App\Http\Resources\VendorCollection;
+use App\Http\Resources\VendorResource;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 
@@ -14,18 +14,18 @@ class VendorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return VendorCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        $vendors = Vendor::paginate(self::PER_PAGE, ['id', 'name', 'note']);
-        return new VendorCollection($vendors);
+        $vendors = Vendor::paginate(self::PER_PAGE, ['id', 'name', 'created_at']);
+        return VendorResource::collection($vendors);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateVendorRequest $request)
@@ -36,20 +36,20 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Vendor  $vendor
-     * @return \App\Http\Resources\Vendor
+     * @param  \App\Models\Vendor $vendor
+     * @return VendorResource
      */
     public function show(Vendor $vendor)
     {
-        return new \App\Http\Resources\Vendor($vendor->load('contacts'));
+        return new VendorResource($vendor->load('contacts'));
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Vendor $vendor
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Vendor $vendor)
@@ -60,7 +60,7 @@ class VendorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Vendor  $vendor
+     * @param  \App\Models\Vendor $vendor
      * @return \Illuminate\Http\Response
      */
     public function destroy(Vendor $vendor)
