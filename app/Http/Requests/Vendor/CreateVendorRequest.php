@@ -28,6 +28,8 @@ class CreateVendorRequest extends FormRequest
             'name' => 'required|string',
             'note' => 'string',
             'contacts' => 'array', /* ex. { contacts: {name: "Telegram", value: "XXXXXXX"} }*/
+            'contacts.*.title' => 'required_with:contacts|string',
+            'contacts.*.value' => 'required_with:contacts|string',
         ];
     }
 }

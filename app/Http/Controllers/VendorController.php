@@ -30,7 +30,8 @@ class VendorController extends Controller
      */
     public function store(CreateVendorRequest $request)
     {
-        //
+        return $request;
+        // $vendor = Vendor::create()
     }
 
     /**
