@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\User
@@ -33,13 +34,14 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User role($roles)
  */
 class User extends Authenticatable
 {
-    use Notifiable;
-
-    public const ROLE_ADMIN = 'ADMIN';
-    public const ROLE_STAFF = 'STAFF';
+    use Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +49,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'role',
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -58,39 +60,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * Is Administrator role
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->role === self::ROLE_ADMIN;
-    }
-
-    /**
-     * Is Staff role
-     * @return bool
-     */
-    public function isStaff()
-    {
-        return $this->role === self::ROLE_STAFF;
-    }
-
-
-    /**
-     * @return User|\Illuminate\Database\Eloquent\Builder
-     */
-    public function allAdmins()
-    {
-        return self::whereRole(self::ROLE_ADMIN);
-    }
-
-    /**
-     * @return User|\Illuminate\Database\Eloquent\Builder
-     */
-    public function allStaff()
-    {
-        return self::whereRole(self::ROLE_ADMIN);
-    }
 }

@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/* Disable all web routes */
+Route::get('/{any}');
