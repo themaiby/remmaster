@@ -18,16 +18,6 @@ class VendorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,23 +32,13 @@ class VendorController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Vendor  $vendor
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\Vendor
      */
     public function show(Vendor $vendor)
     {
-        //
+        return new \App\Http\Resources\Vendor($vendor);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Vendor  $vendor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vendor $vendor)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

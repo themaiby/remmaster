@@ -1,25 +1,36 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
 /* VENDORS */
 Route::group(['prefix' => 'vendors'], function () {
-    Route::get('/', 'VendorController@index')->name('vendors.index');
-    Route::post('/', 'VendorController@create')->name('vendors.create');
-    Route::get('/{vendor}', 'VendorController@show')->name('vendors.show')
+    Route::get('/', 'VendorController@index')
+        ->middleware('permission:vendors.show')
+        ->name('vendors.index');
+    Route::post('/', 'VendorController@store')
+        ->middleware('permission:vendors.store')
+        ->name('vendors.store');
+    Route::get('/{vendor}', 'VendorController@show')
+        ->middleware('permission:vendors.show')
+        ->name('vendors.show')
         ->where(['vendor' => '[0-9]+']);
-    Route::put('/{vendor}', 'VendorController@update')->name('vendors.update')
+    Route::put('/{vendor}', 'VendorController@update')
+        ->middleware('permission:vendors.update')
+        ->name('vendors.update')
         ->where(['vendor' => '[0-9]+']);
-    Route::delete('/{vendor}', 'VendorController@destroy')->name('vendors.delete')
+    Route::delete('/{vendor}', 'VendorController@destroy')
+        ->middleware('permission:vendors.destroy')
+        ->name('vendors.destroy')
         ->where(['vendor' => '[0-9]+']);
+
+    /* VENDOR CONTACTS */
+    Route::group(['prefix' => '{vendor}/contact'], function () {
+        Route::post('/', 'VendorContactController@store')
+            // ->middleware('vendors.contacts.store')
+            ->name('vendors.contacts.store')
+            ->where(['vendor' => '[0-9]+']);
+
+        Route::delete('/{vendorContact}', 'VendorContactController@destroy')
+            // ->middleware('vendors.contacts.destroy')
+            ->name('vendors.contacts.destroy')
+            ->where(['vendor' => '[0-9]+', 'vendorContact' => '[0-9]+']);
+    });
 });

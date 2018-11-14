@@ -14,16 +14,14 @@ class RoleSeeder extends Seeder
     {
         $guard = 'api';
 
-        /* Vendor contacts */
-        Permission::create(['name' => 'see.vendor_contacts', 'guard_name' => $guard]);
-        Permission::create(['name' => 'create.vendor_contacts', 'guard_name' => $guard]);
-        Permission::create(['name' => 'edit.vendor_contacts', 'guard_name' => $guard]);
-        Permission::create(['name' => 'delete.vendor_contacts', 'guard_name' => $guard]);
-
         /* Vendors */
-        Permission::create(['name' => 'see.vendors', 'guard_name' => $guard]);
-        Permission::create(['name' => 'create.vendors', 'guard_name' => $guard]);
-        Permission::create(['name' => 'edit.vendors', 'guard_name' => $guard]);
-        Permission::create(['name' => 'delete.vendors', 'guard_name' => $guard]);
+        Permission::create(['name' => 'vendors.show', 'guard_name' => $guard]);
+        Permission::create(['name' => 'vendors.store', 'guard_name' => $guard]);
+        Permission::create(['name' => 'vendors.update', 'guard_name' => $guard]);
+        Permission::create(['name' => 'vendors.destroy', 'guard_name' => $guard]);
+
+        /* Vendor contacts */
+        Permission::create(['name' => 'vendors.contacts.store', 'guard_name' => $guard]);
+        Permission::create(['name' => 'vendors.contacts.destroy', 'guard_name' => $guard]);
     }
 }
