@@ -15,4 +15,4 @@ php artisan migrate
 php artisan db:seed
 php artisan ide-helper:generate
 php artisan ide-helper:meta
-php artisan ide-helper:model -n
+php artisan ide-helper:model -W -r
