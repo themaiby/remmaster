@@ -21,7 +21,7 @@ class Vendor extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'note' => $this->note,
-            'contacts' => $this->contacts
+            'contacts' => $this->whenLoaded('contacts')
         ];
     }
 }

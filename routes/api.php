@@ -3,21 +3,21 @@
 /* VENDORS */
 Route::group(['prefix' => 'vendors'], function () {
     Route::get('/', 'VendorController@index')
-        ->middleware('permission:vendors.show')
+        /*->middleware('permission:vendors.show')*/
         ->name('vendors.index');
     Route::post('/', 'VendorController@store')
-        ->middleware('permission:vendors.store')
+        /*->middleware('permission:vendors.store')*/
         ->name('vendors.store');
     Route::get('/{vendor}', 'VendorController@show')
-        ->middleware('permission:vendors.show')
+        /*->middleware('permission:vendors.show')*/
         ->name('vendors.show')
         ->where(['vendor' => '[0-9]+']);
     Route::put('/{vendor}', 'VendorController@update')
-        ->middleware('permission:vendors.update')
+        /*->middleware('permission:vendors.update')*/
         ->name('vendors.update')
         ->where(['vendor' => '[0-9]+']);
     Route::delete('/{vendor}', 'VendorController@destroy')
-        ->middleware('permission:vendors.destroy')
+        /*->middleware('permission:vendors.destroy')*/
         ->name('vendors.destroy')
         ->where(['vendor' => '[0-9]+']);
 

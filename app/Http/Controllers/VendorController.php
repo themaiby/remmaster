@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VendorCollection;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
+    private const PER_PAGE = 25; /* todo: dynamic change */
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return VendorCollection
      */
     public function index()
     {
-        //
+        $vendors = Vendor::paginate(self::PER_PAGE, ['id', 'name', 'note']);
+        return new VendorCollection($vendors);
     }
 
     /**
@@ -36,7 +40,7 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor)
     {
-        return new \App\Http\Resources\Vendor($vendor);
+        return new \App\Http\Resources\Vendor($vendor->load('contacts'));
     }
 
 
