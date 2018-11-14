@@ -60,4 +60,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @var string
+     */
+    protected $guard_name = 'api';
 }

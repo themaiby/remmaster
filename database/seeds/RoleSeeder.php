@@ -12,7 +12,18 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'create.vendors']);
-        Permission::create(['name' => 'update.vendors']);
+        $guard = 'api';
+
+        /* Vendor contacts */
+        Permission::create(['name' => 'see.vendor_contacts', 'guard_name' => $guard]);
+        Permission::create(['name' => 'create.vendor_contacts', 'guard_name' => $guard]);
+        Permission::create(['name' => 'edit.vendor_contacts', 'guard_name' => $guard]);
+        Permission::create(['name' => 'delete.vendor_contacts', 'guard_name' => $guard]);
+
+        /* Vendors */
+        Permission::create(['name' => 'see.vendors', 'guard_name' => $guard]);
+        Permission::create(['name' => 'create.vendors', 'guard_name' => $guard]);
+        Permission::create(['name' => 'edit.vendors', 'guard_name' => $guard]);
+        Permission::create(['name' => 'delete.vendors', 'guard_name' => $guard]);
     }
 }
