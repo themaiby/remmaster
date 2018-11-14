@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+/* VENDORS */
+Route::group(['prefix' => 'vendors'], function () {
+    Route::get('/', 'VendorController@index')->name('vendors.index');
+    Route::post('/', 'VendorController@create')->name('vendors.create');
+    Route::get('/{vendor}', 'VendorController@show')->name('vendors.show')
+        ->where(['vendor' => '[0-9]+']);
+    Route::put('/{vendor}', 'VendorController@update')->name('vendors.update')
+        ->where(['vendor' => '[0-9]+']);
+    Route::delete('/{vendor}', 'VendorController@destroy')->name('vendors.delete')
+        ->where(['vendor' => '[0-9]+']);
 });
