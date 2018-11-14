@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereVendorId($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Vendor $vendor
+ * @property string|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereDeletedAt($value)
  */
 class VendorContact extends Model
 {

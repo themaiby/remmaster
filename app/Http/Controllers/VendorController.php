@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Vendor\CreateVendorRequest;
 use App\Http\Resources\VendorCollection;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class VendorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateVendorRequest $request)
     {
         //
     }

@@ -3,7 +3,7 @@
 /* VENDORS */
 Route::group(['prefix' => 'vendors'], function () {
     Route::get('/', 'VendorController@index')
-        /*->middleware('permission:vendors.show')*/
+        /*->middleware('permission:vendors.show')*/ /* todo: uncomment after login implement */
         ->name('vendors.index');
     Route::post('/', 'VendorController@store')
         /*->middleware('permission:vendors.store')*/
