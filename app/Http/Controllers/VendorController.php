@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VendorContactRequest;
 use App\Http\Requests\VendorRequest;
 use App\Http\Resources\VendorResource;
 use App\Models\Vendor;
+use App\Models\VendorContact;
 use App\Services\VendorService;
 use Illuminate\Http\Request;
 
@@ -68,10 +70,32 @@ class VendorController extends Controller
      *
      * @param  \App\Models\Vendor $vendor
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Vendor $vendor)
     {
         $vendor->delete();
+        return response()->json(['message' => 'Success']);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request $request
+     * @return VendorResource
+     */
+    public function storeContact(VendorContactRequest $request, Vendor $vendor)
+    {
+        $vendor->contacts()->create($request->all());
+        return new VendorResource($vendor->load('contacts'));
+    }
+
+    /**
+     * @param  \App\Models\VendorContact $vendorContact
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroyContact(VendorContact $vendorContact)
+    {
+        $vendorContact->delete();
         return response()->json(['message' => 'Success']);
     }
 }

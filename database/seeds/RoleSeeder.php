@@ -19,9 +19,5 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'vendors.store', 'guard_name' => $guard]);
         Permission::create(['name' => 'vendors.update', 'guard_name' => $guard]);
         Permission::create(['name' => 'vendors.destroy', 'guard_name' => $guard]);
-
-        /* Vendor contacts */
-        Permission::create(['name' => 'vendors.contacts.store', 'guard_name' => $guard]);
-        Permission::create(['name' => 'vendors.contacts.destroy', 'guard_name' => $guard]);
     }
 }

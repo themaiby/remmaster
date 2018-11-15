@@ -23,13 +23,13 @@ Route::group(['prefix' => 'vendors'], function () {
 
     /* VENDOR CONTACTS */
     Route::group(['prefix' => '{vendor}/contact'], function () {
-        Route::post('/', 'VendorContactController@store')
-            // ->middleware('vendors.contacts.store')
+        Route::post('/', 'VendorController@storeContact')
+            // ->middleware('permission:vendors.update')
             ->name('vendors.contacts.store')
             ->where(['vendor' => '[0-9]+']);
 
-        Route::delete('/{vendorContact}', 'VendorContactController@destroy')
-            // ->middleware('vendors.contacts.destroy')
+        Route::delete('/{vendorContact}', 'VendorController@destroyContact')
+            // ->middleware('permission:vendors.update')
             ->name('vendors.contacts.destroy')
             ->where(['vendor' => '[0-9]+', 'vendorContact' => '[0-9]+']);
     });
