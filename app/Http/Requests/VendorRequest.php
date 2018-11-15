@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Vendor;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateVendorRequest extends FormRequest
+class VendorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateVendorRequest extends FormRequest
      */
     public function authorize()
     {
-        /*return Auth::user()->can('vendors.store');*/ /* todo: uncomment after login implement */
+        //return Auth::user()->can('vendors.store');
         return true;
     }
 
@@ -25,7 +25,7 @@ class CreateVendorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'sometimes|required|string',
             'note' => 'string',
 
             'contacts' => 'array', /* ex. { contacts: {title: "Telegram", value: "XXXXXXX"} }*/
@@ -33,13 +33,4 @@ class CreateVendorRequest extends FormRequest
             'contacts.*.value' => 'required_with:contacts|string',
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->only(['name', 'note', 'contacts']);
-    }
-
 }

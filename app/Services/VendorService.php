@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Vendor\CreateVendorRequest;
+use App\Http\Requests\VendorRequest;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 
@@ -12,11 +12,11 @@ class VendorService
     /**
      * Store vendor and contacts if present
      *
-     * @param CreateVendorRequest $request
+     * @param VendorRequest $request
      * @return mixed
      * @throws \Exception
      */
-    public function handleStore(CreateVendorRequest $request)
+    public function handleStore(VendorRequest $request)
     {
         try {
             DB::transaction(function () use ($request, &$vendor) {

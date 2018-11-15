@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -32,7 +33,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class Vendor extends Model
 {
-    use HasRoles;
+    use HasRoles, SoftDeletes;
 
     protected $table = 'vendors';
     protected $guard_name = 'api';
