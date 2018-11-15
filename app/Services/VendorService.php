@@ -31,7 +31,6 @@ class VendorService
         } catch (\Throwable $e) {
             DB::rollBack();
         }
-
         /* @var $vendor Vendor */
         return $vendor->load('contacts');
     }

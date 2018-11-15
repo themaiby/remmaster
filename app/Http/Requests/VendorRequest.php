@@ -13,7 +13,6 @@ class VendorRequest extends FormRequest
      */
     public function authorize()
     {
-        //return Auth::user()->can('vendors.store');
         return true;
     }
 
@@ -24,13 +23,22 @@ class VendorRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'sometimes|required|string',
-            'note' => 'string',
-
-            'contacts' => 'array', /* ex. { contacts: {title: "Telegram", value: "XXXXXXX"} }*/
+        $rules = [
+            'name' => 'required|string',
+            'note' => 'sometimes|string',
+            'contacts' => 'sometimes|array', // example: { contacts: {title: "Telegram", value: "XXXXXXX"} }
             'contacts.*.title' => 'required_with:contacts|string',
             'contacts.*.value' => 'required_with:contacts|string',
         ];
+
+        $rulesUpdate = [
+            'name' => 'sometimes|string'
+        ];
+
+        if ($this->method === 'put') {
+            $rules = array_merge($rules, $rulesUpdate);
+        }
+
+        return $rules;
     }
 }

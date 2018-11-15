@@ -27,6 +27,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Vendor $vendor
  * @property string|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereDeletedAt($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withoutTrashed()
  */
 class VendorContact extends Model
 {
