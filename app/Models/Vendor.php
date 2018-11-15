@@ -30,6 +30,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\VendorContact[] $contacts
  * @property string|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereDeletedAt($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withoutTrashed()
  */
 class Vendor extends Model
 {
