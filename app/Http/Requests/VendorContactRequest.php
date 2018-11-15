@@ -13,7 +13,6 @@ class VendorContactRequest extends FormRequest
      */
     public function authorize()
     {
-        // return Auth::user()->can('vendors.update');
         return true;
     }
 

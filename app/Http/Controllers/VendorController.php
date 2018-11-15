@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use App\Models\VendorContact;
 use App\Services\VendorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
