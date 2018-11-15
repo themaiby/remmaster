@@ -1,6 +1,8 @@
 <?php
 
 
+Route::post('/login', 'Auth\AuthController@login')->name('auth');
+
 Route::group(['middleware' => 'auth'], function () {
 
     /* VENDORS */
