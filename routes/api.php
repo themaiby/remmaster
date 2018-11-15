@@ -2,10 +2,16 @@
 
 
 /* Auth routes */
-Route::post('/login', 'Auth\AuthController@login')->name('login');
+Route::post('/login', 'Auth\AuthController@login')
+    ->name('auth.login');
+
 Route::post('/logout', 'Auth\AuthController@logout')
-    ->name('logout')
+    ->name('auth.logout')
     ->middleware('auth:api');
+
+Route::post('/refresh', 'Auth\AuthController@refresh')
+    ->name('auth.refresh');
+
 Route::get('/me', 'Auth\AuthController@me')
     ->name('auth.me')
     ->middleware('auth:api');
