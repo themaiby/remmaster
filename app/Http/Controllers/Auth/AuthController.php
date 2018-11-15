@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -55,11 +56,12 @@ class AuthController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return UserResource
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $user = auth()->user()->load(['permissions:id,name', 'roles']);
+        return new UserResource($user);
     }
 
     /**
