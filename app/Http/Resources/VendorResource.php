@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class VendorResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Collection fields filtering
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
@@ -17,12 +17,12 @@ class VendorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 
     /**
-     * For single model
+     * Single model fields filtering
      *
      * @param array $data
      * @return array
@@ -34,7 +34,8 @@ class VendorResource extends JsonResource
             'name' => $this->name,
             'note' => $this->note,
             'contacts' => $this->whenLoaded('contacts'),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

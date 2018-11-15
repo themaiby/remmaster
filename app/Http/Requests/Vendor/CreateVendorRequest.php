@@ -27,9 +27,19 @@ class CreateVendorRequest extends FormRequest
         return [
             'name' => 'required|string',
             'note' => 'string',
-            'contacts' => 'array', /* ex. { contacts: {name: "Telegram", value: "XXXXXXX"} }*/
+
+            'contacts' => 'array', /* ex. { contacts: {title: "Telegram", value: "XXXXXXX"} }*/
             'contacts.*.title' => 'required_with:contacts|string',
             'contacts.*.value' => 'required_with:contacts|string',
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->only(['name', 'note', 'contacts']);
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Vendor\CreateVendorRequest;
 use App\Http\Resources\VendorResource;
 use App\Models\Vendor;
+use App\Services\VendorService;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -12,26 +13,29 @@ class VendorController extends Controller
     private const PER_PAGE = 25; /* todo: dynamic change */
 
     /**
-     * Display a listing of the resource.
+     * Vendors list
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        $vendors = Vendor::paginate(self::PER_PAGE, ['id', 'name', 'created_at']);
+        $vendors = Vendor::paginate(self::PER_PAGE, [
+            'id', 'name', 'created_at'
+        ]);
+
         return VendorResource::collection($vendors);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store vendor
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function store(CreateVendorRequest $request)
+    public function store(CreateVendorRequest $request, VendorService $service)
     {
-        return $request;
-        // $vendor = Vendor::create()
+        return $service->handleStore($request);
     }
 
     /**
