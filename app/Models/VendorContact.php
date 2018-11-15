@@ -14,24 +14,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $vendor_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \App\Models\Vendor $vendor
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact query()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereVendorId($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Vendor $vendor
- * @property string|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereDeletedAt($value)
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact onlyTrashed()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withoutTrashed()
+ * @mixin \Eloquent
  */
 class VendorContact extends Model
 {
