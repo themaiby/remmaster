@@ -9,7 +9,6 @@
 # which will be run after this script.
 
 cd /home/vagrant/code
-composer install
 php artisan key:generate --ansi
 php artisan jwt:secret -f --ansi
 php artisan migrate
