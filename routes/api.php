@@ -1,9 +1,17 @@
 <?php
 
 
-Route::post('/login', 'Auth\AuthController@login')->name('auth');
+/* Auth routes */
+Route::post('/login', 'Auth\AuthController@login')->name('login');
+Route::post('/logout', 'Auth\AuthController@logout')
+    ->name('logout')
+    ->middleware('auth:api');
+Route::get('/me', 'Auth\AuthController@me')
+    ->name('auth.me')
+    ->middleware('auth:api');
+/* END auth */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
 
     /* VENDORS */
     Route::group(['prefix' => 'vendors'], function () {
