@@ -19,6 +19,9 @@ Route::get('/me', 'Auth\AuthController@me')
 
 Route::group(['middleware' => 'auth:api'], function () {
 
+    // Menu
+    Route::get('/menu', 'MenuController@getMenu')->name('menu');
+
     /* VENDORS */
     Route::group(['prefix' => 'vendors'], function () {
         Route::get('/', 'VendorController@index')
