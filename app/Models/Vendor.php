@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -35,15 +36,20 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withoutTrashed()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor sortable($defaultParameters = null)
  */
 class Vendor extends Model
 {
-    use HasRoles, SoftDeletes;
+    use HasRoles, SoftDeletes, Sortable;
 
     protected $table = 'vendors';
     protected $guard_name = 'api';
     protected $fillable = [
         'name', 'note'
+    ];
+
+    protected $sortable = [
+        'id', 'name', 'created_at', 'deleted_at'
     ];
 
     /**

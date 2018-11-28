@@ -13,18 +13,18 @@ use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
-    private const PER_PAGE = 25; /* todo: dynamic change */
-
     /**
      * Vendors list
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vendors = Vendor::paginate(self::PER_PAGE, [
-            'id', 'name', 'created_at'
-        ]);
+        $vendors = Vendor::withTrashed()
+            ->sortable()
+            ->paginate((int)$request->perPage, [
+                'id', 'name', 'created_at', 'deleted_at'
+            ]);
 
         return VendorResource::collection($vendors);
     }
