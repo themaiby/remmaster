@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\VendorRequest;
+use App\Http\Resources\VendorResource;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 
@@ -32,6 +33,6 @@ class VendorService
             DB::rollBack();
         }
         /* @var $vendor Vendor */
-        return $vendor->load('contacts');
+        return new VendorResource($vendor->load('contacts'));
     }
 }

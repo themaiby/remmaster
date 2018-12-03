@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Kyslik\LaravelFilterable\Filterable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -37,10 +38,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withoutTrashed()
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor sortable($defaultParameters = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor filter(\Kyslik\LaravelFilterable\FilterContract $filter)
  */
 class Vendor extends Model
 {
-    use HasRoles, SoftDeletes, Sortable;
+    use HasRoles, SoftDeletes, Sortable, Filterable;
 
     protected $table = 'vendors';
     protected $guard_name = 'api';

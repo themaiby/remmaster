@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da335f12a3c0662320ec066e405bc8bf",
+    "content-hash": "bb8510a6f86b259987f693db065e601e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1342,6 +1342,68 @@
                 "sorting"
             ],
             "time": "2018-09-04T15:41:33+00:00"
+        },
+        {
+            "name": "kyslik/laravel-filterable",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Kyslik/laravel-filterable.git",
+                "reference": "1515b9dfe6eb15ff20529e82b03067e23abc9444"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Kyslik/laravel-filterable/zipball/1515b9dfe6eb15ff20529e82b03067e23abc9444",
+                "reference": "1515b9dfe6eb15ff20529e82b03067e23abc9444",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.6.*|5.7.*",
+                "illuminate/http": "5.6.*|5.7.*",
+                "illuminate/support": "5.6.*|5.7.*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.6.*|3.7.*",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kyslik\\LaravelFilterable\\FilterableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kyslik\\LaravelFilterable\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Kiesel",
+                    "email": "martin.kiesel@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Using URL query strings to filter Eloquent queries.",
+            "homepage": "https://github.com/kyslik/laravel-filterable",
+            "keywords": [
+                "filter",
+                "kyslik",
+                "laravel",
+                "laravel-filterable",
+                "query-strings"
+            ],
+            "time": "2018-10-05T20:36:53+00:00"
         },
         {
             "name": "laravel/framework",

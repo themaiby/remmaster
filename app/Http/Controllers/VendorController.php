@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\VendorFilter;
 use App\Http\Requests\VendorContactRequest;
 use App\Http\Requests\VendorRequest;
 use App\Http\Resources\VendorResource;
@@ -9,7 +10,7 @@ use App\Models\Vendor;
 use App\Models\VendorContact;
 use App\Services\VendorService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class VendorController extends Controller
 {
@@ -18,10 +19,11 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request, VendorFilter $filter)
     {
         $vendors = Vendor::withTrashed()
-            ->sortable()
+            ->sortable(['created_at' => 'desc'])
+            ->filter($filter)
             ->paginate((int)$request->perPage, [
                 'id', 'name', 'created_at', 'deleted_at'
             ]);
@@ -98,5 +100,33 @@ class VendorController extends Controller
     {
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);
+    }
+
+    /**
+     * Get available values for vendor filter
+     * @return array
+     */
+    public function getFilterValues()
+    {
+        $minCreatedAt = Vendor::min('created_at');
+        $maxCreatedAt = Vendor::max('created_at');
+
+        $minComponentsCount = 4;
+        $maxComponentsCount = 27;
+
+        return ['data' =>
+            [
+                'components' =>
+                    [
+                        'min' => $minComponentsCount,
+                        'max' => $maxComponentsCount,
+                    ],
+                'date' =>
+                    [
+                        'min' => $minCreatedAt,
+                        'max' => $maxCreatedAt,
+                    ],
+            ]
+        ];
     }
 }

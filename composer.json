@@ -11,6 +11,7 @@
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "kyslik/column-sortable": "^5.7",
+        "kyslik/laravel-filterable": "^2.0",
         "laravel/framework": "5.7.*",
         "laravel/homestead": "^7.19",
         "laravel/tinker": "^1.0",

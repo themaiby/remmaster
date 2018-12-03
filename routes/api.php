@@ -43,6 +43,10 @@ Route::group(['middleware' => 'auth:api'], function () {
             ->name('vendors.destroy')
             ->where(['vendor' => '[0-9]+']);
 
+        /* Available values for providers filter */
+        Route::get('/filter', 'VendorController@getFilterValues')
+            ->name('vendors.filter');
+
         /* VENDOR CONTACTS */
         Route::group(['prefix' => '{vendor}/contact'], function () {
             Route::post('/', 'VendorController@storeContact')
