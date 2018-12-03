@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
-use Kyslik\LaravelFilterable\Filterable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -38,7 +38,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vendor withoutTrashed()
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor sortable($defaultParameters = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor filter(\Kyslik\LaravelFilterable\FilterContract $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor filter($input = array(), $filter = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor paginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor simplePaginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereBeginsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereEndsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereLike($column, $value, $boolean = 'and')
  */
 class Vendor extends Model
 {

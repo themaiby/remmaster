@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\VendorFilter;
 use App\Http\Requests\VendorContactRequest;
 use App\Http\Requests\VendorRequest;
 use App\Http\Resources\VendorResource;
@@ -19,11 +18,11 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request, VendorFilter $filter)
+    public function index(Request $request)
     {
         $vendors = Vendor::withTrashed()
             ->sortable(['created_at' => 'desc'])
-            ->filter($filter)
+            ->filter($request->all())
             ->paginate((int)$request->perPage, [
                 'id', 'name', 'created_at', 'deleted_at'
             ]);
