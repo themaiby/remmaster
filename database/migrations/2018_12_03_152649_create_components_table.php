@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateComponentsTable extends Migration
 {
@@ -15,7 +15,19 @@ class CreateComponentsTable extends Migration
     {
         Schema::create('components', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('article');
+            $table->string('title');
+            $table->unsignedInteger('count');
+            $table->unsignedInteger('vendor_id')->index();
+            $table->float('cost');
             $table->timestamps();
+        });
+
+        Schema::table('components', function (Blueprint $table) {
+            $table->foreign('vendor_id')
+                ->references('id')
+                ->on('vendors')
+                ->onDelete('cascade');
         });
     }
 

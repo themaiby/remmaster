@@ -44,6 +44,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereBeginsWith($column, $value, $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereEndsWith($column, $value, $boolean = 'and')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vendor whereLike($column, $value, $boolean = 'and')
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Component[] $components
  */
 class Vendor extends Model
 {
@@ -51,12 +52,13 @@ class Vendor extends Model
 
     protected $table = 'vendors';
     protected $guard_name = 'api';
+
     protected $fillable = [
         'name', 'note'
     ];
 
     protected $sortable = [
-        'id', 'name', 'created_at', 'deleted_at'
+        'name', 'created_at', 'deleted_at', 'components'
     ];
 
     /**
@@ -65,5 +67,13 @@ class Vendor extends Model
     public function contacts()
     {
         return $this->hasMany(VendorContact::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function components()
+    {
+        return $this->hasMany(Component::class);
     }
 }
