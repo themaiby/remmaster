@@ -38,12 +38,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             ->middleware('permission:vendors.update')
             ->name('vendors.update')
             ->where(['vendor' => '[0-9]+']);
-        Route::post('/{vendor}/hide', 'VendorController@hide')
-            ->name('vendors.hide')
-            ->where(['vendor' => '[0-9]+']);
-        Route::post('/{vendor}/unhide', 'VendorController@unhide')
-            ->name('vendors.unhide')
-            ->where(['vendor' => '[0-9]+']);
 
         Route::delete('/{vendor}', 'VendorController@destroy')
             ->middleware('permission:vendors.destroy')

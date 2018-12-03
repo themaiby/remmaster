@@ -18,7 +18,6 @@ class VendorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'created_at' => $this->created_at,
-            'deleted_at' => $this->deleted_at,
         ];
     }
 
@@ -37,7 +36,6 @@ class VendorResource extends JsonResource
             'contacts' => $this->whenLoaded('contacts'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
         ];
     }
 }

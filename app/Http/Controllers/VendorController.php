@@ -20,8 +20,7 @@ class VendorController extends Controller
      */
     public function index(Request $request)
     {
-        $vendors = Vendor::withTrashed()
-            ->sortable(['created_at' => 'desc'])
+        $vendors = Vendor::sortable(['created_at' => 'desc'])
             ->filter($request->all())
             ->paginate((int)$request->perPage, [
                 'id', 'name', 'created_at', 'deleted_at'
@@ -82,12 +81,11 @@ class VendorController extends Controller
 
     /**
      * @param  \Illuminate\Http\Request $request
-     * @return VendorResource
+     * @return array
      */
     public function storeContact(VendorContactRequest $request, Vendor $vendor)
     {
-        $vendor->contacts()->create($request->all());
-        return new VendorResource($vendor->load('contacts'));
+        return ['data' => $vendor->contacts()->create($request->all())];
     }
 
     /**
@@ -99,16 +97,6 @@ class VendorController extends Controller
     {
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);
-    }
-
-    public function hide(Vendor $vendor)
-    {
-
-    }
-
-    public function unhide(Vendor $vendor)
-    {
-
     }
 
     /**
