@@ -1,5 +1,6 @@
 <?php namespace App\ModelFilters;
 
+use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
 
 class VendorFilter extends ModelFilter
@@ -16,8 +17,19 @@ class VendorFilter extends ModelFilter
      * @param $value
      * @return VendorFilter
      */
-    public function name($value)
+    public function name(string $value)
     {
         return $this->where('name', 'LIKE', "%$value%");
+    }
+
+    /**
+     * @param array $createdAt [min, max]
+     * @return $this
+     */
+    public function createdAt(array $createdAt)
+    {
+        if (!isset($createdAt['min']) || !isset($createdAt['max'])) return $this;
+
+        return $this->whereBetween('created_at', [$createdAt['min'], $createdAt['max']]);
     }
 }
