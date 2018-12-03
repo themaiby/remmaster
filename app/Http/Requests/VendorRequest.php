@@ -32,10 +32,11 @@ class VendorRequest extends FormRequest
         ];
 
         $rulesUpdate = [
-            'name' => 'sometimes|string'
+            'name' => 'sometimes|string|nullable',
+            'note' => 'sometimes|string|nullable',
         ];
 
-        if ($this->method === 'put') {
+        if ($this->getMethod() === 'PUT') {
             $rules = array_merge($rules, $rulesUpdate);
         }
 

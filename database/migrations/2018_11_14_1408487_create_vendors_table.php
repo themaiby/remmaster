@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateVendorsTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateVendorsTable extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

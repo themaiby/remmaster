@@ -61,7 +61,7 @@ class VendorController extends Controller
      * @param  \App\Models\Vendor $vendor
      * @return VendorResource
      */
-    public function update(Request $request, Vendor $vendor)
+    public function update(VendorRequest $request, Vendor $vendor)
     {
         $vendor->update($request->all());
         return new VendorResource($vendor->load('contacts'));
