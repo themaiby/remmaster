@@ -19,7 +19,6 @@ class CreateVendorContactsTable extends Migration
             $table->string('value');
             $table->unsignedInteger('vendor_id')->index();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::table('vendor_contacts', function (Blueprint $table) {

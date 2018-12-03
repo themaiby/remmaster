@@ -35,8 +35,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class VendorContact extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'vendor_contacts';
     protected $guard_name = 'api';
     protected $fillable = [

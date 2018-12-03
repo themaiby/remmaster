@@ -95,10 +95,20 @@ class VendorController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroyContact(VendorContact $vendorContact)
+    public function destroyContact(Vendor $vendor, VendorContact $vendorContact)
     {
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);
+    }
+
+    public function hide(Vendor $vendor)
+    {
+
+    }
+
+    public function unhide(Vendor $vendor)
+    {
+
     }
 
     /**

@@ -30,7 +30,7 @@ class MenuResource extends JsonResource
             $this->when($user->can('orders.show'),
                 [
                     'text' => 'menu.orders',
-                    'icon' => 'list',
+                    'icon' => 'dvr',
                     'routeName' => 'orders.index'
                 ]),
 
@@ -38,7 +38,7 @@ class MenuResource extends JsonResource
             $this->when($user->can('components.show'),
                 [
                     'text' => 'menu.components',
-                    'icon' => 'phonelink_setup',
+                    'icon' => 'sd_card',
                     'routeName' => 'components.index'
                 ]),
 
