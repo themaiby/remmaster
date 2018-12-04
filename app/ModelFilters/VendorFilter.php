@@ -29,4 +29,16 @@ class VendorFilter extends ModelFilter
     {
         return $this->whereBetween('created_at', $createdAt);
     }
+
+    /**
+     * Components count between
+     * @param array $count
+     * @return VendorFilter|\Illuminate\Database\Eloquent\Builder
+     */
+    public function components(array $count)
+    {
+        return $this
+            ->has('components', '>=', $count[0])
+            ->has('components', '<=', $count[1]);
+    }
 }

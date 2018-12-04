@@ -14,9 +14,16 @@ class VendorResource extends JsonResource
      */
     public function toArray($request)
     {
+        $componentsPriceSummary = 0;
+        foreach ($this->components as $component) {
+            $componentsPriceSummary += $component->cost * $component->count;
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'components_count' => $this->components_count,
+            'components_cost' => number_format($componentsPriceSummary, 2),
             'created_at' => $this->created_at,
         ];
     }
@@ -34,6 +41,7 @@ class VendorResource extends JsonResource
             'name' => $this->name,
             'note' => $this->note,
             'contacts' => $this->whenLoaded('contacts'),
+            'components' => $this->whenLoaded('components', ComponentResource::collection($this->components)),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -19,9 +19,13 @@ class ComponentResource extends JsonResource
             'article' => $this->article,
             'title' => $this->title,
             'count' => $this->count,
-            'cost' => $this->cost,
-            'vendor' => $this->whenLoaded('vendor', $this->vendor->name),
-            'created_at' => $this->created_at
+            'cost' => number_format($this->cost, 2),
+            'vendor' => $this->whenLoaded('vendor', [
+                'id' => $this->vendor->id,
+                'name' => $this->vendor->name,
+            ]),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

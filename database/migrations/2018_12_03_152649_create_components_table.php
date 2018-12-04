@@ -21,6 +21,7 @@ class CreateComponentsTable extends Migration
             $table->unsignedInteger('vendor_id')->index();
             $table->float('cost');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('components', function (Blueprint $table) {

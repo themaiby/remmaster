@@ -61,4 +61,11 @@ Route::group(['middleware' => 'auth:api'], function () {
                 ->where(['vendor' => '[0-9]+', 'vendorContact' => '[0-9]+']);
         });
     });
+
+    /* COMPONENTS */
+    Route::group(['prefix' => 'components'], function () {
+        Route::get('/', 'ComponentController@index')
+            ->middleware('permission:components.show')
+            ->name('components.index');
+    });
 });

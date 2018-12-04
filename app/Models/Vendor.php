@@ -58,8 +58,10 @@ class Vendor extends Model
     ];
 
     protected $sortable = [
-        'name', 'created_at', 'deleted_at', 'components'
+        'name', 'created_at', 'deleted_at', 'components', 'components_count'
     ];
+
+    protected $withCount = 'components';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

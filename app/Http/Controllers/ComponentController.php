@@ -15,10 +15,11 @@ class ComponentController extends Controller
      */
     public function index(Request $request)
     {
-        $components = Component::sortable(['created_at' => 'desc'])
+        $components = Component::with('vendor')
+            ->sortable(['created_at' => 'desc'])
             ->filter($request->all())
             ->paginate((int)$request->perPage, [
-                'id', 'name', 'created_at', 'deleted_at'
+                'id', 'title', 'article', 'count', 'cost', 'vendor_id', 'created_at', 'updated_at', 'deleted_at'
             ]);
 
         return ComponentResource::collection($components);
@@ -27,7 +28,7 @@ class ComponentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -38,7 +39,7 @@ class ComponentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Component  $component
+     * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
      */
     public function show(Component $component)
@@ -49,8 +50,8 @@ class ComponentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Component  $component
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Component $component)
@@ -61,7 +62,7 @@ class ComponentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Component  $component
+     * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
      */
     public function destroy(Component $component)

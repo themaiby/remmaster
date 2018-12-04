@@ -23,7 +23,7 @@ class VendorController extends Controller
         $vendors = Vendor::sortable(['created_at' => 'desc'])
             ->filter($request->all())
             ->paginate((int)$request->perPage, [
-                'id', 'name', 'created_at', 'deleted_at'
+                'id', 'name', 'created_at'
             ]);
 
         return VendorResource::collection($vendors);
@@ -49,7 +49,7 @@ class VendorController extends Controller
      */
     public function show(Vendor $vendor)
     {
-        return new VendorResource($vendor->load('contacts'));
+        return new VendorResource($vendor->load('contacts', 'components'));
     }
 
 
@@ -108,8 +108,12 @@ class VendorController extends Controller
         $minCreatedAt = Vendor::min('created_at');
         $maxCreatedAt = Vendor::max('created_at');
 
-        $minComponentsCount = 4;
-        $maxComponentsCount = 27;
+        $minComponentsCount = Vendor::withCount('components')
+            ->get(['components_count'])
+            ->min('components_count');
+        $maxComponentsCount = Vendor::withCount('components')
+            ->get(['components_count'])
+            ->max('components_count');
 
         return ['data' =>
             [
