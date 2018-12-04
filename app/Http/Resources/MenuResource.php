@@ -61,7 +61,7 @@ class MenuResource extends JsonResource
                         [
                             'text' => 'menu.test',
                             'icon' => 'warning',
-                            'routeName' => 'child.test'
+                            'routeName' => 'settings.index'
                         ]
                     ]
                 ]),

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComponentRequest;
 use App\Http\Resources\ComponentResource;
 use App\Models\Component;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class ComponentController extends Controller
@@ -26,14 +28,27 @@ class ComponentController extends Controller
     }
 
     /**
+     * Values for component vendor picker
+     * @return Vendor[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getAvailableVendors()
+    {
+        return Vendor::select(['id', 'name'])->get();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(Request $request)
+    public function store(ComponentRequest $request)
     {
-        //
+        return [
+            'data' => Vendor::findOrFail($request->vendor_id)
+                ->components()
+                ->create($request->all())
+        ];
     }
 
     /**

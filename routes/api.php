@@ -67,5 +67,11 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/', 'ComponentController@index')
             ->middleware('permission:components.show')
             ->name('components.index');
+        Route::get('/availableVendors', 'ComponentController@getAvailableVendors')
+            ->middleware('permission:components.show')
+            ->name('components.vendors');
+        Route::post('/', 'ComponentController@store')
+            ->middleware('permission:components.store')
+            ->name('components.store');
     });
 });
