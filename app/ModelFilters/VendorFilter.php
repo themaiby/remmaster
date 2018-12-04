@@ -13,12 +13,14 @@ class VendorFilter extends ModelFilter
     public $relations = [];
 
     /**
+     * Case insensitive search
+     *
      * @param $value
      * @return VendorFilter
      */
     public function name(string $value)
     {
-        return $this->where('name', 'LIKE', "%$value%");
+        return $this->whereRaw('LOWER(name) LIKE LOWER(?)', '%' . $value . '%');
     }
 
     /**
