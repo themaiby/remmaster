@@ -67,17 +67,28 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/', 'ComponentController@index')
             ->middleware('permission:components.show')
             ->name('components.index');
+
         Route::get('/availableVendors', 'ComponentController@getAvailableVendors')
             ->middleware('permission:components.show')
             ->name('components.vendors');
+
+        Route::get('/{component}', 'ComponentController@show')
+            ->middleware('permission:components.show')
+            ->name('components.show')
+            ->where(['component' => '[0-9]+']);
+
         Route::post('/', 'ComponentController@store')
             ->middleware('permission:components.store')
             ->name('components.store');
-        Route::put('/', 'ComponentController@update')
+
+        Route::put('/{component}', 'ComponentController@update')
             ->middleware('permission:components.update')
-            ->name('components.update');
-        Route::delete('/', 'ComponentController@delete')
+            ->name('components.update')
+            ->where(['component' => '[0-9]+']);
+
+        Route::delete('/{component}', 'ComponentController@destroy')
             ->middleware('permission:components.delete')
-            ->name('components.delete');
+            ->name('components.delete')
+            ->where(['component' => '[0-9]+']);
     });
 });
