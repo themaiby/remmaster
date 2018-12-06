@@ -48,6 +48,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Component withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Component withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereDeletedAt($value)
  */
 class Component extends Model
 {
@@ -70,5 +73,13 @@ class Component extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_components');
     }
 }

@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'component.update', 'guard_name' => $guard]);
         Permission::create(['name' => 'component.destroy', 'guard_name' => $guard]);
 
-        /* Orders */
+        /* Order */
         Permission::create(['name' => 'orders.show', 'guard_name' => $guard]);
         Permission::create(['name' => 'orders.store', 'guard_name' => $guard]);
         Permission::create(['name' => 'orders.update', 'guard_name' => $guard]);

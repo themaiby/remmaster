@@ -32,6 +32,7 @@ class VendorService
         } catch (\Throwable $e) {
             DB::rollBack();
         }
+
         /* @var $vendor Vendor */
         return new VendorResource($vendor->load('contacts'));
     }
