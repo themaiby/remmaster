@@ -73,5 +73,11 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/', 'ComponentController@store')
             ->middleware('permission:components.store')
             ->name('components.store');
+        Route::put('/', 'ComponentController@update')
+            ->middleware('permission:components.update')
+            ->name('components.update');
+        Route::delete('/', 'ComponentController@delete')
+            ->middleware('permission:components.delete')
+            ->name('components.delete');
     });
 });

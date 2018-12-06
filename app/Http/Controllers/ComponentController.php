@@ -29,11 +29,11 @@ class ComponentController extends Controller
 
     /**
      * Values for component vendor picker
-     * @return Vendor[]|\Illuminate\Database\Eloquent\Collection
+     * @return array
      */
     public function getAvailableVendors()
     {
-        return Vendor::select(['id', 'name'])->get();
+        return ['data' => Vendor::select(['id', 'name'])->get()];
     }
 
     /**
@@ -55,11 +55,11 @@ class ComponentController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Component $component
-     * @return \Illuminate\Http\Response
+     * @return ComponentResource
      */
     public function show(Component $component)
     {
-        //
+        return new ComponentResource($component->load('vendor'));
     }
 
     /**
@@ -69,9 +69,10 @@ class ComponentController extends Controller
      * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Component $component)
+    public function update(ComponentRequest $request, Component $component)
     {
-        //
+        $component->update($request->all());
+        return response()->json(['message' => 'success']);
     }
 
     /**
@@ -79,9 +80,11 @@ class ComponentController extends Controller
      *
      * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Component $component)
     {
-        //
+        $component->delete();
+        return response()->json(['message' => 'success']);
     }
 }
