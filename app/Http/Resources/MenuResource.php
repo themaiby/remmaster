@@ -22,15 +22,15 @@ class MenuResource extends JsonResource
             // home
             [
                 'text' => 'menu.home',
-                'icon' => 'home',
-                'routeName' => 'home'
+                'icon' => 'mdi-home',
+                'routeName' => 'dashboard'
             ],
 
             // orders
             $this->when($user->can('orders.show'),
                 [
                     'text' => 'menu.orders',
-                    'icon' => 'dvr',
+                    'icon' => 'mdi-monitor-cellphone',
                     'routeName' => 'orders.index'
                 ]),
 
@@ -38,7 +38,7 @@ class MenuResource extends JsonResource
             $this->when($user->can('components.show'),
                 [
                     'text' => 'menu.components',
-                    'icon' => 'sd_card',
+                    'icon' => 'mdi-cart',
                     'routeName' => 'components.index'
                 ]),
 
@@ -46,7 +46,7 @@ class MenuResource extends JsonResource
             $this->when($user->can('vendors.show'),
                 [
                     'text' => 'menu.vendors',
-                    'icon' => 'work',
+                    'icon' => 'mdi-truck-fast',
                     'routeName' => 'vendors.index'
                 ]),
 
@@ -54,16 +54,16 @@ class MenuResource extends JsonResource
             $this->when($user->can('settings.edit'),
                 [
                     'text' => 'menu.settings',
-                    'icon' => 'keyboard_arrow_down',
-                    'icon-alt' => 'settings',
-                    'routeName' => 'settings.index',
-                    'children' => [
+                    'icon' => 'mdi-settings',
+                    'icon-alt' => 'mdi-chevron-down',
+                    'routeName' => 'settings.index'
+/*                    'children' => [
                         [
                             'text' => 'menu.test',
-                            'icon' => 'warning',
+                            'icon' => 'mdi-warning',
                             'routeName' => 'settings.index'
                         ]
-                    ]
+                    ]*/
                 ]),
 
         ];

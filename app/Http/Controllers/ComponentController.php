@@ -13,6 +13,7 @@ class ComponentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
@@ -31,7 +32,7 @@ class ComponentController extends Controller
      * Values for component vendor picker
      * @return array
      */
-    public function getAvailableVendors()
+    public function getAvailableVendors(): array
     {
         return ['data' => Vendor::select(['id', 'name'])->get()];
     }
@@ -39,16 +40,16 @@ class ComponentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param ComponentRequest $request
      * @return array
      */
-    public function store(ComponentRequest $request)
+    public function store(ComponentRequest $request): array
     {
-        return [
+        return response()->json([
             'data' => Vendor::findOrFail($request->vendor_id)
                 ->components()
                 ->create($request->all())
-        ];
+        ]);
     }
 
     /**
@@ -57,7 +58,7 @@ class ComponentController extends Controller
      * @param  \App\Models\Component $component
      * @return ComponentResource
      */
-    public function show(Component $component)
+    public function show(Component $component): ComponentResource
     {
         return new ComponentResource($component->load('vendor'));
     }
@@ -65,11 +66,11 @@ class ComponentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param ComponentRequest $request
      * @param  \App\Models\Component $component
      * @return \Illuminate\Http\Response
      */
-    public function update(ComponentRequest $request, Component $component)
+    public function update(ComponentRequest $request, Component $component): \Illuminate\Http\Response
     {
         $component->update($request->all());
         return response()->json(['message' => 'success']);
@@ -82,7 +83,7 @@ class ComponentController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Component $component)
+    public function destroy(Component $component): \Illuminate\Http\Response
     {
         $component->delete();
         return response()->json(['message' => 'success']);
