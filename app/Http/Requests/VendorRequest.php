@@ -25,7 +25,7 @@ class VendorRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string',
-            'note' => 'sometimes|string',
+            'note' => 'sometimes|string|nullable',
             'contacts' => 'sometimes|array', // example: { contacts: {title: "Telegram", value: "XXXXXXX"} }
             'contacts.*.title' => 'required_with:contacts|string',
             'contacts.*.value' => 'required_with:contacts|string',
