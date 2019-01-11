@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * App\Models\User
@@ -14,14 +16,17 @@ use Illuminate\Notifications\Notifiable;
  * @property string $email
  * @property string|null $email_verified_at
  * @property string $password
- * @property string $role
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User role($roles)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmailVerifiedAt($value)
@@ -30,16 +35,13 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
-
-    public const ROLE_ADMIN = 'ADMIN';
-    public const ROLE_STAFF = 'STAFF';
+    use Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +49,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'role',
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -60,37 +62,35 @@ class User extends Authenticatable
     ];
 
     /**
-     * Is Administrator role
-     * @return bool
+     * @var string
      */
-    public function isAdmin()
+    protected $guard_name = 'api';
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->getKey();
     }
 
     /**
-     * Is Staff role
-     * @return bool
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
      */
-    public function isStaff()
+    public function getJWTCustomClaims()
     {
-        return $this->role === self::ROLE_STAFF;
-    }
-
-
-    /**
-     * @return User|\Illuminate\Database\Eloquent\Builder
-     */
-    public function allAdmins()
-    {
-        return self::whereRole(self::ROLE_ADMIN);
+        return [];
     }
 
     /**
-     * @return User|\Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function allStaff()
+    public function orders()
     {
-        return self::whereRole(self::ROLE_ADMIN);
+        return $this->hasMany(Order::class);
     }
 }

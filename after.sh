@@ -9,10 +9,9 @@
 # which will be run after this script.
 
 cd /home/vagrant/code
-composer install
+cp .env.example .env
 php artisan key:generate --ansi
+php artisan jwt:secret -f --ansi
 php artisan migrate
 php artisan db:seed
-php artisan ide-helper:generate
-php artisan ide-helper:meta
-php artisan ide-helper:model -W -r
+php artisan ide-helper:model -W
