@@ -23,6 +23,10 @@ mix.ts('resources/js/app.ts', 'public/js')
             ]
         },
         resolve: {
-            extensions: ["*", ".js", ".jsx", ".vue", ".ts", ".tsx"]
+            extensions: ["*", ".js", ".jsx", ".vue", ".ts", ".tsx"],
+            alias: {
+                'vue$': 'vue/dist/vue.esm.js',
+                '@': 'resources/js'
+            },
         }
     });
