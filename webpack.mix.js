@@ -29,4 +29,5 @@ mix.ts('resources/js/app.ts', 'public/js')
                 '@': 'resources/js'
             },
         }
-    });
+    })
+    .extract(['vue', 'vuex', 'vuex-module-decorators']);

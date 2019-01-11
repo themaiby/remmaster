@@ -1,8 +1,7 @@
 import {Action, Mutation, VuexModule} from "vuex-module-decorators";
-import {IApplicationStore} from "../types/ApplicationStore";
 import {http} from "../../utils/axios";
 
-class ApplicationStore extends VuexModule implements IApplicationStore {
+class ApplicationStore extends VuexModule {
     errors: [] = [];
     loaded: boolean = false;
     menu: object = {};
