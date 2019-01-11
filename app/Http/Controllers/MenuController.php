@@ -11,7 +11,7 @@ class MenuController extends Controller
      * Menu generates in resource
      * @return MenuResource
      */
-    public function getMenu()
+    public function get(): MenuResource
     {
         return new MenuResource([]);
     }

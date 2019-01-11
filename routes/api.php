@@ -20,7 +20,7 @@ Route::get('/me', 'Auth\AuthController@me')
 Route::group(['middleware' => 'auth:api'], function () {
 
     // Menu
-    Route::get('/menu', 'MenuController@menu')->name('menu');
+    Route::get('/menu', 'MenuController@get')->name('menu');
 
     /* VENDORS */
     Route::group(['prefix' => 'vendors'], function () {

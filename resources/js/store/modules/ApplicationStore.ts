@@ -2,8 +2,9 @@ import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decor
 import {http} from "../../utils/axios";
 import urls from "../../utils/urls";
 import {store} from "../store";
-import Menu from "../../models/Menu";
+import Menu, {MenuItem} from "../../models/Menu";
 import ApiResponse from "../../models/ApiResponse";
+import {AxiosResponse} from "axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
@@ -23,10 +24,8 @@ class ApplicationStore extends VuexModule {
 
     @Action async getMenu() {
         try {
-            const menuResponse = new ApiResponse<Menu>(
-                await http.get(urls.app.menu)
-            );
-            this.context.commit('setMenu', menuResponse.data);
+            const menu: AxiosResponse<ApiResponse<MenuItem[]>> = await http.get(urls.app.menu);
+            this.context.commit('setMenu', new Menu(menu.data.data));
         } catch (e) {
         }
         this.context.commit('setAppLoaded');

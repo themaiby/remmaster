@@ -1,4 +1,4 @@
-interface MenuItem {
+export interface MenuItem {
     icon: string;
     routeName: string;
     text: string;
