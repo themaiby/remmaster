@@ -14,7 +14,4 @@ php artisan key:generate --ansi
 php artisan jwt:secret -f --ansi
 php artisan migrate
 php artisan db:seed
-php artisan ide-helper:generate
-php artisan ide-helper:meta
-php artisan ide-helper:model -W -r
-ssh-keygen -t rsa -N "" -f /home/vagrant/code/keys/key.key
+php artisan ide-helper:model -W
