@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MenuResource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {

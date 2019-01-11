@@ -13,7 +13,7 @@ class MenuResource extends JsonResource
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         /* @var $user \App\Models\User */
         $user = Auth::user()->load('permissions');

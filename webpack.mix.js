@@ -29,5 +29,13 @@ mix.ts('resources/js/app.ts', 'public/js')
                 '@': 'resources/js'
             },
         }
-    })
-    .extract(['vue', 'vuex', 'vuex-module-decorators']);
+    });
+
+if (mix.inProduction()) {
+    mix.version();
+}
+
+if (!mix.inProduction()) {
+    mix.browserSync('homestead.test');
+    mix.sourceMaps();
+}
