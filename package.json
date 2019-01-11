@@ -17,5 +17,10 @@
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.5.21"
+    },
+    "dependencies": {
+        "ts-loader": "^5.3.3",
+        "typescript": "^3.2.2",
+        "vue-property-decorator": "^7.3.0"
     }
 }

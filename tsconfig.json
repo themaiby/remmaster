@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "noImplicitThis": true,
+        "sourceMap": true,
+        "removeComments": false,
+        "moduleResolution": "node",
+        "strict": true,
+        "experimentalDecorators": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": ["resources/js/**/*"]
+}
