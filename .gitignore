@@ -19,3 +19,4 @@ _ide_helper_models.php
 public/js/*
 public/fonts/*
 public/css/*
+public/mix-manifest.json
