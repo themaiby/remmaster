@@ -10,12 +10,16 @@ import {AxiosResponse} from "axios";
 import {store} from "../store";
 import {http} from "../../utils/axios";
 import {api} from "../../utils/api";
+import {buildVendorsQuery} from "../../utils/queryBuilders";
 
 // Filter fields for vendors page
-interface VendorsFilter {
+export interface VendorsFilter {
     name: string;
-    components: [];
-    createdAt: { min: string, max: string };
+  components: number[];
+  createdAt: {
+    min: string,
+    max: string
+  };
 }
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
@@ -73,7 +77,7 @@ class VendorsStore extends VuexModule {
     async getVendors() {
         this.context.commit('setRequestInProgress', true);
         try {
-            const queryString = makeQuery(this.tableParams);
+          const queryString = buildVendorsQuery(this.tableParams);
             const vendors: AxiosResponse<ApiResponse<Vendor[]>> = await http.get(api.vendors.index, {params: queryString});
             this.context.commit('setMeta', vendors.data.meta);
             this.context.commit('setVendors', vendors.data.data);
@@ -89,23 +93,4 @@ export const vendorsStore = getModule(VendorsStore);
 
 // Helpers
 
-// Generate query string vor vendors index page todo: separate
-const makeQuery = (tableParams: TableParams<VendorsFilter>) => {
-    let query: object = {
-        perPage: tableParams.rowsPerPage,
-        page: tableParams.page,
-        sort: tableParams.sortBy,
-        direction: tableParams.descending ? 'desc' : 'asc'
-    };
 
-    // Add filter if it present (custom for every page)
-    if (tableParams.filter) query = {
-        ...query,
-        name: tableParams.filter.name,
-        components: tableParams.filter.components,
-        createdAt: [
-            tableParams.filter.createdAt.min,
-            tableParams.filter.createdAt.max
-        ]
-    };
-};

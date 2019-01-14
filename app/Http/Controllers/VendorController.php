@@ -105,27 +105,29 @@ class VendorController extends Controller
      */
     public function getFilterValues()
     {
-        $minCreatedAt = Vendor::min('created_at');
-        $maxCreatedAt = Vendor::max('created_at');
+        $vendors = Vendor::select(['created_at'])->get();
+        $vendorsCreatedAt = [
+            'min' => $vendors->min('created_at'),
+            'max' => $vendors->max('created_at'),
+        ];
 
-        $minComponentsCount = Vendor::withCount('components')
-            ->get(['components_count'])
-            ->min('components_count');
-        $maxComponentsCount = Vendor::withCount('components')
-            ->get(['components_count'])
-            ->max('components_count');
+        $components = Vendor::withCount('components')->get(['components_count']);
+        $componentsCount = [
+            'min' => $components->min('components_count'),
+            'max' => $components->max('components_count'),
+        ];
 
         return ['data' =>
             [
                 'components' =>
                     [
-                        'min' => $minComponentsCount,
-                        'max' => $maxComponentsCount,
+                        'min' => $componentsCount['min'],
+                        'max' => $componentsCount['max'],
                     ],
                 'date' =>
                     [
-                        'min' => $minCreatedAt,
-                        'max' => $maxCreatedAt,
+                        'min' => $vendorsCreatedAt['min'],
+                        'max' => $vendorsCreatedAt['max'],
                     ],
             ]
         ];
