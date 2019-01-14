@@ -1,5 +1,5 @@
 <template>
-  <VContent>
+  <VContent id="content-body">
     <VContainer
       fluid
       fill-height
@@ -13,14 +13,6 @@
           sm8
           md4
         >
-          <VCard class="elevation-12">
-            <VToolbar
-              dark
-              color="primary"
-            >
-              <VToolbarTitle>{{ $t('auth.login') }}</VToolbarTitle>
-              <VSpacer/>
-            </VToolbar>
             <VCardText>
               <VForm>
                 <VTextField
@@ -44,6 +36,9 @@
                   :disabled="isRequest"
                   v-validate="'required'"
                   :error-messages="errors.collect('password')"
+                  :type="show ? 'text' : 'password'"
+                  :append-icon="show ? 'visibility_off' : 'visibility'"
+                  @click:append="show = !show"
                 />
                 <br>
                 <VAlert
@@ -58,16 +53,16 @@
               </VForm>
             </VCardText>
             <VCardActions>
-              <VSpacer/>
               <VBtn
-                color="primary"
+                block
+                id="login-button"
                 @click="login"
                 :disabled="isRequest"
+                dark
               >
                 {{ $t('auth.login') }}
               </VBtn>
             </VCardActions>
-          </VCard>
         </VFlex>
       </VLayout>
     </VContainer>
@@ -83,6 +78,7 @@
   export default class Login extends Vue {
     email: string = '';
     password: string = '';
+    show: boolean = false;
 
     get isRequest() {
       return usersStore.isRequest;
@@ -112,5 +108,15 @@
 </script>
 
 <style scoped>
+  #content-body {
+    background: #abbaab; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffffff, #abbaab); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffffff, #abbaab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
 
+  #login-button {
+    background: #136a8a; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #267871, #136a8a); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #267871, #136a8a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
 </style>
