@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const CompressionPlugin = require('compression-webpack-plugin');
+const zopfli = require('@gfx/zopfli');
 
 mix.ts('resources/js/app.ts', 'public/js').options({
     processCssUrls: false,
@@ -11,10 +12,10 @@ mix.ts('resources/js/app.ts', 'public/js').options({
     },
     plugins: [
         new CompressionPlugin({
-            algorithm: "gzip",
-            test: /\.js$|\.html$/,
-            threshold: 10240,
-            minRatio: 0.8
+            compressionOptions: { numiterations: 15 },
+            algorithm(input, compressionOptions, callback) {
+                return zopfli.gzip(input, compressionOptions, callback);
+            }
         }),
     ],
 });
