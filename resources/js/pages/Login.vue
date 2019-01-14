@@ -47,13 +47,13 @@
                 />
                 <br>
                 <VAlert
-                  v-show="true"
+                  v-show="message"
                   :value="true"
                   type="error"
                   transition="scale-transition"
                 >
                   <v-icon>mdi-success</v-icon>
-                  {{ 'message' }}
+                  {{ message }}
                 </VAlert>
               </VForm>
             </VCardText>
@@ -90,6 +90,10 @@
 
     get authorized() {
       return usersStore.authorized;
+    }
+
+    get message() {
+      return usersStore.message;
     }
 
     @Watch('authorized') redirectWhenAuthorized() {

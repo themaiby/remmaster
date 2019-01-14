@@ -5,12 +5,11 @@ import {http, setToken} from "../../utils/axios";
 import {apiRoutes} from "../../constants";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
+import IResponseError from "../../models/IResponseError";
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})
 class UsersStore extends VuexModule {
   authorized: boolean = false;
-  message: string = '';
-  errors: [] = [];
   isRequest: boolean = false;
   currentUser: IUser = {
     id: 0,
@@ -24,6 +23,8 @@ class UsersStore extends VuexModule {
     updated_at: {date: '', timezone: '', timezone_type: 0},
     deleted_at: {date: '', timezone: '', timezone_type: 0},
   };
+  message: string = '';
+  errors: [] = [];
 
   @Mutation
   setCurrentUser(user: IUser) {
@@ -40,6 +41,16 @@ class UsersStore extends VuexModule {
     this.authorized = authorized;
   }
 
+  @Mutation
+  setMessage(message: string) {
+    this.message = message;
+  }
+
+  @Mutation
+  setErrors(errors: []) {
+    this.errors = errors;
+  }
+
   @Action
   async getCurrentUser() {
     this.setIsRequest(true);
@@ -53,12 +64,24 @@ class UsersStore extends VuexModule {
 
   @Action
   async loginRequest({email, password}: { email: string, password: string }) {
+    // start request
     this.setIsRequest(true);
+    this.setMessage('');
+
+    // Try to login
     try {
       const loginResp: AxiosResponse<{ access_token: string, token_type: string, expires_in: number }>
         = await http.post(apiRoutes.users.login, {email, password});
       this.setAuthorized(true);
       setToken(loginResp.data.access_token);
+
+      // Set server errors if code != 200
+    } catch (e) {
+      const err: IResponseError = e;
+      this.setMessage(err.response.data.message);
+      this.setErrors(err.response.data.errors);
+
+      // end request
     } finally {
       this.setIsRequest(false);
     }
