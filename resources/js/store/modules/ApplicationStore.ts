@@ -1,33 +1,34 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {http} from "../../utils/axios";
-import {api} from "../../utils/api";
+import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
-import Menu, {MenuItem} from "../../models/Menu";
-import ApiResponse from "../../models/ApiResponse";
+import IMenu from "../../models/IMenu";
+import ApiResponse from "../../models/IResponse";
 import {AxiosResponse} from "axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
   errors: [] = [];
   message: string = '';
-
   loaded: boolean = false;
-  menu: Menu = new Menu([]);
+  menu: IMenu[] = [];
   requestInProgress: boolean = false;
 
-  @Mutation setAppLoaded(): void {
+  @Mutation
+  setAppLoaded(): void {
     this.loaded = true;
   }
 
-  @Mutation setMenu(menu: Menu) {
+  @Mutation
+  setMenu(menu: IMenu[]) {
     this.menu = menu;
   }
 
   @Action
   async getMenu() {
     try {
-      const menu: AxiosResponse<ApiResponse<MenuItem[]>> = await http.get(api.app.menu);
-      this.context.commit('setMenu', new Menu(menu.data.data));
+      const menu: AxiosResponse<ApiResponse<IMenu[]>> = await http.get(apiRoutes.app.menu);
+      this.context.commit('setMenu', menu.data.data);
     } catch (e) {
     }
     this.context.commit('setAppLoaded');
