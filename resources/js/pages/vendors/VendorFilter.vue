@@ -1,15 +1,16 @@
 <template>
-  <v-app>
-    <router-view></router-view>
-  </v-app>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
 
   @Component
-  export default class Application extends Vue {
+  export default class VendorFilter extends Vue {
+    mounted() {
+    }
   }
 </script>
+
 <style scoped>
+
 </style>

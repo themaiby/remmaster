@@ -2,6 +2,10 @@ export const apiRoutes = {
   app: {
     menu: `menu`,
   },
+  users: {
+    current: 'me',
+    login: 'login',
+  },
   auth: {
     getUserInfo: 'me',
     refreshToken: 'refresh',

@@ -7,10 +7,10 @@ Vue.use(VueI18n);
 
 const messages: LocaleMessages = {ru, en};
 
-export const trans: VueI18n = new VueI18n({
+export const i18n: VueI18n = new VueI18n({
   locale: 'ru',
   fallbackLocale: 'en',
   messages
 });
 
-export default trans;
+export default i18n;

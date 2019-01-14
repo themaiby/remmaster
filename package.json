@@ -11,8 +11,14 @@
     },
     "devDependencies": {
         "@gfx/zopfli": "^1.0.10",
+        "@mdi/font": "^3.3.92",
         "browser-sync": "^2.26.3",
-        "browser-sync-webpack-plugin": "^2.0.1"
+        "browser-sync-webpack-plugin": "^2.0.1",
+        "eslint": "^5.12.0",
+        "eslint-plugin-vue": "^5.1.0",
+        "material-design-icons-iconfont": "^4.0.4",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2"
     },
     "dependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -21,10 +27,12 @@
         "compression-webpack-plugin": "^2.0.0",
         "core-js": "^2.6.2",
         "cross-env": "^5.2.0",
+        "css-loader": "^2.1.0",
         "laravel-mix": "^4.0.13",
         "resolve-url-loader": "^3.0.0",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.1",
         "ts-loader": "^5.3.3",
         "typescript": "^3.2.2",
         "vee-validate": "^2.1.5",
@@ -33,6 +41,7 @@
         "vue-moment": "^4.0.0",
         "vue-property-decorator": "^7.3.0",
         "vue-router": "3.0.2",
+        "vue-style-loader": "^4.1.2",
         "vue-template-compiler": "^2.5.22",
         "vuetify": "^1.4.1",
         "vuex": "^3.0.1",

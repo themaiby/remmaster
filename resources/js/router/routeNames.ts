@@ -1,4 +1,6 @@
 export const routeNames = {
+  home: '/',
+  login: 'login',
   vendors: {
     index: 'vendors.index',
     show: 'vendors.show',

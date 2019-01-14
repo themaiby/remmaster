@@ -8,7 +8,7 @@ const validatorEn = require('vee-validate/dist/locale/en');
 const validatorRu = require('vee-validate/dist/locale/ru');
 
 Vue.use(VeeValidate, {
-  locale: 'ru'
+  locale: 'ru',
 });
 
 Validator.localize('en', validatorEn);
