@@ -8,16 +8,16 @@ mix.ts('resources/js/app.ts', 'public/js').options({
     output: {
         publicPath: '/',
         chunkFilename: 'js/[name].[chunkhash].js',
-    }
-/*    plugins: [
+    },
+    plugins: [
         new CompressionPlugin({
             algorithm: "gzip",
             test: /\.js$|\.html$/,
             threshold: 10240,
             minRatio: 0.8
         }),
-    ],*/
-}).version();
+    ],
+});
 
 if (mix.inProduction()) {
     mix.version();
