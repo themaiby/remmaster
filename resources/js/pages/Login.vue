@@ -25,6 +25,7 @@
                   :disabled="isRequest"
                   v-validate="'required|email'"
                   :error-messages="errors.collect('email')"
+                  autofocus
                 />
                 <VTextField
                   @keypress.enter.native="login"
@@ -54,10 +55,10 @@
             </VCardText>
             <VCardActions>
               <VBtn
+                :loading="isRequest"
                 block
                 id="login-button"
                 @click="login"
-                :disabled="isRequest"
                 dark
               >
                 {{ $t('auth.login') }}
