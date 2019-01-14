@@ -7,6 +7,7 @@ let wpPlugins = [];
 if (mix.inProduction()) {
     wpPlugins = [new CompressionPlugin({
         compressionOptions: {numiterations: 15},
+        test: /\.js$|\.html$|\.svg$|\.ttf$/,
         algorithm(input, compressionOptions, callback) {
             return zopfli.gzip(input, compressionOptions, callback);
         }
