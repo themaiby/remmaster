@@ -1,67 +1,73 @@
 import Model from "./Model";
 
 export default class Meta extends Model {
-    private _current_page: number = 0;
-    private _from: number = 0;
-    private _last_page: number = 0;
-    private _path: string = '';
-    private _per_page: number = 0;
-    private _to: number = 0;
-    private _total: number = 0;
+  private _current_page: number = 0;
 
-    get current_page(): number {
-        return this._current_page;
-    }
+  get current_page(): number {
+    return this._current_page;
+  }
 
-    set current_page(value: number) {
-        this._current_page = value;
-    }
+  set current_page(value: number) {
+    this._current_page = value;
+  }
 
-    get from(): number {
-        return this._from;
-    }
+  private _from: number = 0;
 
-    set from(value: number) {
-        this._from = value;
-    }
+  get from(): number {
+    return this._from;
+  }
 
-    get last_page(): number {
-        return this._last_page;
-    }
+  set from(value: number) {
+    this._from = value;
+  }
 
-    set last_page(value: number) {
-        this._last_page = value;
-    }
+  private _last_page: number = 0;
 
-    get path(): string {
-        return this._path;
-    }
+  get last_page(): number {
+    return this._last_page;
+  }
 
-    set path(value: string) {
-        this._path = value;
-    }
+  set last_page(value: number) {
+    this._last_page = value;
+  }
 
-    get per_page(): number {
-        return this._per_page;
-    }
+  private _path: string = '';
 
-    set per_page(value: number) {
-        this._per_page = value;
-    }
+  get path(): string {
+    return this._path;
+  }
 
-    get to(): number {
-        return this._to;
-    }
+  set path(value: string) {
+    this._path = value;
+  }
 
-    set to(value: number) {
-        this._to = value;
-    }
+  private _per_page: number = 0;
 
-    get total(): number {
-        return this._total;
-    }
+  get per_page(): number {
+    return this._per_page;
+  }
 
-    set total(value: number) {
-        this._total = value;
-    }
+  set per_page(value: number) {
+    this._per_page = value;
+  }
+
+  private _to: number = 0;
+
+  get to(): number {
+    return this._to;
+  }
+
+  set to(value: number) {
+    this._to = value;
+  }
+
+  private _total: number = 0;
+
+  get total(): number {
+    return this._total;
+  }
+
+  set total(value: number) {
+    this._total = value;
+  }
 }

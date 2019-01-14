@@ -103,7 +103,7 @@ class VendorController extends Controller
      * Get available values for vendor filter
      * @return array
      */
-    public function getFilterValues()
+    public function getFilterValues(): array
     {
         $vendors = Vendor::select(['created_at'])->get();
         $vendorsCreatedAt = [
@@ -117,19 +117,6 @@ class VendorController extends Controller
             'max' => $components->max('components_count'),
         ];
 
-        return ['data' =>
-            [
-                'components' =>
-                    [
-                        'min' => $componentsCount['min'],
-                        'max' => $componentsCount['max'],
-                    ],
-                'date' =>
-                    [
-                        'min' => $vendorsCreatedAt['min'],
-                        'max' => $vendorsCreatedAt['max'],
-                    ],
-            ]
-        ];
+        return ['data' => ['components' => $componentsCount, 'date' => $vendorsCreatedAt]];
     }
 }

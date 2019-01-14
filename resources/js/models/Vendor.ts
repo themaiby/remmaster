@@ -4,87 +4,87 @@ import Contact from "./Contact";
 import DateModel from "./DateModel";
 
 export default class Vendor extends Model {
-    private _id: number = 0;
+  private _id: number = 0;
 
-    get id(): number {
-        return this._id;
-    }
+  get id(): number {
+    return this._id;
+  }
 
-    set id(value: number) {
-        this._id = value;
-    }
+  set id(value: number) {
+    this._id = value;
+  }
 
-    private _name: string = '';
+  private _name: string = '';
 
-    get name(): string {
-        return this._name;
-    }
+  get name(): string {
+    return this._name;
+  }
 
-    set name(value: string) {
-        this._name = value;
-    }
+  set name(value: string) {
+    this._name = value;
+  }
 
-    private _note: string = '';
+  private _note: string = '';
 
-    get note(): string {
-        return this._note;
-    }
+  get note(): string {
+    return this._note;
+  }
 
-    set note(value: string) {
-        this._note = value;
-    }
+  set note(value: string) {
+    this._note = value;
+  }
 
-    private _components: Component[] = [];
+  private _components: Component[] = [];
 
-    get components(): Component[] {
-        return this._components;
-    }
+  get components(): Component[] {
+    return this._components;
+  }
 
-    set components(value: Component[]) {
-        this._components = value.map((item) => {
-            return new Component(item);
-        });
-    }
+  set components(value: Component[]) {
+    this._components = value.map((item) => {
+      return new Component(item);
+    });
+  }
 
-    private _contacts: Contact[] = [];
+  private _contacts: Contact[] = [];
 
-    get contacts(): Contact[] {
-        return this._contacts;
-    }
+  get contacts(): Contact[] {
+    return this._contacts;
+  }
 
-    set contacts(value: Contact[]) {
-        this._contacts = value.map((item) => {
-            return new Contact(item);
-        });
-    }
+  set contacts(value: Contact[]) {
+    this._contacts = value.map((item) => {
+      return new Contact(item);
+    });
+  }
 
-    private _created_at: DateModel = new DateModel();
+  private _created_at: DateModel = new DateModel();
 
-    get created_at(): DateModel {
-        return this._created_at;
-    }
+  get created_at(): DateModel {
+    return this._created_at;
+  }
 
-    set created_at(value: DateModel) {
-        this._created_at = new DateModel(value);
-    }
+  set created_at(value: DateModel) {
+    this._created_at = new DateModel(value);
+  }
 
-    private _updated_at: DateModel = new DateModel();
+  private _updated_at: DateModel = new DateModel();
 
-    get updated_at(): DateModel {
-        return this._updated_at;
-    }
+  get updated_at(): DateModel {
+    return this._updated_at;
+  }
 
-    set updated_at(value: DateModel) {
-        this._updated_at = new DateModel(value);
-    }
+  set updated_at(value: DateModel) {
+    this._updated_at = new DateModel(value);
+  }
 
-    private _deleted_at: DateModel = new DateModel();
+  private _deleted_at: DateModel = new DateModel();
 
-    get deleted_at(): DateModel {
-        return this._deleted_at;
-    }
+  get deleted_at(): DateModel {
+    return this._deleted_at;
+  }
 
-    set deleted_at(value: DateModel) {
-        this._deleted_at = new DateModel(value);
-    }
+  set deleted_at(value: DateModel) {
+    this._deleted_at = new DateModel(value);
+  }
 }

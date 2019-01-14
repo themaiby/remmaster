@@ -14,7 +14,7 @@ import {buildVendorsQuery} from "../../utils/queryBuilders";
 
 // Filter fields for vendors page
 export interface VendorsFilter {
-    name: string;
+  name: string;
   components: number[];
   createdAt: {
     min: string,
@@ -24,68 +24,68 @@ export interface VendorsFilter {
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
-    // Model sync with component
-    tableParams: TableParams<VendorsFilter> = new TableParams();
+  // Model sync with component
+  tableParams: TableParams<VendorsFilter> = new TableParams();
 
-    // Request status
-    requestInProgress: boolean = false;
+  // Request status
+  requestInProgress: boolean = false;
 
-    // Vendor for show route
-    vendor: Vendor = new Vendor();
+  // Vendor for show route
+  vendor: Vendor = new Vendor();
 
-    // Pagination
-    meta: Meta = new Meta();
+  // Pagination
+  meta: Meta = new Meta();
 
-    // Vendor list for index route
-    vendors: Vendor[] = [];
+  // Vendor list for index route
+  vendors: Vendor[] = [];
 
-    // Server message
-    message: string = '';
+  // Server message
+  message: string = '';
 
-    // Server error
-    errors: [] = [];
+  // Server error
+  errors: [] = [];
 
-    @Mutation setRequestInProgress(isRequest: boolean) {
-        this.requestInProgress = isRequest;
+  @Mutation setRequestInProgress(isRequest: boolean) {
+    this.requestInProgress = isRequest;
+  }
+
+  @Mutation setTableParams(params: TableParams<VendorsFilter>) {
+    // save to storage for remember items count
+    if (params.rowsPerPage) localStorage.setItem('rowsPerPage', params.rowsPerPage.toString());
+    // todo: check table works
+    this.tableParams = new TableParams(params);
+  }
+
+  @Mutation resetFilter() {
+    this.tableParams = {...this.tableParams, filter: null};
+  }
+
+  @Mutation setVendor(vendor: Vendor) {
+    this.vendor = new Vendor(vendor);
+  }
+
+  @Mutation setVendors(vendors: Vendor[]) {
+    this.vendors = vendors.map(v => new Vendor(v));
+  }
+
+  @Mutation setMeta(meta: Meta) {
+    this.meta = new Meta(meta);
+  }
+
+  /*   ACTIONS   */
+  @Action
+  async getVendors() {
+    this.context.commit('setRequestInProgress', true);
+    try {
+      const queryString = buildVendorsQuery(this.tableParams);
+      const vendors: AxiosResponse<ApiResponse<Vendor[]>> = await http.get(api.vendors.index, {params: queryString});
+      this.context.commit('setMeta', vendors.data.meta);
+      this.context.commit('setVendors', vendors.data.data);
+    } catch (e) {
+    } finally {
+      this.context.commit('setRequestInProgress', false);
     }
-
-    @Mutation setTableParams(params: TableParams<VendorsFilter>) {
-        // save to storage for remember items count
-        if (params.rowsPerPage) localStorage.setItem('rowsPerPage', params.rowsPerPage.toString());
-        // todo: check table works
-        this.tableParams = new TableParams(params);
-    }
-
-    @Mutation resetFilter() {
-        this.tableParams = {...this.tableParams, filter: null};
-    }
-
-    @Mutation setVendor(vendor: Vendor) {
-        this.vendor = new Vendor(vendor);
-    }
-
-    @Mutation setVendors(vendors: Vendor[]) {
-        this.vendors = vendors.map(v => new Vendor(v));
-    }
-
-    @Mutation setMeta(meta: Meta) {
-        this.meta = new Meta(meta);
-    }
-
-    /*   ACTIONS   */
-    @Action
-    async getVendors() {
-        this.context.commit('setRequestInProgress', true);
-        try {
-          const queryString = buildVendorsQuery(this.tableParams);
-            const vendors: AxiosResponse<ApiResponse<Vendor[]>> = await http.get(api.vendors.index, {params: queryString});
-            this.context.commit('setMeta', vendors.data.meta);
-            this.context.commit('setVendors', vendors.data.data);
-        } catch (e) {
-        } finally {
-            this.context.commit('setRequestInProgress', false);
-        }
-    }
+  }
 }
 
 export const vendorsStore = getModule(VendorsStore);
