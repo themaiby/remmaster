@@ -1,5 +1,9 @@
 <template>
-  <h1>App works</h1>
+  <div>
+    <h2> app root </h2>
+    <router-link :to="{name: 'vendors.index'}">To Vendors</router-link>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
@@ -8,9 +12,6 @@
 
   @Component
   export default class Application extends Vue {
-    mounted() {
-      vendorsStore.getVendors();
-    }
   }
 </script>
 <style scoped>

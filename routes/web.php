@@ -1,3 +1,3 @@
 <?php
 
-Route::any('{any}', 'VueController@getSite')->where('any', '^(?!api).*$');
+Route::any('/{any?}', 'VueController@getSite')->where('any', /*'[\/\w\.-]*'*/ '^(?!api).*$');

@@ -1,35 +1,23 @@
 const mix = require('laravel-mix');
+const CompressionPlugin = require('compression-webpack-plugin');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
-
-mix.ts('resources/js/app.ts', 'public/js')
-    .webpackConfig({
-        module: {
-            rules: [
-                {
-                    test: /\.tsx?$/,
-                    loader: "ts-loader",
-                    exclude: /node_modules/
-                }
-            ]
-        },
-        resolve: {
-            extensions: ["*", ".js", ".jsx", ".vue", ".ts", ".tsx"],
-            alias: {
-                'vue$': 'vue/dist/vue.esm.js',
-                '@': 'resources/js'
-            },
-        }
-    });
+mix.ts('resources/js/app.ts', 'public/js').options({
+    processCssUrls: false,
+    uglify: true,
+}).webpackConfig({
+    output: {
+        publicPath: '/',
+        chunkFilename: 'js/[name].[chunkhash].js',
+    }
+/*    plugins: [
+        new CompressionPlugin({
+            algorithm: "gzip",
+            test: /\.js$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+        }),
+    ],*/
+}).version();
 
 if (mix.inProduction()) {
     mix.version();

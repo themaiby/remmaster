@@ -3,7 +3,7 @@ import {buildVendorsQuery} from "../../utils/queryBuilders";
 
 import {store} from "../store";
 import {http} from "../../utils/axios";
-import {apiRoutes} from "../../apiRoutes";
+import {apiRoutes} from "../../constants";
 /* Interfaces */
 import {AxiosResponse} from "axios";
 import IMeta from "../../models/IMeta";
