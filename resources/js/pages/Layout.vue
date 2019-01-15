@@ -9,7 +9,7 @@
       id="app-drawer-common"
     >
       <v-img
-        src="https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg"
+        :src="navbarImg"
         height="100%"
       >
         <VList dense class="fill-height" id="app-drawer">
@@ -23,6 +23,7 @@
           <v-divider></v-divider>
 
           <VFlex class="text-xs-center"
+                 mt-5
                  v-if="!(menu.length)"
                  fill-height>
             <VProgressCircular
@@ -105,7 +106,7 @@
       </v-img>
     </VNavigationDrawer>
     <VContent>
-      <Toolbar class="transparent" />
+      <Toolbar class="transparent"/>
       <Transition
         name="fade"
         mode="out-in"
@@ -125,6 +126,8 @@
     components: {Toolbar}
   })
   export default class Layout extends Vue {
+    navbarImg: string = require('../assets/navbar.png');
+
     get drawer() {
       return applicationStore.drawer;
     }
@@ -145,7 +148,7 @@
 
 <style scoped lang="scss">
   #app-drawer {
-    background: rgba(27, 27, 27, .74);
+    background: rgba(27, 27, 27, .84);
     padding: 0;
   }
 
