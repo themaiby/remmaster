@@ -8,11 +8,17 @@ import {AxiosResponse} from "axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+  drawer: boolean = true;
   errors: [] = [];
   message: string = '';
   loaded: boolean = false;
   menu: IMenu[] = [];
   requestInProgress: boolean = false;
+
+  @Mutation
+  setDrawer(enabled: boolean) {
+    this.drawer = enabled;
+  }
 
   @Mutation
   setAppLoaded(): void {

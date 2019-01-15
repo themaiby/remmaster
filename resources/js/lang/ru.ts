@@ -7,5 +7,8 @@ export const ru = {
   menu: {},
   auth: {
     login: 'Вход'
+  },
+  vendors: {
+    index: 'Поставщики'
   }
 };

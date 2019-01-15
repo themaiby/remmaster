@@ -1,6 +1,7 @@
 export const routeNames = {
-  home: '/',
+  home: 'dashboard',
   login: 'login',
+  layout: 'layout',
   vendors: {
     index: 'vendors.index',
     show: 'vendors.show',
@@ -11,5 +12,14 @@ export const routeNames = {
       create: 'vendors.contacts.create',
       delete: 'vendors.contacts.delete',
     },
+  },
+  components: {
+    index: 'components.index',
+  },
+  orders: {
+    index: 'orders.index',
+  },
+  settings: {
+    index: 'settings.index'
   }
 };

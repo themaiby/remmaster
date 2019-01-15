@@ -1,5 +1,7 @@
 <template>
-  <h1>Vendors list :)</h1>
+  <div>
+    <template slot="page-title">asd</template>
+  </div>
 </template>
 
 <script lang="ts">
