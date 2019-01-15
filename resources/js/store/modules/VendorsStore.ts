@@ -1,5 +1,5 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {QueryBuilder} from "../../utils/queryBuilders";
+import {QueryBuilder} from "../../utils/QueryBuilder";
 
 import {store} from "../store";
 import {http} from "../../utils/axios";
