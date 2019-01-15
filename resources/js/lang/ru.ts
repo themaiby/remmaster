@@ -9,7 +9,9 @@ export const ru = {
     orders: 'Заявки',
     components: 'Запчасти',
     vendors: 'Поставщики',
-    settings: 'Параметры'
+    settings: 'Параметры',
+    apply: 'Применить',
+    cancle: 'Отмена',
   },
   auth: {
     login: 'Вход'
@@ -19,6 +21,14 @@ export const ru = {
     name: 'Название',
     components_count: 'Количество запчастей',
     cost: 'Суммарная стоимость',
-    date: 'Добавлен'
+    date: 'Добавлен',
+    filter: 'Фильтр поставщиков',
+    datePattern: 'ГГГГ-ММ-ДД',
+    createDate: 'Добавлен от даты',
+    createDateTo: 'Добавлен до даты',
+  },
+  components: {
+    countFrom: 'Минимум запчастей',
+    countTo: 'Максимум запчастей',
   }
 };

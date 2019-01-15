@@ -1,5 +1,5 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {buildVendorsQuery} from "../../utils/queryBuilders";
+import {QueryBuilder} from "../../utils/queryBuilders";
 
 import {store} from "../store";
 import {http} from "../../utils/axios";
@@ -7,7 +7,7 @@ import {apiRoutes} from "../../constants";
 /* Interfaces */
 import {AxiosResponse} from "axios";
 import IMeta from "../../models/IMeta";
-import ApiResponse from "../../models/IResponse";
+import IResponse from "../../models/IResponse";
 import ITableParams, {IVendorsFilter} from "../../models/ITableParams";
 import IVendor from "../../models/IVendor";
 
@@ -74,13 +74,23 @@ class VendorsStore extends VuexModule {
   async getVendors() {
     this.setIsRequest(true);
     try {
-      const queryString = buildVendorsQuery(this.tableParams);
-      const vendors: AxiosResponse<ApiResponse<IVendor[]>> = (
+      const queryString = (new QueryBuilder<IVendorsFilter>(this.tableParams)).build();
+      const vendors: AxiosResponse<IResponse<IVendor[]>> = (
         await http.get(apiRoutes.vendors.index, {params: queryString})
       );
       this.context.commit('setMeta', vendors.data.meta);
       this.context.commit('setVendors', vendors.data.data);
     } catch (e) {
+    } finally {
+      this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getFilter() {
+    this.setIsRequest(true);
+    try {
+
     } finally {
       this.setIsRequest(false);
     }

@@ -13,7 +13,19 @@ export const routes: RouteConfig[] = [
   /* USER PART LAYOUT */
   {
     path: '', name: routeNames.layout, component: Layout, redirect: {name: routeNames.vendors.index}, children: [
-      {path: '/vendors', name: routeNames.vendors.index, component: () => import('../pages/vendors/VendorList.vue')},
+      /* Vendors */
+      {
+        path: '/vendors',
+        name: routeNames.vendors.index,
+        component: () => import('../pages/vendors/VendorList.vue'),
+        children: [
+          {
+            path: '/vendors/filter',
+            name: routeNames.vendors.filter,
+            component: () => import('../pages/vendors/VendorFilter.vue')
+          }
+        ]
+      },
 
 
       // tmp

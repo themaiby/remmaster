@@ -1,15 +1,5 @@
 <template>
   <v-container>
-    <v-layout>
-      <v-btn flat icon>
-        <v-icon color="tertiary">mdi-plus</v-icon>
-      </v-btn>
-      <spacer></spacer>
-      <v-btn icon>
-        <v-icon color="tertiary" class="font-weight-light">mdi-filter</v-icon>
-      </v-btn>
-    </v-layout>
-
     <VToolbar
       flat
       color="white"
@@ -30,7 +20,7 @@
         :color="filter ? 'primary' : 'blue-grey darken-4'"
         dark
         class="mb-2"
-        @click="$router.push({name: 'vendors.filter'})"
+        :to="{name: filterRoute}"
         flat
         icon
       >
@@ -45,7 +35,7 @@
         dark
         flat
         v-if="filter"
-        @click=""
+        @click="resetFilter"
         icon
       >
         <VIcon small>
@@ -64,6 +54,7 @@
       class="elevation-24"
     >
       <v-progress-linear slot="progress" color="grey" indeterminate height="2"/>
+
       <!-- todo: transition -->
       <template
         slot="items"
@@ -105,6 +96,7 @@
         </tr>
       </template>
     </v-data-table>
+    <router-view/>
   </v-container>
 </template>
 
@@ -112,6 +104,7 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../utils/i18n";
+  import {routeNames} from "../../router/routeNames";
 
   @Component
   export default class VendorList extends Vue {
@@ -122,6 +115,7 @@
       {text: i18n.t('vendors.date') as string, value: 'created_at'},
       {text: '', value: '', sortable: false}
     ];
+    filterRoute: string = routeNames.vendors.filter;
 
     @Watch('tableParams') tableWatcher() {
       vendorsStore.getVendors();
@@ -149,6 +143,10 @@
 
     get isRequest() {
       return vendorsStore.isRequest;
+    }
+
+    resetFilter() {
+      vendorsStore.resetFilter();
     }
   }
 </script>

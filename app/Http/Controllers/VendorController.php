@@ -125,6 +125,6 @@ class VendorController extends Controller
             'max' => $components->max('components_count'),
         ];
 
-        return ['data' => ['components' => $componentsCount, 'date' => $vendorsCreatedAt]];
+        return ['data' => ['components' => $componentsCount, 'createdAt' => $vendorsCreatedAt]];
     }
 }

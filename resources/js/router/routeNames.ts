@@ -8,6 +8,7 @@ export const routeNames = {
     create: 'vendors.create',
     delete: 'vendors.delete',
     update: 'vendors.update',
+    filter: 'vendors.filter',
     contacts: {
       create: 'vendors.contacts.create',
       delete: 'vendors.contacts.delete',
