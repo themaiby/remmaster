@@ -14,7 +14,7 @@ import IVendor from "../../models/IVendor";
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
   meta: IMeta = {};
-  requestInProgress: boolean = false;
+  isRequest: boolean = false;
   vendors: IVendor[] = [];
   message: string = '';
   errors: [] = [];
@@ -39,8 +39,8 @@ class VendorsStore extends VuexModule {
   };
 
   @Mutation
-  setRequestInProgress(isRequest: boolean) {
-    this.requestInProgress = isRequest;
+  setIsRequest(isRequest: boolean) {
+    this.isRequest = isRequest;
   }
 
   @Mutation
@@ -72,7 +72,7 @@ class VendorsStore extends VuexModule {
   /*   ACTIONS   */
   @Action
   async getVendors() {
-    this.context.commit('setRequestInProgress', true);
+    this.setIsRequest(true);
     try {
       const queryString = buildVendorsQuery(this.tableParams);
       const vendors: AxiosResponse<ApiResponse<IVendor[]>> = (
@@ -82,7 +82,7 @@ class VendorsStore extends VuexModule {
       this.context.commit('setVendors', vendors.data.data);
     } catch (e) {
     } finally {
-      this.context.commit('setRequestInProgress', false);
+      this.setIsRequest(false);
     }
   }
 }

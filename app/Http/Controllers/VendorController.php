@@ -13,16 +13,21 @@ use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
+    public const PER_PAGE_LIMIT = 100;
+
     /**
      * Vendors list
      *
+     * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
+        $perPage = (int)$request->perPage > 100 ? self::PER_PAGE_LIMIT : $request->perPage;
+
         $vendors = Vendor::sortable(['created_at' => 'desc'])
             ->filter($request->all())
-            ->paginate((int)$request->perPage, [
+            ->paginate($perPage, [
                 'id', 'name', 'created_at'
             ]);
 
@@ -32,11 +37,12 @@ class VendorController extends Controller
     /**
      * Store vendor
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param VendorRequest $request
+     * @param VendorService $service
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function store(VendorRequest $request, VendorService $service)
+    public function store(VendorRequest $request, VendorService $service): \Illuminate\Http\Response
     {
         return $service->handleStore($request);
     }
@@ -47,7 +53,7 @@ class VendorController extends Controller
      * @param  \App\Models\Vendor $vendor
      * @return VendorResource
      */
-    public function show(Vendor $vendor)
+    public function show(Vendor $vendor): VendorResource
     {
         return new VendorResource($vendor->load('contacts', 'components'));
     }
@@ -56,11 +62,11 @@ class VendorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param VendorRequest $request
      * @param  \App\Models\Vendor $vendor
      * @return VendorResource
      */
-    public function update(VendorRequest $request, Vendor $vendor)
+    public function update(VendorRequest $request, Vendor $vendor): VendorResource
     {
         $vendor->update($request->all());
         return new VendorResource($vendor->load('contacts'));
@@ -73,27 +79,29 @@ class VendorController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Vendor $vendor)
+    public function destroy(Vendor $vendor): \Illuminate\Http\Response
     {
         $vendor->delete();
         return response()->json(['message' => 'Success']);
     }
 
     /**
-     * @param  \Illuminate\Http\Request $request
+     * @param VendorContactRequest $request
+     * @param Vendor $vendor
      * @return array
      */
-    public function storeContact(VendorContactRequest $request, Vendor $vendor)
+    public function storeContact(VendorContactRequest $request, Vendor $vendor): array
     {
         return ['data' => $vendor->contacts()->create($request->all())];
     }
 
     /**
+     * @param Vendor $vendor ignored
      * @param  \App\Models\VendorContact $vendorContact
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroyContact(Vendor $vendor, VendorContact $vendorContact)
+    public function destroyContact(Vendor $vendor, VendorContact $vendorContact): \Illuminate\Http\Response
     {
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);

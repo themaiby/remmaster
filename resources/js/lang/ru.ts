@@ -4,11 +4,21 @@ export const ru = {
     email: 'E-Mail',
     password: 'Пароль'
   },
-  menu: {},
+  menu: {
+    home: 'Главная',
+    orders: 'Заявки',
+    components: 'Запчасти',
+    vendors: 'Поставщики',
+    settings: 'Параметры'
+  },
   auth: {
     login: 'Вход'
   },
   vendors: {
-    index: 'Поставщики'
+    index: 'Поставщики',
+    name: 'Название',
+    components_count: 'Количество запчастей',
+    cost: 'Суммарная стоимость',
+    date: 'Добавлен'
   }
 };

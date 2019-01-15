@@ -3,8 +3,8 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 // Helpers
-import {ru} from "../lang/ru";
-import {en} from "../lang/en";
+import ru from 'vuetify/src/locale/ru';
+import en from 'vuetify/src/locale/en';
 
 Vue.use(Vuetify, {
 /*  theme: {
