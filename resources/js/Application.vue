@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="content-body">
     <router-view></router-view>
   </v-app>
 </template>
@@ -12,4 +12,9 @@
   }
 </script>
 <style scoped>
+  #content-body {
+    background: #abbaab; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffffff, #abbaab); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffffff, #abbaab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
 </style>
