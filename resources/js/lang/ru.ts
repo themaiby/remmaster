@@ -15,13 +15,17 @@ export const ru = {
     settings: 'Параметры',
     apply: 'Применить',
     cancel: 'Отмена',
+    contacts: 'Контакты',
   },
   auth: {
     login: 'Вход'
   },
   vendors: {
     vendor: 'Информация о поставщике',
+    show: 'Подробнее',
     index: 'Поставщики',
+    update: 'Редактировать',
+    delete: 'Удалить',
     name: 'Название',
     components_count: 'Количество запчастей',
     cost: 'Суммарная стоимость',
@@ -30,6 +34,7 @@ export const ru = {
     datePattern: 'ГГГГ-ММ-ДД',
     createDate: 'Добавлен от даты',
     createDateTo: 'Добавлен до даты',
+    note: 'Описание',
   },
   components: {
     index: 'Запчасти',
@@ -38,5 +43,8 @@ export const ru = {
   },
   orders: {
     index: 'Заявки',
+  },
+  pluralized: {
+    items: '{n} единиц | {n} единица | {n} единицы | {n} единиц'
   }
 };

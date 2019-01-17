@@ -74,6 +74,11 @@ class VendorsStore extends VuexModule {
     this.message = message;
   }
 
+  /* GETTERS */
+  get getVendorById() {
+    return (id: number) => this.vendors.find(vendor => vendor.id === id);
+  }
+
   /*   ACTIONS   */
   @Action
   async getVendors() {
@@ -87,8 +92,7 @@ class VendorsStore extends VuexModule {
       this.context.commit('setVendors', vendors.data.data);
 
     } catch (e) {
-      this.setMessage = e.response.data.message;
-
+      this.setMessage(e.response.data.message);
     } finally {
       this.setIsRequest(false);
     }
@@ -100,10 +104,8 @@ class VendorsStore extends VuexModule {
     try {
       const vendorResponse: AxiosResponse<IResponse<IVendor>> = await http.get(apiRoutes.vendors.show(id));
       this.setVendor(vendorResponse.data.data);
-
     } catch (e) {
-      this.setMessage = e.response.data.message;
-
+      this.setMessage(e.response.data.message);
     } finally {
       this.setIsRequest(false);
     }

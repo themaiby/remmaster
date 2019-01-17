@@ -16,7 +16,7 @@
         >
           <v-icon color="black">mdi-view-list</v-icon>
         </v-btn>
-        {{ $t(title) }} <!-- todo: get route icon -->
+        {{ title }} <!-- todo: get route icon -->
       </v-toolbar-title>
     </div>
 

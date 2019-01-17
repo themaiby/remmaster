@@ -75,6 +75,7 @@
                 :key="i"
                 :to="{name: child.routeName}"
                 active-class="blue-grey lighten-1"
+                ripple
               >
                 <VListTileAction v-if="child.icon">
                   <VIcon>{{ child.icon }}</VIcon>
@@ -91,6 +92,7 @@
               :key="item.text"
               :to="{name: item.routeName}"
               active-class="blue-grey darken-2"
+              ripple
             >
               <VListTileAction>
                 <VIcon>{{ item.icon }}</VIcon>

@@ -69,19 +69,36 @@
           <td>{{ props.item.components_cost }}</td>
           <td>{{ props.item.created_at.date | moment('DD/MM/YYYY HH:mm:ss') }}</td>
           <td class="text-xs-right">
-            <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.id}}">
-              <VIcon color="primary" class="mr-2">
-              mdi-information-outline
-            </VIcon>
-            </router-link>
+            <v-tooltip top>
+              <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.id}}" slot="activator">
+                <VIcon color="primary" class="mr-2">
+                  mdi-information-outline
+                </VIcon>
+              </router-link>
+              <span>{{ $t('vendors.show') }}</span>
+            </v-tooltip>
 
-            <VIcon color="secondary lighten-1" class="mr-2" @click="">
-              mdi-pencil
-            </VIcon>
+            <v-tooltip top>
+              <router-link :to="{name: routeNames.vendors.update, params: {id: props.item.id}}" slot="activator">
+                <VIcon color="secondary lighten-1" class="mr-2" @click="">
+                  mdi-pencil
+                </VIcon>
+              </router-link>
+              <span>{{ $t('vendors.update') }}</span>
+            </v-tooltip>
 
-            <VIcon color="error" class="mr-2" @click="">
-              mdi-delete
-            </VIcon>
+            <v-tooltip top>
+              <a
+                :href="`/vendors/${props.item.id}/delete`"
+                slot="activator"
+                @click="deleteVendor(props.item.id, $event)"
+              >
+                <VIcon color="error" class="mr-2" @click="">
+                  mdi-delete
+                </VIcon>
+              </a>
+              <span>{{ $t('vendors.delete') }}</span>
+            </v-tooltip>
           </td>
         </tr>
       </template>
@@ -96,6 +113,8 @@
   import i18n from "../../utils/i18n";
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {setCurrentPageTitle} from "../../utils/helpers";
+  import {applicationStore} from "../../store/modules/ApplicationStore";
+  import IVendor from "../../models/IVendor";
 
   @Component
   export default class VendorList extends Vue {
@@ -108,8 +127,8 @@
     ];
 
     // set current page name
-    beforeCreate() {
-      setCurrentPageTitle('vendors.index');
+    created() {
+      applicationStore.setCurrentPageTitle(`${i18n.t('vendors.index')}`);
     }
 
     @Watch('tableParams') tableWatcher() {
@@ -146,6 +165,14 @@
 
     resetFilter() {
       vendorsStore.resetFilter();
+    }
+
+    deleteVendor(id: number, $event: Event,) {
+      $event.preventDefault();
+
+      const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
+      if (vendor) alert(`Delete vendor "${vendor.name}"?`);
+      else alert('Vendor not found');
     }
   }
 </script>
