@@ -62,6 +62,5 @@ export default async ({next}: MiddlewareInterface) => {
     const refreshedToken = await refreshToken();
     usersStore.setAuthorized(refreshedToken);
   }
-
   return next();
 }
