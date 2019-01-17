@@ -20,7 +20,7 @@ export const ru = {
     login: 'Вход'
   },
   vendors: {
-    vendor: 'Поставщик',
+    vendor: 'Информация о поставщике',
     index: 'Поставщики',
     name: 'Название',
     components_count: 'Количество запчастей',

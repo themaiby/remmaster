@@ -20,7 +20,7 @@
         :color="filter ? 'primary' : 'blue-grey darken-4'"
         dark
         class="mb-2"
-        :to="{name: filterRoute}"
+        :to="{name: routeNames.vendors.filter}"
         flat
         icon
       >
@@ -69,27 +69,17 @@
           <td>{{ props.item.components_cost }}</td>
           <td>{{ props.item.created_at.date | moment('DD/MM/YYYY HH:mm:ss') }}</td>
           <td class="text-xs-right">
-            <VIcon
-              color="primary"
-              class="mr-2"
-              @click=""
-            >
+            <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.id}}">
+              <VIcon color="primary" class="mr-2">
               mdi-information-outline
             </VIcon>
+            </router-link>
 
-            <VIcon
-              color="secondary lighten-1"
-              class="mr-2"
-              @click=""
-            >
+            <VIcon color="secondary lighten-1" class="mr-2" @click="">
               mdi-pencil
             </VIcon>
 
-            <VIcon
-              color="error"
-              class="mr-2"
-              @click=""
-            >
+            <VIcon color="error" class="mr-2" @click="">
               mdi-delete
             </VIcon>
           </td>
@@ -104,7 +94,7 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../utils/i18n";
-  import {routeNames} from "../../router/routeNames";
+  import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {setCurrentPageTitle} from "../../utils/helpers";
 
   @Component
@@ -116,16 +106,19 @@
       {text: i18n.t('vendors.date') as string, value: 'created_at'},
       {text: '', value: '', sortable: false}
     ];
-    filterRoute: string = routeNames.vendors.filter;
 
     // set current page name
     beforeCreate() {
-      setCurrentPageTitle(`${i18n.t('vendors.index')}`);
+      setCurrentPageTitle('vendors.index');
     }
 
     @Watch('tableParams') tableWatcher() {
       vendorsStore.getVendors();
     };
+
+    get routeNames() {
+      return routeNamesObj;
+    }
 
     get tableParams() {
       return vendorsStore.tableParams;

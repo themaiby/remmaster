@@ -2,7 +2,7 @@ import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decor
 import {store} from "../store";
 import IUser from "../../models/IUser";
 import {http, setToken} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
 import IResponseError from "../../models/IResponseError";

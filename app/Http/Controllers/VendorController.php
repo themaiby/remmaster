@@ -106,25 +106,4 @@ class VendorController extends Controller
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);
     }
-
-    /**
-     * Get available values for vendor filter
-     * @return array
-     */
-    public function getFilterValues(): array
-    {
-        $vendors = Vendor::select(['created_at'])->get();
-        $vendorsCreatedAt = [
-            'min' => $vendors->min('created_at'),
-            'max' => $vendors->max('created_at'),
-        ];
-
-        $components = Vendor::withCount('components')->get(['components_count']);
-        $componentsCount = [
-            'min' => $components->min('components_count'),
-            'max' => $components->max('components_count'),
-        ];
-
-        return ['data' => ['components' => $componentsCount, 'createdAt' => $vendorsCreatedAt]];
-    }
 }

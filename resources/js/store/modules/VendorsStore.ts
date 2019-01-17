@@ -3,7 +3,7 @@ import {QueryBuilder} from "../../utils/QueryBuilder";
 
 import {store} from "../store";
 import {http} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {apiRoutes} from "../../apiRoutes";
 /* Interfaces */
 import {AxiosResponse} from "axios";
 import IMeta from "../../models/IMeta";
@@ -69,6 +69,11 @@ class VendorsStore extends VuexModule {
     this.meta = meta;
   }
 
+  @Mutation
+  setMessage(message: string) {
+    this.message = message;
+  }
+
   /*   ACTIONS   */
   @Action
   async getVendors() {
@@ -80,16 +85,24 @@ class VendorsStore extends VuexModule {
       );
       this.context.commit('setMeta', vendors.data.meta);
       this.context.commit('setVendors', vendors.data.data);
+
     } catch (e) {
+      this.setMessage = e.response.data.message;
+
     } finally {
       this.setIsRequest(false);
     }
   }
 
   @Action
-  async getFilter() {
+  async getVendor(id: number) {
     this.setIsRequest(true);
     try {
+      const vendorResponse: AxiosResponse<IResponse<IVendor>> = await http.get(apiRoutes.vendors.show(id));
+      this.setVendor(vendorResponse.data.data);
+
+    } catch (e) {
+      this.setMessage = e.response.data.message;
 
     } finally {
       this.setIsRequest(false);

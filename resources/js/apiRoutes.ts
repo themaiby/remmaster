@@ -21,7 +21,6 @@ export const apiRoutes = {
       create: (vendorId: number) => `vendors/${vendorId}/contact`,
       delete: (vendorId: number, contactId: number) => `vendors/${vendorId}/contact/${contactId}`,
     },
-    filter: 'vendors/filter',
   },
   components: {
     index: 'components',

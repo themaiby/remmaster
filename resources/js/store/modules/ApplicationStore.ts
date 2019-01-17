@@ -1,6 +1,6 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {http} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
 import IMenu from "../../models/IMenu";
 import ApiResponse from "../../models/IResponse";

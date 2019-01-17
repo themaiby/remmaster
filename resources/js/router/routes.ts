@@ -1,6 +1,7 @@
 import {RouteConfig} from "vue-router";
 import {routeNames} from "./routeNames";
 import Layout from "../pages/Layout.vue";
+import {vendorRoutes} from "./vendorRoutes";
 
 
 export const routes: RouteConfig[] = [
@@ -18,19 +19,7 @@ export const routes: RouteConfig[] = [
       {path: '/orders', name: routeNames.orders.index, component: () => import('../pages/Dashboard.vue')},
       {path: '/settings', name: routeNames.settings.index, component: () => import('../pages/Dashboard.vue')},
 
-      /* Vendors */
-      {
-        path: '/vendors',
-        name: routeNames.vendors.index,
-        component: () => import('../pages/vendors/VendorList.vue'),
-        children: [
-          {
-            path: '/vendors/filter',
-            name: routeNames.vendors.filter,
-            component: () => import('../pages/vendors/VendorFilter.vue')
-          }
-        ]
-      },
+      ...vendorRoutes,
     ],
   }
 ];
