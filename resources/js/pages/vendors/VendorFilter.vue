@@ -152,9 +152,9 @@
       if (!value) this.$router.push({name: routeNames.vendors.index});
     }
 
-    beforeCreate() {
-      const filter = vendorsStore.tableParams.filter;
-      if (vendorsStore.tableParams.filter) this.filter = {...filter};
+    beforeMount() {
+      const filterStore = vendorsStore.tableParams.filter;
+      if (vendorsStore.tableParams.filter) this.filter = {...filterStore};
     }
 
     dialog: boolean = true;
@@ -168,12 +168,12 @@
     createdAtInput: object = {min: '', max: ''};
 
     apply() {
-      this.$validator.validate().then(valid => {
-        if (valid) vendorsStore.setTableParams({
-          ...vendorsStore.tableParams, filter: this.filter
-        });
-        this.dialog = false;
-      });
+      this.$validator.validate().then(
+        valid => {
+          if (valid) vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
+          this.dialog = false;
+        }
+      );
     }
   }
 </script>

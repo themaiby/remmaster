@@ -14,7 +14,7 @@ export const ru = {
     vendors: 'Поставщики',
     settings: 'Параметры',
     apply: 'Применить',
-    cancle: 'Отмена',
+    cancel: 'Отмена',
   },
   auth: {
     login: 'Вход'
