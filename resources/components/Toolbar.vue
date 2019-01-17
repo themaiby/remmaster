@@ -50,7 +50,7 @@
     responsive: boolean = false;
 
     get title(): string {
-      return this.$route.name || '';
+      return applicationStore.currentPageTitle;
     }
 
     mounted() {

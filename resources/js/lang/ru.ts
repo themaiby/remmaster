@@ -4,6 +4,9 @@ export const ru = {
     email: 'E-Mail',
     password: 'Пароль'
   },
+  common: {
+    dashboard: 'Обзорная панель'
+  },
   menu: {
     home: 'Главная',
     orders: 'Заявки',
@@ -17,6 +20,7 @@ export const ru = {
     login: 'Вход'
   },
   vendors: {
+    vendor: 'Поставщик',
     index: 'Поставщики',
     name: 'Название',
     components_count: 'Количество запчастей',
@@ -28,7 +32,11 @@ export const ru = {
     createDateTo: 'Добавлен до даты',
   },
   components: {
+    index: 'Запчасти',
     countFrom: 'Минимум запчастей',
     countTo: 'Максимум запчастей',
+  },
+  orders: {
+    index: 'Заявки',
   }
 };

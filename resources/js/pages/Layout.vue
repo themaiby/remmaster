@@ -128,7 +128,7 @@
   export default class Layout extends Vue {
     navbarImg: string = require('../assets/navbar.png');
 
-    get drawer() {
+    get drawer(): boolean {
       return applicationStore.drawer;
     }
 
@@ -136,7 +136,7 @@
       applicationStore.setDrawer(value);
     }
 
-    get menu() {
+    get menu(): object {
       return applicationStore.menu;
     }
 

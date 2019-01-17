@@ -105,6 +105,7 @@
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../utils/i18n";
   import {routeNames} from "../../router/routeNames";
+  import {setCurrentPageTitle} from "../../utils/helpers";
 
   @Component
   export default class VendorList extends Vue {
@@ -116,6 +117,11 @@
       {text: '', value: '', sortable: false}
     ];
     filterRoute: string = routeNames.vendors.filter;
+
+    // set current page name
+    beforeCreate() {
+      setCurrentPageTitle(`${i18n.t('vendors.index')}`);
+    }
 
     @Watch('tableParams') tableWatcher() {
       vendorsStore.getVendors();

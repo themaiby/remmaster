@@ -8,12 +8,18 @@ import {AxiosResponse} from "axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+  currentPageTitle: string = '';
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
   loaded: boolean = false;
   menu: IMenu[] = [];
   requestInProgress: boolean = false;
+
+  @Mutation
+  setCurrentPageTitle(title: string) {
+    this.currentPageTitle = title;
+  }
 
   @Mutation
   setDrawer(enabled: boolean) {
