@@ -15,6 +15,12 @@ class ApplicationStore extends VuexModule {
   loaded: boolean = false;
   menu: IMenu[] = [];
   requestInProgress: boolean = false;
+  itWasTokenRefreshAttempt: boolean = false;
+
+  @Mutation
+  setTokenRefreshAttempt(attempted: boolean) {
+    this.itWasTokenRefreshAttempt = attempted;
+  }
 
   @Mutation
   setCurrentPageTitle(title: string) {
