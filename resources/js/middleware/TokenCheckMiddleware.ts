@@ -21,19 +21,17 @@ export interface ITokenDecoded {
 const decodedToken = (): ITokenDecoded | null => {
   const token = sessionStorage.getItem('accessToken');
   if (!token) return null;
-
   try {
-    const parsed = JSON.parse(atob(token.split('.')[1]));
-    console.log('Token valid');
-    return parsed;
+    return JSON.parse(atob(token.split('.')[1]));
   } catch (e) {
-    console.log('Token invalid!');
     return null;
   }
 };
 
+/**
+ * @param decodedToken
+ */
 const isTokenExpired = (decodedToken: ITokenDecoded) => {
-  console.log('Expired:', decodedToken.exp < Date.now() / 1000);
   return decodedToken.exp < Date.now() / 1000;
 };
 
@@ -56,13 +54,11 @@ export default async ({next}: MiddlewareInterface) => {
   const token = decodedToken();
 
   if (!token) {
-    console.log('U havent token');
     usersStore.setAuthorized(false);
     return next();
   }
 
   if (isTokenExpired(token)) {
-    console.log('Token expired, await refreshToken');
     const refreshedToken = await refreshToken();
     usersStore.setAuthorized(refreshedToken);
   }
