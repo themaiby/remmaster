@@ -25,17 +25,19 @@ class JWTAuthenticate
     public function handle(Request $request, Closure $next, $guard = null)
     {
         // Get raw token from cookie
-        $rawToken = $request->cookie('SESSID');
+        $rawToken = $request->cookie(AuthController::TOKEN_COOKIE_NAME);
+
+        if (!$rawToken) return $this->unauthenticatedResponse();
 
         try {
             $this->loginByToken($rawToken);
         } catch (\Exception $e) {
             if ($e instanceof TokenExpiredException) {
-                /* JWT package dont see token in request, so set it manually */
+                /* JWT package dont see token in request, need to set it manually */
                 $request->headers->set('Authorization', 'Bearer ' . $rawToken);
                 return $this->refresh($request, $next);
             }
-            return response('Unauthorized.', 401);
+            return $this->unauthenticatedResponse();
         }
         return $next($request);
     }
@@ -47,15 +49,19 @@ class JWTAuthenticate
      */
     protected function refresh($request, $next)
     {
-        // Generate cookie
-        $refreshedToken = auth()->refresh();
-        $this->loginByToken($refreshedToken);
+        try {
+            // Generate cookie
+            $refreshedToken = auth()->refresh();
+            $this->loginByToken($refreshedToken);
 
-        $cookie = cookie()->forever(AuthController::TOKEN_COOKIE_NAME, $refreshedToken);
-        /** @var Response $response */
-        $response = $next($request);
+            $cookie = cookie()->forever(AuthController::TOKEN_COOKIE_NAME, $refreshedToken);
+            /** @var Response $response */
+            $response = $next($request);
 
-        return $response->withCookie($cookie);
+            return $response->withCookie($cookie);
+        } catch (\Exception $e) {
+            return $this->unauthenticatedResponse();
+        }
     }
 
     /**
@@ -70,5 +76,15 @@ class JWTAuthenticate
         // If token decoded - login user
         $user = User::find($payload['sub']);
         Auth::login($user);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function unauthenticatedResponse(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'message' => 'Unauthenticated'
+        ], 401);
     }
 }
