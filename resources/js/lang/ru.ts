@@ -16,6 +16,7 @@ export const ru = {
     apply: 'Применить',
     cancel: 'Отмена',
     contacts: 'Контакты',
+    submit: 'Подтвердить',
   },
   auth: {
     login: 'Вход'
@@ -35,6 +36,10 @@ export const ru = {
     createDate: 'Добавлен от даты',
     createDateTo: 'Добавлен до даты',
     note: 'Описание',
+    new: 'Новый поставщик',
+    addContact: 'Добавить контакт',
+    contactTitle: 'Заголовок контакта',
+    contactValue: 'Контактные данные',
   },
   components: {
     index: 'Запчасти',

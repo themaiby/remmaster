@@ -4,13 +4,16 @@
       flat
       color="white"
     >
+      <v-btn flat icon @click="refresh">
+        <v-icon small>mdi-refresh</v-icon>
+      </v-btn>
       <VSpacer/>
       <VBtn
         v-if="true"
         dark
         color="blue-grey darken-4"
         class="mb-2"
-        @click="$router.push({name: 'vendors.create'})"
+        :to="{name: routeNames.vendors.create}"
         flat
         icon
       >
@@ -179,6 +182,10 @@
       $event.preventDefault();
       const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
       if (vendor) alert(`Delete vendor "${vendor.name}"?`);
+    }
+
+    refresh() {
+      vendorsStore.getVendors();
     }
   }
 </script>

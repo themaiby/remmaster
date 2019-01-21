@@ -147,7 +147,7 @@
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import {IVendorsFilter} from "../../models/ITableParams";
 
-  @Component export default class FilterVendor extends Vue {
+  @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
       if (!value) this.$router.push({name: routeNames.vendors.index});
     }

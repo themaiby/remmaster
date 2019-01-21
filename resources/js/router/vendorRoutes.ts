@@ -13,6 +13,11 @@ export const vendorRoutes = [
         name: routeNames.vendors.filter,
         component: () => import('../pages/vendors/VendorFilter.vue'),
       },
+      {
+        path: '/vendors/create',
+        name: routeNames.vendors.create,
+        component: () => import('../pages/vendors/VendorCreate.vue'),
+      },
     ],
   },
   {
