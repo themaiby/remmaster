@@ -1,5 +1,5 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {http} from "../../utils/axios";
+import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
 import IMenu from "../../models/IMenu";

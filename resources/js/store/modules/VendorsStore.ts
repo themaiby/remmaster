@@ -2,7 +2,7 @@ import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decor
 import {QueryBuilder} from "../../utils/QueryBuilder";
 
 import {store} from "../store";
-import {http} from "../../utils/axios";
+import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 /* Interfaces */
 import {AxiosResponse} from "axios";

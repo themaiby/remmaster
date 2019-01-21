@@ -1,6 +1,6 @@
 import {Route} from "vue-router";
 import {VueRouter} from "vue-router/types/router";
-import StateInitialMiddleware from "./StateInitialMiddleware";
+import StateInitialMiddleware from "./StateInitial";
 import router from "../router/router";
 
 export class Middleware {

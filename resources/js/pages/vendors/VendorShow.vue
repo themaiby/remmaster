@@ -136,7 +136,7 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import i18n from "../../utils/i18n";
+  import i18n from "../../plugins/i18n";
   import IVendor from "../../models/IVendor";
 
   @Component

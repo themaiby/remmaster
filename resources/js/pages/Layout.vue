@@ -122,7 +122,7 @@
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
   import {applicationStore} from "../store/modules/ApplicationStore";
-  import Toolbar from "../../components/Toolbar.vue";
+  import Toolbar from "../components/Toolbar.vue";
 
   @Component({
     components: {Toolbar}

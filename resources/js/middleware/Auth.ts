@@ -1,7 +1,7 @@
 import {usersStore} from "../store/modules/UsersStore";
-import {MiddlewareInterface} from "./MiddlewareInterface";
+import {IMiddleware} from "./IMiddleware";
 
-export default async ({next}: MiddlewareInterface) => {
+export default async ({next}: IMiddleware) => {
   if (!usersStore.authorized) {
     return next({name: 'login'})
   }

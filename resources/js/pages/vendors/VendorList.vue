@@ -110,7 +110,7 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import i18n from "../../utils/i18n";
+  import i18n from "../../plugins/i18n";
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import IVendor from "../../models/IVendor";

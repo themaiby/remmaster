@@ -36,7 +36,7 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {applicationStore} from "../js/store/modules/ApplicationStore";
+  import {applicationStore} from "../store/modules/ApplicationStore";
 
   @Component
   export default class Toolbar extends Vue {

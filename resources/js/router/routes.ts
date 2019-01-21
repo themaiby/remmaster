@@ -2,6 +2,7 @@ import {RouteConfig} from "vue-router";
 import {routeNames} from "./routeNames";
 import Layout from "../pages/Layout.vue";
 import {vendorRoutes} from "./vendorRoutes";
+import GuestMiddleware from "../middleware/Guest";
 
 
 export const routes: RouteConfig[] = [
@@ -9,6 +10,7 @@ export const routes: RouteConfig[] = [
     path: '/login',
     name: routeNames.login,
     component: () => import('@/pages/Login.vue'),
+    meta: {middleware: [GuestMiddleware]}
   },
   /* USER PART LAYOUT */
   {
