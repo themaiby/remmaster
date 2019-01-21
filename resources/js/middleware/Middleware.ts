@@ -2,11 +2,9 @@ import {Route} from "vue-router";
 import {VueRouter} from "vue-router/types/router";
 import StateInitialMiddleware from "./StateInitialMiddleware";
 import router from "../router/router";
-import TokenCheckMiddleware from "./TokenCheckMiddleware";
 
 export class Middleware {
   private GlobalMiddleware: Function[] = [
-    TokenCheckMiddleware,
     StateInitialMiddleware
   ];
 

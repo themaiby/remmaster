@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    public const TOKEN_COOKIE_NAME = 'SESSID';
+
     /**
      * Create a new AuthController instance.
      *
@@ -47,11 +49,13 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        // Save token in cookie
+        $expireTime = auth()->factory()->getTTL() * 60;
+        $cookie = cookie()->forever(self::TOKEN_COOKIE_NAME, $token);
+
+        return response()
+            ->json(['access_token' => $token, 'token_type' => 'bearer', 'expires_in' => $expireTime])
+            ->withCookie($cookie);
     }
 
     /**

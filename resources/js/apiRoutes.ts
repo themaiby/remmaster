@@ -8,7 +8,6 @@ export const apiRoutes = {
   },
   auth: {
     getUserInfo: 'me',
-    refreshToken: 'refresh',
     login: 'login',
   },
   vendors: {
