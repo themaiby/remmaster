@@ -14,6 +14,9 @@ http.interceptors.response.use(
       case 401:
         router.push({name: routeNames.login});
         break;
+      case 404:
+        router.push({name: routeNames.errors.notFound});
+        break;
 
       default:
         return Promise.reject(r);

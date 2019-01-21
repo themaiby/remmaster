@@ -114,6 +114,8 @@
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import IVendor from "../../models/IVendor";
+  import {userHelper} from "../../utils/UserHelpers";
+  import {usersStore} from "../../store/modules/UsersStore";
 
   @Component
   export default class VendorList extends Vue {
@@ -124,6 +126,13 @@
       {text: i18n.t('vendors.date') as string, value: 'created_at'},
       {text: '', value: '', sortable: false}
     ];
+
+    beforeCreate() {
+      // restrict access if not allowed
+      if (!userHelper.can(usersStore.currentUser, 'vendors.show')) {
+        this.$router.push({name: routeNamesObj.errors.notFound})
+      }
+    }
 
     // set current page name
     created() {
@@ -168,10 +177,8 @@
 
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
-
       const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
       if (vendor) alert(`Delete vendor "${vendor.name}"?`);
-      else alert('Vendor not found');
     }
   }
 </script>

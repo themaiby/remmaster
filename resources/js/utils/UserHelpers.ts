@@ -15,7 +15,8 @@ const isAdmin = (user: IUser): boolean => {
 
 const can = (user: IUser, action: string): boolean => {
   if (!user.roles) return false;
-  return user.permissions.some(pernission => pernission.name === action)
+  if (isAdmin(user)) return true;
+  return user.permissions.some(permission => permission.name === action)
 };
 
 

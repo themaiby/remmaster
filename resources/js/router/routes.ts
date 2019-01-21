@@ -23,6 +23,8 @@ export const routes: RouteConfig[] = [
 
       ...vendorRoutes,
     ],
-  }
+  },
+
+  {path: '*', component: () => import('../pages/errors/Err404.vue'), name: routeNames.errors.notFound}
 ];
 

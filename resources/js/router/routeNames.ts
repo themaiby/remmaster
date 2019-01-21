@@ -22,5 +22,8 @@ export const routeNames = {
   },
   settings: {
     index: 'settings.index'
+  },
+  errors: {
+    notFound: 'NotFound'
   }
 };
