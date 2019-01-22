@@ -14,3 +14,15 @@ export interface IVendorsFilter {
   createdAtMin?: string;
   createdAtMax?: string;
 }
+
+export interface IComponentsFilter {
+  article?: string;
+  title?: string;
+  countMin?: number;
+  countMax?: number;
+  createdAtMin?: string;
+  createdAtMax?: string;
+  updatedAtMin?: string;
+  updatedAtMax?: string;
+  withTrashed?: boolean;
+}
