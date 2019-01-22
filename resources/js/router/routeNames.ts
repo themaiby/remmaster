@@ -1,5 +1,5 @@
 export const routeNames = {
-  home: 'dashboard',
+  dashboard: 'dashboard',
   login: 'login',
   layout: 'layout',
   vendors: {
@@ -8,10 +8,7 @@ export const routeNames = {
     create: 'vendors.create',
     delete: 'vendors.delete',
     update: 'vendors.update',
-    contacts: {
-      create: 'vendors.contacts.create',
-      delete: 'vendors.contacts.delete',
-    },
+    filter: 'vendors.filter',
   },
   components: {
     index: 'components.index',
@@ -21,5 +18,8 @@ export const routeNames = {
   },
   settings: {
     index: 'settings.index'
+  },
+  errors: {
+    notFound: 'NotFound'
   }
 };

@@ -1,17 +1,16 @@
-export default interface ITableParams<Filter> {
-  filter: Filter | null;
+export default interface ITableParams<T> {
+  filter: T | null;
   page: number;
   descending: boolean;
   rowsPerPage: number;
   sortBy: string;
 }
 
-// Filter fields for vendors page
+
 export interface IVendorsFilter {
-  name: string;
-  components: number[];
-  createdAt: {
-    min: string,
-    max: string
-  };
+  name?: string;
+  componentsMin?: number | undefined;
+  componentsMax?: number | undefined;
+  createdAtMin?: string;
+  createdAtMax?: string;
 }

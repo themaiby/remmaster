@@ -4,16 +4,16 @@ import IComponent from "./IComponent";
 
 export default interface IVendor {
   // Required
-  id: number;
   name: string;
-  components_count: number;
-  components_cost: number;
-  created_at: IDateModel;
 
   // Optional
+  id?: number;
+  components_count?: number;
+  components_cost?: number;
+  created_at?: IDateModel;
   note?: string;
   components?: IComponent[];
-  contacts?: IContact[];
+  contacts?: IContact[] | null;
   updated_at?: IDateModel;
   deleted_at?: IDateModel;
 }

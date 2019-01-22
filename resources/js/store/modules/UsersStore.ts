@@ -1,8 +1,8 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
 import IUser from "../../models/IUser";
-import {http, setToken} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {http} from "../../plugins/axios";
+import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
 import IResponseError from "../../models/IResponseError";
@@ -70,18 +70,14 @@ class UsersStore extends VuexModule {
 
     // Try to login
     try {
-      const loginResp: AxiosResponse<{ access_token: string, token_type: string, expires_in: number }>
-        = await http.post(apiRoutes.users.login, {email, password});
+      const loginResp: AxiosResponse = await http.post(apiRoutes.users.login, {email, password});
       this.setAuthorized(true);
-      setToken(loginResp.data.access_token);
-
-      // Set server errors if code != 200
+      await this.getCurrentUser();
     } catch (e) {
       const err: IResponseError = e;
       this.setMessage(err.response.data.message);
       this.setErrors(err.response.data.errors);
 
-      // end request
     } finally {
       this.setIsRequest(false);
     }

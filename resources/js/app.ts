@@ -3,9 +3,9 @@ import Application from "./Application.vue";
 import {store} from "./store/store";
 import router from "./router/router";
 
-import "@/utils/validator";
-import "@/utils/vuetify";
-import i18n from "./utils/i18n";
+import "@/plugins/validator";
+import "@/plugins/vuetify";
+import i18n from "./plugins/i18n";
 
 Vue.use(require('vue-moment'));
 

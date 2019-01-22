@@ -1,6 +1,6 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {http} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {http} from "../../plugins/axios";
+import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
 import IMenu from "../../models/IMenu";
 import ApiResponse from "../../models/IResponse";
@@ -8,12 +8,24 @@ import {AxiosResponse} from "axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+  currentPageTitle: string = '';
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
   loaded: boolean = false;
   menu: IMenu[] = [];
   requestInProgress: boolean = false;
+  itWasTokenRefreshAttempt: boolean = false;
+
+  @Mutation
+  setTokenRefreshAttempt(attempted: boolean) {
+    this.itWasTokenRefreshAttempt = attempted;
+  }
+
+  @Mutation
+  setCurrentPageTitle(title: string) {
+    this.currentPageTitle = title;
+  }
 
   @Mutation
   setDrawer(enabled: boolean) {

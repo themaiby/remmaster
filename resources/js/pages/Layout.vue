@@ -9,7 +9,7 @@
       id="app-drawer-common"
     >
       <v-img
-        src="https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg"
+        :src="navbarImg"
         height="100%"
       >
         <VList dense class="fill-height" id="app-drawer">
@@ -23,6 +23,7 @@
           <v-divider></v-divider>
 
           <VFlex class="text-xs-center"
+                 mt-5
                  v-if="!(menu.length)"
                  fill-height>
             <VProgressCircular
@@ -74,6 +75,7 @@
                 :key="i"
                 :to="{name: child.routeName}"
                 active-class="blue-grey lighten-1"
+                ripple
               >
                 <VListTileAction v-if="child.icon">
                   <VIcon>{{ child.icon }}</VIcon>
@@ -90,6 +92,7 @@
               :key="item.text"
               :to="{name: item.routeName}"
               active-class="blue-grey darken-2"
+              ripple
             >
               <VListTileAction>
                 <VIcon>{{ item.icon }}</VIcon>
@@ -105,7 +108,7 @@
       </v-img>
     </VNavigationDrawer>
     <VContent>
-      <Toolbar class="transparent" />
+      <Toolbar class="transparent"/>
       <Transition
         name="fade"
         mode="out-in"
@@ -119,13 +122,15 @@
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
   import {applicationStore} from "../store/modules/ApplicationStore";
-  import Toolbar from "../../components/Toolbar.vue";
+  import Toolbar from "../components/Toolbar.vue";
 
   @Component({
     components: {Toolbar}
   })
   export default class Layout extends Vue {
-    get drawer() {
+    navbarImg: string = require('../assets/navbar.png');
+
+    get drawer(): boolean {
       return applicationStore.drawer;
     }
 
@@ -133,7 +138,7 @@
       applicationStore.setDrawer(value);
     }
 
-    get menu() {
+    get menu(): object {
       return applicationStore.menu;
     }
 
@@ -145,7 +150,7 @@
 
 <style scoped lang="scss">
   #app-drawer {
-    background: rgba(27, 27, 27, .74);
+    background: rgba(27, 27, 27, .84);
     padding: 0;
   }
 
