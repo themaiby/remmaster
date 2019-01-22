@@ -25,6 +25,13 @@ export const vendorRoutes = [
     name: routeNames.vendors.show,
     component: () => import('../pages/vendors/VendorShow.vue'),
     meta: {middleware: [Auth]},
+    children: [
+      {
+        path: '/vendors/:id/edit',
+        name: routeNames.vendors.update,
+        component: () => import('../pages/vendors/VendorsEdit.vue')
+      }
+    ]
   }
 ];
 

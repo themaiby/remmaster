@@ -7,6 +7,10 @@
       <v-progress-circular indeterminate size="100"></v-progress-circular>
     </v-layout>
     <div v-if="!isRequest">
+      <v-layout align-end justify-end v-if="userCanUpdate">
+        <v-btn primary :to="{name: vendorUpdateRoute}">{{ $t('vendors.update') }}</v-btn>
+      </v-layout>
+
       <v-toolbar
         slot="header"
         class="mb-2"
@@ -33,12 +37,6 @@
               </VIcon>
               <VToolbarTitle>{{ $t('menu.contacts') }}</VToolbarTitle>
               <VSpacer/>
-              <VBtn
-                icon
-                @click="dialog = true"
-              >
-                <VIcon>mdi-plus</VIcon>
-              </VBtn>
             </v-toolbar>
 
             <VList two-line dense>
@@ -54,7 +52,7 @@
                 >
                   <!-- Avatar -->
                   <VListTileAvatar>
-                    <VIcon>mdi-account-box-outline</VIcon>
+                    <VIcon>{{ contact.icon }}</VIcon>
                   </VListTileAvatar>
 
                   <!-- Content -->
@@ -62,19 +60,6 @@
                     <VListTileTitle v-html="contact.value"/>
                     <VListTileSubTitle v-html="contact.title"/>
                   </VListTileContent>
-
-                  <!-- Actions -->
-                  <VListTileAction>
-                    <VBtn
-                      icon
-                      ripple
-                      @click="deleteContact(contact.id, contact.title)"
-                    >
-                      <VIcon color="error">
-                        mdi-delete
-                      </VIcon>
-                    </VBtn>
-                  </VListTileAction>
                 </VListTile>
               </template>
             </VList>
@@ -137,6 +122,7 @@
         <!-- END COMPONENTS -->
       </v-layout>
     </div>
+    <router-view />
   </v-container>
 </template>
 
@@ -146,13 +132,21 @@
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../plugins/i18n";
   import IVendor from "../../models/IVendor";
+  import {userHelper} from "../../utils/UserHelpers";
+  import {usersStore} from "../../store/modules/UsersStore";
+  import {routeNames} from "../../router/routeNames";
 
   @Component
   export default class VendorShow extends Vue {
     pageTitle: string = String(i18n.t('vendors.vendor'));
+    vendorUpdateRoute: string = routeNames.vendors.update;
 
     @Watch('vendor') updateTitleAfterVendorReceived(vendor: IVendor) {
       applicationStore.setCurrentPageTitle(`${this.pageTitle} "${vendor.name}"`);
+    }
+
+    get userCanUpdate() {
+      return userHelper.can(usersStore.currentUser, 'vendors.update');
     }
 
     get isRequest() {

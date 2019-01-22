@@ -9,10 +9,6 @@ export const routeNames = {
     delete: 'vendors.delete',
     update: 'vendors.update',
     filter: 'vendors.filter',
-    contacts: {
-      create: 'vendors.contacts.create',
-      delete: 'vendors.contacts.delete',
-    },
   },
   components: {
     index: 'components.index',
