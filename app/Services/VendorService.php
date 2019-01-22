@@ -14,10 +14,10 @@ class VendorService
      * Store vendor and contacts if present
      *
      * @param VendorRequest $request
-     * @return mixed
+     * @return VendorResource
      * @throws \Exception
      */
-    public function handleStore(VendorRequest $request)
+    public function handleStore(VendorRequest $request): VendorResource
     {
         try {
             DB::transaction(function () use ($request, &$vendor) {

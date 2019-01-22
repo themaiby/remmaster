@@ -24,7 +24,7 @@
             >
               <VTextField
                 :label="$t('vendors.name')"
-                :hint="$t('vendors.nameApprox')"
+                :hint="$t('menu.approximate')"
                 name="name"
                 v-model="filter.name"
                 @keypress.enter.native=""
@@ -39,6 +39,7 @@
                             name="componentsMin"
                             v-validate="'numeric'"
                             :error-messages="errors.collect('componentsMin')"
+                            :data-vv-as="$t('components.countFrom')"
                             v-model="filter.componentsMin"
               />
             </v-flex>
@@ -48,6 +49,7 @@
                             name="componentsMax"
                             v-validate="'numeric'"
                             :error-messages="errors.collect('componentsMax')"
+                            :data-vv-as="$t('components.countTo')"
                             v-model="filter.componentsMax"
               />
             </v-flex>
@@ -170,8 +172,10 @@
     apply() {
       this.$validator.validate().then(
         valid => {
-          if (valid) vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
-          this.dialog = false;
+          if (valid) {
+            vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
+            this.dialog = false;
+          }
         }
       );
     }

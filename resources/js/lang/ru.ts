@@ -17,6 +17,8 @@ export const ru = {
     cancel: 'Отмена',
     contacts: 'Контакты',
     submit: 'Подтвердить',
+    optional: '(необязательно)',
+    approximate: 'Приблизительное значение',
   },
   auth: {
     login: 'Вход'
@@ -38,8 +40,10 @@ export const ru = {
     note: 'Описание',
     new: 'Новый поставщик',
     addContact: 'Добавить контакт',
-    contactTitle: 'Заголовок контакта',
+    contactTitle: 'Название контакта',
     contactValue: 'Контактные данные',
+    icon: 'Иконка',
+    confirmDelete: 'Подтвердите удаление поставщика "{value}"'
   },
   components: {
     index: 'Запчасти',

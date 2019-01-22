@@ -181,7 +181,15 @@
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
       const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
-      if (vendor) alert(`Delete vendor "${vendor.name}"?`);
+
+      let deleteVendor: boolean = false;
+      if (vendor) {
+        deleteVendor = confirm(
+          `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
+        );
+        if (deleteVendor) vendorsStore.deleteVendor(id);
+      }
+
     }
 
     refresh() {

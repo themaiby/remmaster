@@ -1,134 +1,142 @@
 <template>
-  <v-container>
-    <v-toolbar
-      slot="header"
-      class="mb-2"
-      color="transparent"
-      flat
-    >
-      <v-subheader>
-        {{ vendor.note }}
-      </v-subheader>
-    </v-toolbar>
-
-    <v-layout row wrap>
-      <!-- CONTACTS -->
-      <VFlex
-        xs12
-        sm6
-        md6
-        pr-1
-      >
-        <VCard>
-          <v-toolbar dense color="blue-grey darken-2" dark>
-            <VIcon color="white">
-              mdi-contacts
-            </VIcon>
-            <VToolbarTitle>{{ $t('menu.contacts') }}</VToolbarTitle>
-            <VSpacer/>
-            <VBtn
-              icon
-              @click="dialog = true"
-            >
-              <VIcon>mdi-plus</VIcon>
-            </VBtn>
-          </v-toolbar>
-
-          <VList two-line dense>
-            <template v-for="(contact, index) in vendor.contacts">
-              <VDivider
-                v-if="index > 0"
-                :inset="false"
-                :key="index"
-              />
-              <VListTile
-                :key="contact.id"
-                avatar
-              >
-                <!-- Avatar -->
-                <VListTileAvatar>
-                  <VIcon>mdi-account-box-outline</VIcon>
-                </VListTileAvatar>
-
-                <!-- Content -->
-                <VListTileContent>
-                  <VListTileTitle v-html="contact.value"/>
-                  <VListTileSubTitle v-html="contact.title"/>
-                </VListTileContent>
-
-                <!-- Actions -->
-                <VListTileAction>
-                  <VBtn
-                    icon
-                    ripple
-                    @click="deleteContact(contact.id, contact.title)"
-                  >
-                    <VIcon color="error">
-                      mdi-delete
-                    </VIcon>
-                  </VBtn>
-                </VListTileAction>
-              </VListTile>
-            </template>
-          </VList>
-        </VCard>
-      </VFlex>
-      <!-- END CONTACTS -->
-
-      <!-- COMPONENTS -->
-      <VFlex
-        xs12
-        sm6
-        md6
-        pl-1
-      >
-        <VCard>
-          <VToolbar dense color="blue-grey darken-2" dark>
-            <VIcon color="white">
-              mdi-cart
-            </VIcon>
-            <VToolbarTitle>{{ $t('menu.components') }}</VToolbarTitle>
-            <VSpacer/>
-            <VBtn
-              icon
-              @click="$router.push({name: 'components.create'})"
-            >
-              <VIcon>mdi-plus</VIcon>
-            </VBtn>
-          </VToolbar>
-
-          <VList two-line dense>
-            <template v-for="(component, index) in vendor.components">
-              <VDivider
-                v-if="index > 0"
-                :inset="false"
-                :key="index"
-              />
-              <VListTile
-                :key="component.id"
-                avatar
-                ripple
-                @click="$router.push({name: 'components.show', params: {id: component.id}})"
-              >
-                <!-- Content -->
-                <VListTileContent>
-                  <VListTileTitle v-html="component.title">
-                    asd
-                  </VListTileTitle>
-                  <VListTileSubTitle v-html="component.article"/>
-                </VListTileContent>
-
-                <!-- Actions -->
-                <VListTileAction>
-                  <small>{{ $tc('pluralized.items', component.count) }}</small>
-                </VListTileAction>
-              </VListTile>
-            </template>
-          </VList>
-        </VCard>
-      </VFlex>
-      <!-- END COMPONENTS -->
+  <v-container fillheight="isRequest"
+               fluid="isRequest">
+    <v-layout v-if="isRequest"
+              align-center
+              justify-center>
+      <v-progress-circular indeterminate size="100"></v-progress-circular>
     </v-layout>
+    <div v-if="!isRequest">
+      <v-toolbar
+        slot="header"
+        class="mb-2"
+        color="transparent"
+        flat
+      >
+        <v-subheader>
+          {{ vendor.note }}
+        </v-subheader>
+      </v-toolbar>
+
+      <v-layout row wrap>
+        <!-- CONTACTS -->
+        <VFlex
+          xs12
+          sm6
+          md6
+          pr-1
+        >
+          <VCard>
+            <v-toolbar dense color="blue-grey darken-2" dark>
+              <VIcon color="white">
+                mdi-contacts
+              </VIcon>
+              <VToolbarTitle>{{ $t('menu.contacts') }}</VToolbarTitle>
+              <VSpacer/>
+              <VBtn
+                icon
+                @click="dialog = true"
+              >
+                <VIcon>mdi-plus</VIcon>
+              </VBtn>
+            </v-toolbar>
+
+            <VList two-line dense>
+              <template v-for="(contact, index) in vendor.contacts">
+                <VDivider
+                  v-if="index > 0"
+                  :inset="false"
+                  :key="index"
+                />
+                <VListTile
+                  :key="contact.id"
+                  avatar
+                >
+                  <!-- Avatar -->
+                  <VListTileAvatar>
+                    <VIcon>mdi-account-box-outline</VIcon>
+                  </VListTileAvatar>
+
+                  <!-- Content -->
+                  <VListTileContent>
+                    <VListTileTitle v-html="contact.value"/>
+                    <VListTileSubTitle v-html="contact.title"/>
+                  </VListTileContent>
+
+                  <!-- Actions -->
+                  <VListTileAction>
+                    <VBtn
+                      icon
+                      ripple
+                      @click="deleteContact(contact.id, contact.title)"
+                    >
+                      <VIcon color="error">
+                        mdi-delete
+                      </VIcon>
+                    </VBtn>
+                  </VListTileAction>
+                </VListTile>
+              </template>
+            </VList>
+          </VCard>
+        </VFlex>
+        <!-- END CONTACTS -->
+
+        <!-- COMPONENTS -->
+        <VFlex
+          xs12
+          sm6
+          md6
+          pl-1
+        >
+          <VCard>
+            <VToolbar dense color="blue-grey darken-2" dark>
+              <VIcon color="white">
+                mdi-cart
+              </VIcon>
+              <VToolbarTitle>{{ $t('menu.components') }}</VToolbarTitle>
+              <VSpacer/>
+              <VBtn
+                icon
+                @click="$router.push({name: 'components.create'})"
+              >
+                <VIcon>mdi-plus</VIcon>
+              </VBtn>
+            </VToolbar>
+
+            <VList two-line dense>
+              <template v-for="(component, index) in vendor.components">
+                <VDivider
+                  v-if="index > 0"
+                  :inset="false"
+                  :key="index"
+                />
+                <VListTile
+                  :key="component.id"
+                  avatar
+                  ripple
+                  @click="$router.push({name: 'components.show', params: {id: component.id}})"
+                >
+                  <!-- Content -->
+                  <VListTileContent>
+                    <VListTileTitle v-html="component.title">
+                      asd
+                    </VListTileTitle>
+                    <VListTileSubTitle v-html="component.article"/>
+                  </VListTileContent>
+
+                  <!-- Actions -->
+                  <VListTileAction>
+                    <small>{{ $tc('pluralized.items', component.count) }}</small>
+                  </VListTileAction>
+                </VListTile>
+              </template>
+            </VList>
+          </VCard>
+        </VFlex>
+        <!-- END COMPONENTS -->
+      </v-layout>
+    </div>
   </v-container>
 </template>
 
@@ -144,12 +152,20 @@
     pageTitle: string = String(i18n.t('vendors.vendor'));
 
     @Watch('vendor') updateTitleAfterVendorReceived(vendor: IVendor) {
-      applicationStore.setCurrentPageTitle(`${this.pageTitle} "${vendor.name}"`)
+      applicationStore.setCurrentPageTitle(`${this.pageTitle} "${vendor.name}"`);
+    }
+
+    get isRequest() {
+      return vendorsStore.isRequest;
     }
 
     created() {
-      applicationStore.setCurrentPageTitle(`${this.pageTitle}`);
-      vendorsStore.getVendor(Number(this.$route.params.id));
+      applicationStore.setCurrentPageTitle(`${this.pageTitle} "${this.vendor.name}"`);
+      if (!vendorsStore.vendor.id) vendorsStore.getVendor(Number(this.$route.params.id));
+    }
+
+    destroyed() {
+      vendorsStore.setVendor({name: ''});
     }
 
     get vendor(): IVendor {

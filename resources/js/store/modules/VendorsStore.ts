@@ -15,6 +15,7 @@ import IVendor from "../../models/IVendor";
 class VendorsStore extends VuexModule {
   meta: IMeta = {};
   isRequest: boolean = false;
+  isVendorCreatingRequest: boolean = false;
   vendors: IVendor[] = [];
   message: string = '';
   errors: [] = [];
@@ -41,6 +42,11 @@ class VendorsStore extends VuexModule {
   @Mutation
   setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
+  }
+
+  @Mutation
+  setIsVendorCreatingRequest(isRequest: boolean) {
+    this.isVendorCreatingRequest = isRequest;
   }
 
   @Mutation
@@ -108,6 +114,35 @@ class VendorsStore extends VuexModule {
       this.setMessage(e.response.data.message);
     } finally {
       this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async createVendor(vendor: IVendor) {
+    this.setIsVendorCreatingRequest(true);
+    try {
+      const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.post(apiRoutes.vendors.create, {
+        ...vendor, contacts: vendor.contacts ? vendor.contacts : []
+      });
+      this.setVendor(vendorResp.data.data);
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsVendorCreatingRequest(false);
+    }
+  }
+
+  @Action
+  async deleteVendor(id: number) {
+    this.setIsRequest(true);
+    try {
+      const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.vendors.delete(id));
+
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+
+    } finally {
+      this.getVendors();
     }
   }
 }

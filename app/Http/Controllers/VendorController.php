@@ -39,10 +39,10 @@ class VendorController extends Controller
      *
      * @param VendorRequest $request
      * @param VendorService $service
-     * @return \Illuminate\Http\Response
+     * @return VendorResource
      * @throws \Exception
      */
-    public function store(VendorRequest $request, VendorService $service): \Illuminate\Http\Response
+    public function store(VendorRequest $request, VendorService $service): VendorResource
     {
         return $service->handleStore($request);
     }
@@ -76,10 +76,10 @@ class VendorController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Vendor $vendor
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Vendor $vendor): \Illuminate\Http\Response
+    public function destroy(Vendor $vendor): \Illuminate\Http\JsonResponse
     {
         $vendor->delete();
         return response()->json(['message' => 'Success']);
@@ -98,10 +98,10 @@ class VendorController extends Controller
     /**
      * @param Vendor $vendor ignored
      * @param  \App\Models\VendorContact $vendorContact
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroyContact(Vendor $vendor, VendorContact $vendorContact): \Illuminate\Http\Response
+    public function destroyContact(Vendor $vendor, VendorContact $vendorContact): \Illuminate\Http\JsonResponse
     {
         $vendorContact->delete();
         return response()->json(['message' => 'Success']);
