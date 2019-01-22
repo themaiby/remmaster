@@ -1,4 +1,4 @@
-import {Action, Module, Mutation, VuexModule} from "vuex-module-decorators";
+import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
 import IComponent from "../../models/IComponent";
 import ITableParams, {IComponentsFilter} from "../../models/ITableParams";
@@ -75,3 +75,5 @@ class ComponentsStore extends VuexModule {
     }
   }
 }
+
+export const componentsStore = getModule(ComponentsStore);
