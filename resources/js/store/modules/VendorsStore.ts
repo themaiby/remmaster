@@ -145,6 +145,23 @@ class VendorsStore extends VuexModule {
       this.getVendors();
     }
   }
+
+  @Action
+  async updateVendor(vendor: IVendor) {
+    this.setIsVendorCreatingRequest(true);
+    try {
+      if (vendor.id != null) {
+        const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.put(apiRoutes.vendors.update(vendor.id), {
+          ...vendor, contacts: vendor.contacts ? vendor.contacts : []
+        });
+        this.setVendor(vendorResp.data.data);
+      }
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsVendorCreatingRequest(false);
+    }
+  }
 }
 
 export const vendorsStore = getModule(VendorsStore);

@@ -211,7 +211,10 @@
 
     confirm() {
       this.$validator.validate().then(valid => {
-        if (valid) console.log(this.vendor); /*vendorsStore.createVendor(this.vendor)*/
+        if (valid) {
+          vendorsStore.updateVendor(this.vendor);
+          this.dialog = false;
+        }
       });
     }
   }

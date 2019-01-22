@@ -72,7 +72,7 @@ class UsersStore extends VuexModule {
     try {
       const loginResp: AxiosResponse = await http.post(apiRoutes.users.login, {email, password});
       this.setAuthorized(true);
-
+      await this.getCurrentUser();
     } catch (e) {
       const err: IResponseError = e;
       this.setMessage(err.response.data.message);

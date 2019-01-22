@@ -19,21 +19,36 @@ class VendorService
      */
     public function handleStore(VendorRequest $request): VendorResource
     {
+        $vendor = new Vendor();
         try {
             DB::transaction(function () use ($request, &$vendor) {
-
                 $vendor = Vendor::create($request->all());
+                $vendor->contacts()->createMany($request->contacts);
+            });
+        } catch (\Throwable $e) {
+            DB::rollBack();
+        }
+        return new VendorResource($vendor->load(['contacts']));
+    }
 
-                if ($request->contacts) {
-                    $vendor->contacts()->createMany($request->contacts);
-                }
-
+    /**
+     * @param VendorRequest $request
+     * @param Vendor $vendor
+     * @return VendorResource
+     * @throws \Exception
+     */
+    public function handleUpdate(VendorRequest $request, Vendor $vendor): VendorResource
+    {
+        try {
+            DB::transaction(function () use ($request, &$vendor) {
+                $vendor->update($request->all());
+                $vendor->contacts()->delete();
+                $vendor->contacts()->createMany($request->contacts);
             });
         } catch (\Throwable $e) {
             DB::rollBack();
         }
 
-        /* @var $vendor Vendor */
-        return new VendorResource($vendor->load('contacts'));
+        return new VendorResource($vendor->load(['contacts', 'components']));
     }
 }
