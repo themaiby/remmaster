@@ -70,7 +70,7 @@
               </VFlex>
               <v-spacer></v-spacer>
               <VFlex xs1 sm1 md1>
-                <v-btn flat block>
+                <v-btn flat block @click="deleteContact(idx)">
                   <v-icon color="error">mdi-close</v-icon>
                 </v-btn>
               </VFlex>
@@ -131,11 +131,16 @@
     vendor: IVendor = {
       name: '',
       note: '',
-      contacts: [],
+      contacts: null,
     };
 
     addContact() {
-      const contact: IContact = {icon: 'mdi-cellphone', title: '', value: ''};
+      const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
+      const contact: IContact = {
+        icon,
+        title: '',
+        value: ''
+      };
       if (!this.vendor.contacts) {
         this.vendor.contacts = [contact];
       } else {
@@ -143,6 +148,21 @@
       }
     }
 
+    deleteContact(idxToDelete: number) {
+      /* wrap in Array class for accessing array methods */
+      if (this.vendor.contacts) {
+        this.vendor.contacts = this.vendor.contacts.filter(
+          (contact, idx) => idx !== idxToDelete
+        );
+      }
+    }
+
+    // if its more contacts that icons then return from start
+    getIconIndex(currentContactsLength: number): number {
+      return currentContactsLength >= this.icons.length ?
+        (currentContactsLength % this.icons.length) :
+        currentContactsLength;
+    }
 
     create() {
       console.log(JSON.stringify(this.vendor));

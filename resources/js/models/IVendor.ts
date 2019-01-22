@@ -13,7 +13,7 @@ export default interface IVendor {
   created_at?: IDateModel;
   note?: string;
   components?: IComponent[];
-  contacts?: IContact[];
+  contacts?: IContact[] | null;
   updated_at?: IDateModel;
   deleted_at?: IDateModel;
 }
