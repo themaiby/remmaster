@@ -1,14 +1,19 @@
 <template>
   <v-app id="content-body">
-    <router-view></router-view>
+    <router-view v-if="applicationLoaded"></router-view>
+    <span v-else>Loading...</span>
   </v-app>
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
+  import {applicationStore} from "./store/modules/ApplicationStore";
 
   @Component
   export default class Application extends Vue {
+    get applicationLoaded() {
+      return applicationStore.loaded;
+    }
   }
 </script>
 <style scoped>

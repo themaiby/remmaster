@@ -1,20 +1,21 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {buildVendorsQuery} from "../../utils/queryBuilders";
+import {QueryBuilder} from "../../utils/QueryBuilder";
 
 import {store} from "../store";
-import {http} from "../../utils/axios";
-import {apiRoutes} from "../../constants";
+import {http} from "../../plugins/axios";
+import {apiRoutes} from "../../apiRoutes";
 /* Interfaces */
 import {AxiosResponse} from "axios";
 import IMeta from "../../models/IMeta";
-import ApiResponse from "../../models/IResponse";
+import IResponse from "../../models/IResponse";
 import ITableParams, {IVendorsFilter} from "../../models/ITableParams";
 import IVendor from "../../models/IVendor";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
   meta: IMeta = {};
-  requestInProgress: boolean = false;
+  isRequest: boolean = false;
+  isVendorCreatingRequest: boolean = false;
   vendors: IVendor[] = [];
   message: string = '';
   errors: [] = [];
@@ -39,8 +40,13 @@ class VendorsStore extends VuexModule {
   };
 
   @Mutation
-  setRequestInProgress(isRequest: boolean) {
-    this.requestInProgress = isRequest;
+  setIsRequest(isRequest: boolean) {
+    this.isRequest = isRequest;
+  }
+
+  @Mutation
+  setIsVendorCreatingRequest(isRequest: boolean) {
+    this.isVendorCreatingRequest = isRequest;
   }
 
   @Mutation
@@ -69,20 +75,91 @@ class VendorsStore extends VuexModule {
     this.meta = meta;
   }
 
+  @Mutation
+  setMessage(message: string) {
+    this.message = message;
+  }
+
+  /* GETTERS */
+  get getVendorById() {
+    return (id: number) => this.vendors.find(vendor => vendor.id === id);
+  }
+
   /*   ACTIONS   */
   @Action
   async getVendors() {
-    this.context.commit('setRequestInProgress', true);
+    this.setIsRequest(true);
     try {
-      const queryString = buildVendorsQuery(this.tableParams);
-      const vendors: AxiosResponse<ApiResponse<IVendor[]>> = (
+      const queryString = (new QueryBuilder<IVendorsFilter>(this.tableParams)).build();
+      const vendors: AxiosResponse<IResponse<IVendor[]>> = (
         await http.get(apiRoutes.vendors.index, {params: queryString})
       );
       this.context.commit('setMeta', vendors.data.meta);
       this.context.commit('setVendors', vendors.data.data);
+
     } catch (e) {
+      this.setMessage(e.response.data.message);
     } finally {
-      this.context.commit('setRequestInProgress', false);
+      this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getVendor(id: number) {
+    this.setIsRequest(true);
+    try {
+      const vendorResponse: AxiosResponse<IResponse<IVendor>> = await http.get(apiRoutes.vendors.show(id));
+      this.setVendor(vendorResponse.data.data);
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async createVendor(vendor: IVendor) {
+    this.setIsVendorCreatingRequest(true);
+    try {
+      const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.post(apiRoutes.vendors.create, {
+        ...vendor, contacts: vendor.contacts ? vendor.contacts : []
+      });
+      this.setVendor(vendorResp.data.data);
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsVendorCreatingRequest(false);
+    }
+  }
+
+  @Action
+  async deleteVendor(id: number) {
+    this.setIsRequest(true);
+    try {
+      const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.vendors.delete(id));
+
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+
+    } finally {
+      this.getVendors();
+    }
+  }
+
+  @Action
+  async updateVendor(vendor: IVendor) {
+    this.setIsVendorCreatingRequest(true);
+    try {
+      if (vendor.id != null) {
+        const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.put(apiRoutes.vendors.update(vendor.id), {
+          ...vendor, contacts: vendor.contacts ? vendor.contacts : []
+        });
+        this.setVendor(vendorResp.data.data);
+      }
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsVendorCreatingRequest(false);
     }
   }
 }

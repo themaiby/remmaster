@@ -16,7 +16,7 @@
         >
           <v-icon color="black">mdi-view-list</v-icon>
         </v-btn>
-        {{ $t(title) }} <!-- todo: get route icon -->
+        {{ title }} <!-- todo: get route icon -->
       </v-toolbar-title>
     </div>
 
@@ -36,7 +36,7 @@
 
 <script lang="ts">
   import {Component, Vue} from "vue-property-decorator";
-  import {applicationStore} from "../js/store/modules/ApplicationStore";
+  import {applicationStore} from "../store/modules/ApplicationStore";
 
   @Component
   export default class Toolbar extends Vue {
@@ -50,7 +50,7 @@
     responsive: boolean = false;
 
     get title(): string {
-      return this.$route.name || '';
+      return applicationStore.currentPageTitle;
     }
 
     mounted() {

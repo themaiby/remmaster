@@ -24,23 +24,38 @@ class VendorFilter extends ModelFilter
     }
 
     /**
-     * @param array $createdAt
+     * @param string $createdAtMin
      * @return $this
      */
-    public function createdAt(array $createdAt)
+    public function createdAtMin(string $createdAtMin): self
     {
-        return $this->whereBetween('created_at', $createdAt);
+        return $this->where('created_at', '>=', $createdAtMin);
     }
 
     /**
-     * Components count between
-     * @param array $count
+     * @param string $createdAtMax
+     * @return $this
+     */
+    public function createdAtMax(string $createdAtMax): self
+    {
+        return $this->where('created_at', '<=', $createdAtMax);
+    }
+
+    /**
+     * @param int $count
      * @return VendorFilter|\Illuminate\Database\Eloquent\Builder
      */
-    public function components(array $count)
+    public function componentsMin(int $count)
     {
-        return $this
-            ->has('components', '>=', $count[0])
-            ->has('components', '<=', $count[1]);
+        return $this->has('components', '>=', $count);
+    }
+
+    /**
+     * @param int $count
+     * @return VendorFilter|\Illuminate\Database\Eloquent\Builder
+     */
+    public function componentsMax(int $count)
+    {
+        return $this->has('components', '<=', $count);
     }
 }

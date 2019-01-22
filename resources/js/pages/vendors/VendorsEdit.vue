@@ -11,7 +11,7 @@
         color="white"
         flat
       >
-        <VToolbarTitle>{{ $t('vendors.new') }}</VToolbarTitle>
+        <VToolbarTitle>{{ $t('vendors.update') }}</VToolbarTitle>
       </VToolbar>
 
       <VCardText>
@@ -95,7 +95,11 @@
               </VFlex>
             </template>
             <VFlex xs12 sm12 md12>
-              <v-btn class="gradient-button" block dark mt2 @click="addContact">{{ $t('vendors.addContact') }}</v-btn>
+              <v-btn :disabled="isRequest"
+                     class="gradient-button"
+                     block dark mt2 @click="addContact">
+                {{ $t('vendors.addContact') }}
+              </v-btn>
             </VFlex>
           </VLayout>
         </VContainer>
@@ -114,7 +118,7 @@
         <VBtn
           color="blue darken-1"
           flat
-          @click="create"
+          @click="confirm"
           :loading="isRequest"
         >
           {{ $t('menu.submit') }}
@@ -131,20 +135,21 @@
   import IContact from "../../models/IContact";
   import {vendorsStore} from "../../store/modules/VendorsStore";
 
-  @Component export default class VendorCreate extends Vue {
+  @Component export default class VendorsEdit extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
-      if (!value) this.$router.push({name: routeNames.vendors.index});
-    }
-
-    @Watch('createdVendor') redirectToCreatedVendor(vendor: IVendor) {
-      if (vendor.id) this.$router.push({
+      if (!value) this.$router.push({
         name: routeNames.vendors.show,
         params: {
-          id: String(vendor.id)
+          id: String(this.vendor.id)
         }
       });
     }
 
+    @Watch('storedVendor') setLocaleVendorModel(vendor: IVendor) {
+      if (!this.vendor.id) this.vendor = {...vendor};
+    }
+
+    vendor: IVendor = {name: ''};
     dialog: boolean = true;
     icons = [
       'mdi-cellphone',
@@ -158,18 +163,21 @@
       'mdi-home-city',
     ];
 
-    vendor: IVendor = {
-      name: '',
-      note: '',
-      contacts: null,
-    };
-
-    get isRequest() {
-      return vendorsStore.isVendorCreatingRequest;
+    created() {
+      // full assign cuz without  destruct local vendor will reactive
+      if (!vendorsStore.vendor.id) {
+        vendorsStore.getVendor(Number(this.$route.params.id));
+      } else {
+        this.vendor = {...vendorsStore.vendor};
+      }
     }
 
-    get createdVendor() {
+    get storedVendor() {
       return vendorsStore.vendor;
+    }
+
+    get isRequest() {
+      return vendorsStore.isRequest;
     }
 
     addContact() {
@@ -201,9 +209,12 @@
         currentContactsLength;
     }
 
-    create() {
+    confirm() {
       this.$validator.validate().then(valid => {
-        if (valid) vendorsStore.createVendor(this.vendor);
+        if (valid) {
+          vendorsStore.updateVendor(this.vendor);
+          this.dialog = false;
+        }
       });
     }
   }

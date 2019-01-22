@@ -95,7 +95,7 @@
     }
 
     @Watch('authorized') redirectWhenAuthorized() {
-      this.$router.push({name: routeNames.home});
+      this.$router.push({name: routeNames.dashboard});
     }
 
     login() {

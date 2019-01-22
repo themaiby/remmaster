@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\VendorContact
@@ -38,7 +37,7 @@ class VendorContact extends Model
     protected $table = 'vendor_contacts';
     protected $guard_name = 'api';
     protected $fillable = [
-        'title', 'value', 'vendor_id'
+        'title', 'value', 'icon'
     ];
 
     /**
