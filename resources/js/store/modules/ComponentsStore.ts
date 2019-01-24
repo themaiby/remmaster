@@ -27,6 +27,12 @@ class ComponentsStore extends VuexModule {
     sortBy: '',
   };
   availableVendors: IVendor[] = [];
+  isComponentCreatingRequest: boolean = false;
+
+  @Mutation
+  setIsComponentCreatingRequest(isRequest: boolean) {
+    this.isComponentCreatingRequest = isRequest;
+  }
 
   @Mutation
   setComponents(components: IComponent[]) {
@@ -69,6 +75,11 @@ class ComponentsStore extends VuexModule {
     this.availableVendors = vendors;
   }
 
+  @Mutation
+  setComponent(component: IComponent) {
+    this.component = component;
+  }
+
   @Action
   async getComponents() {
     this.setIsRequest(true);
@@ -97,6 +108,23 @@ class ComponentsStore extends VuexModule {
     } finally {
       this.setFilterLoading(false);
     }
+  }
+
+  @Action
+  async createComponent(component: IComponent) {
+    this.setIsComponentCreatingRequest(true);
+    try {
+      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.create, component);
+      this.setComponent(componentRes.data.data);
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsComponentCreatingRequest(false);
+    }
+  }
+
+  @Action
+  async getComponent(id: number) {
   }
 }
 

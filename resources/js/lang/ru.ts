@@ -19,6 +19,7 @@ export const ru = {
     submit: 'Подтвердить',
     optional: '(необязательно)',
     approximate: 'Приблизительное значение',
+    submitAndContinue: 'Подтвердить и продолжить',
   },
   auth: {
     login: 'Вход'
@@ -63,6 +64,7 @@ export const ru = {
     delete: 'Удалить',
     costMin: 'Мин. стоимость',
     costMax: 'Макс. стоимость',
+    new: 'Новая запчасть',
   },
   orders: {
     index: 'Заявки',

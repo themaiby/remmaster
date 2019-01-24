@@ -8,95 +8,103 @@
     <VCard>
       <VToolbar
         card
-        color="white"
+        :color="success ? 'light-green lighten-3' : 'white'"
         flat
       >
-        <VToolbarTitle>{{ $t('vendors.new') }}</VToolbarTitle>
+        <VToolbarTitle>{{ $t('components.new') }}</VToolbarTitle>
       </VToolbar>
 
       <VCardText>
         <VContainer grid-list-md>
           <VLayout wrap>
-            <!-- Input -->
-            <VFlex xs12 sm12 md12>
+
+            <!-- title -->
+            <VFlex xs6 sm6 md6>
               <VTextField
-                :label="$t('vendors.name')"
-                name="name"
+                :label="$t('components.title')"
+                name="title"
                 v-validate="'required'"
-                :error-messages="errors.collect('name')"
-                v-model="vendor.name"
-                :data-vv-as="$t('vendors.name')"
+                :error-messages="errors.collect('title')"
+                v-model="component.title"
+                :data-vv-as="$t('components.title')"
                 @keypress.enter.native="create"
                 solo
                 :disabled="isRequest"
               />
             </VFlex>
-            <VFlex xs12 sm12 md12>
-              <v-textarea
-                name="name"
-                v-model="vendor.note"
+            <!-- article -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :label="$t('components.article')"
+                name="article"
+                v-validate="'required'"
+                :error-messages="errors.collect('article')"
+                v-model="component.article"
+                :data-vv-as="$t('components.article')"
+                @keypress.enter.native="create"
                 solo
                 :disabled="isRequest"
-              >
-                <div slot="label">
-                  {{ $t('vendors.note') }}
-                  <small>{{ $t('menu.optional') }}</small>
-                </div>
-              </v-textarea>
+              />
             </VFlex>
 
-            <template v-for="(contact, idx) in vendor.contacts">
-              <VFlex xs1 sm1 md1>
-                <v-select :items="icons"
-                          solo
-                          ingle-line
-                          dense
-                          autofocus
-                          v-model="vendor.contacts[idx].icon"
-                          :disabled="isRequest"
+            <!-- vendor-->
+            <VFlex
+              xs12
+              sm12
+              md12
+            >
+              <v-autocomplete
+                v-model="component.vendor_id"
+                :items="availableVendors"
+                :label="$t('components.vendor')"
+                prepend-icon="mdi-truck-fast"
+                item-text="name"
+                item-value="id"
+                name="vendor"
+                @keypress.enter.native="apply"
+                v-validate="'required'"
+                :error-messages="errors.collect('vendor')"
+                :data-vv-as="$t('components.vendor')"
+              >
+                <v-slide-x-reverse-transition
+                  slot="append-outer"
+                  mode="out-in"
                 >
-                  <template slot="selection" slot-scope="{item, index}">
-                    <v-icon>{{ item }}</v-icon>
-                  </template>
-                  <template slot="item" slot-scope="{item, index}">
-                    <v-icon>{{ item }}</v-icon>
-                  </template>
-                </v-select>
-              </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
-                <VTextField
-                  :label="$t('vendors.contactTitle')"
-                  v-model="vendor.contacts[idx].title"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactTitle[${idx}]`"
-                  :error-messages="errors.collect(`contactTitle[${idx}]`)"
-                  :data-vv-as="$t('vendors.contactTitle')"
-                  :disabled="isRequest"
-                />
-              </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
-                <VTextField
-                  :label="$t('vendors.contactValue')"
-                  v-model="vendor.contacts[idx].value"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactValue[${idx}]`"
-                  :error-messages="errors.collect(`contactValue[${idx}]`)"
-                  :data-vv-as="$t('vendors.contactTitle')"
-                  :disabled="isRequest"
-                />
-              </VFlex>
-              <v-spacer></v-spacer>
-              <VFlex xs1 sm1 md1>
-                <v-btn flat @click="deleteContact(idx)" icon ml3>
-                  <v-icon color="error">mdi-close</v-icon>
-                </v-btn>
-              </VFlex>
-            </template>
-            <VFlex xs12 sm12 md12>
-              <v-btn class="gradient-button" block dark mt2 @click="addContact">{{ $t('vendors.addContact') }}</v-btn>
+                </v-slide-x-reverse-transition>
+              </v-autocomplete>
             </VFlex>
+
+            <!-- count -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :hint="$t('components.count')"
+                persistent-hint
+                name="count"
+                v-validate="'required|numeric'"
+                :error-messages="errors.collect('count')"
+                v-model="component.count"
+                :data-vv-as="$t('components.count')"
+                @keypress.enter.native="create"
+                solo
+                :disabled="isRequest"
+              />
+            </VFlex>
+            <!-- cost -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :hint="$t('components.cost')"
+                persistent-hint
+                name="cost"
+                v-validate="{required: true, regex: /^\$?[\d,]+(\.\d*)?$/}"
+                :error-messages="errors.collect('cost')"
+                :data-vv-as="$t('components.cost')"
+                v-model="component.cost"
+                @keypress.enter.native="create"
+                solo
+                :disabled="isRequest"
+              />
+            </VFlex>
+
           </VLayout>
         </VContainer>
       </VCardText>
@@ -119,6 +127,14 @@
         >
           {{ $t('menu.submit') }}
         </VBtn>
+        <VBtn
+          color="blue darken-1"
+          flat
+          @click="createAndContinue"
+          :loading="isRequest"
+        >
+          {{ $t('menu.submitAndContinue') }}
+        </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
@@ -127,84 +143,68 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IVendor from "../../models/IVendor";
-  import IContact from "../../models/IContact";
-  import {vendorsStore} from "../../store/modules/VendorsStore";
+  import IComponent from "../../models/IComponent";
+  import {componentsStore} from "../../store/modules/ComponentsStore";
+
+  /* todo: add error message */
 
   @Component export default class VendorCreate extends Vue {
+    private success: boolean = false;
     @Watch('dialog') routeBack(value: boolean) {
-      if (!value) this.$router.push({name: routeNames.vendors.index});
+      if (!value) this.$router.push({name: routeNames.components.index});
     }
 
-    @Watch('createdVendor') redirectToCreatedVendor(vendor: IVendor) {
-      if (vendor.id) this.$router.push({
-        name: routeNames.vendors.show,
-        params: {
-          id: String(vendor.id)
-        }
+    @Watch('createdComponent') redirectToCreatedComponent(component: IComponent) {
+      if (component.id && !this.continueCreating) this.$router.push({
+        name: routeNames.components.show,
+        params: {id: String(component.id)}
       });
+      this.continueCreating = false;
     }
 
     dialog: boolean = true;
-    icons = [
-      'mdi-cellphone',
-      'mdi-deskphone',
-      'mdi-email',
-      'mdi-skype',
-      'mdi-telegram',
-      'mdi-linkedin',
-      'mdi-web',
-      'mdi-account-card-details',
-      'mdi-home-city',
-    ];
+    continueCreating: boolean = false;
+    component: IComponent = {article: '', title: '', count: 0.00, cost: 0.00};
 
-    vendor: IVendor = {
-      name: '',
-      note: '',
-      contacts: null,
-    };
+    created() {
+      componentsStore.getAvailableVendors();
+    }
+
+    get availableVendors() {
+      return componentsStore.availableVendors;
+    }
 
     get isRequest() {
-      return vendorsStore.isVendorCreatingRequest;
+      return componentsStore.isComponentCreatingRequest;
     }
 
-    get createdVendor() {
-      return vendorsStore.vendor;
-    }
-
-    addContact() {
-      const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: IContact = {
-        icon,
-        title: '',
-        value: ''
-      };
-      if (!this.vendor.contacts) {
-        this.vendor.contacts = [contact];
-      } else {
-        this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
-    }
-
-    deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
-      }
-    }
-
-    // if its more contacts that icons then return from start
-    getIconIndex(currentContactsLength: number): number {
-      return currentContactsLength >= this.icons.length ?
-        (currentContactsLength % this.icons.length) :
-        currentContactsLength;
+    get createdComponent() {
+      return componentsStore.component;
     }
 
     create() {
       this.$validator.validate().then(valid => {
-        if (valid) vendorsStore.createVendor(this.vendor);
+        if (valid) componentsStore.createComponent(this.component);
       });
+    }
+
+    async createAndContinue() {
+      this.$validator.validate().then(async valid => {
+        this.continueCreating = true;
+        if (valid) {
+          await componentsStore.createComponent(this.component);
+          this.component = {title: '', article: '', count: 0.00, cost: 0.00};
+          this.$validator.reset();
+          this.showSuccessMessage();
+        }
+      });
+    }
+
+    private showSuccessMessage() {
+      this.success = true;
+      setTimeout(() => {
+        this.success = false
+      }, 3000);
     }
   }
 </script>
