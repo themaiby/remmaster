@@ -16,7 +16,8 @@
         >
           <v-icon color="black">mdi-view-list</v-icon>
         </v-btn>
-        {{ title }} <!-- todo: get route icon -->
+        {{ title.text }}
+        <v-icon v-if="title.image">{{ title.image }}</v-icon>
       </v-toolbar-title>
     </div>
 
@@ -49,7 +50,7 @@
     ];
     responsive: boolean = false;
 
-    get title(): string {
+    get title(): {text: string, image?: string} {
       return applicationStore.currentPageTitle;
     }
 

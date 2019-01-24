@@ -142,7 +142,7 @@
     vendorUpdateRoute: string = routeNames.vendors.update;
 
     @Watch('vendor') updateTitleAfterVendorReceived(vendor: IVendor) {
-      applicationStore.setCurrentPageTitle(`${this.pageTitle} "${vendor.name}"`);
+      applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${vendor.name}"`});
     }
 
     get userCanUpdate() {
@@ -154,7 +154,7 @@
     }
 
     created() {
-      applicationStore.setCurrentPageTitle(`${this.pageTitle} "${this.vendor.name}"`);
+      applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${this.vendor.name}"`});
       if (!vendorsStore.vendor.id) vendorsStore.getVendor(Number(this.$route.params.id));
     }
 

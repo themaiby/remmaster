@@ -16,7 +16,7 @@ class ComponentController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $components = Component::with('vendor')
             ->sortable(['created_at' => 'desc'])

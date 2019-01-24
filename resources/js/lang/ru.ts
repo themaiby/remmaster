@@ -49,6 +49,13 @@ export const ru = {
     index: 'Запчасти',
     countFrom: 'Минимум запчастей',
     countTo: 'Максимум запчастей',
+    vendor: 'Поставщик',
+    title: 'Название',
+    article: 'Артикул',
+    count: 'Количество',
+    cost: 'Цена',
+    summaryCost: 'Цена за всё',
+    created_at: 'Добавлен'
   },
   orders: {
     index: 'Заявки',

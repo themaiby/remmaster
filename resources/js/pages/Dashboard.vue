@@ -10,7 +10,7 @@
   export default class Dashboard extends Vue {
     // set current page name
     beforeCreate() {
-      applicationStore.setCurrentPageTitle(`${i18n.t('common.dashboard')}`);
+      applicationStore.setCurrentPageTitle({text: `${i18n.t('common.dashboard')}`});
     }
   }
 </script>

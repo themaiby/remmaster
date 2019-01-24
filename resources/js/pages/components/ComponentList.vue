@@ -65,13 +65,18 @@
       >
         <tr
           :key="props.item.id"
-          :bgcolor="props.item.highlight ? 'yellow' : ''"
+          :class="props.item.count === 0 ? 'darken' : props.item.highlighted ? 'count-warning' : ''"
         >
           <td>{{ props.item.title }}</td>
           <td>{{ props.item.article }}</td>
           <td>{{ props.item.count }}</td>
           <td>{{ props.item.cost }}</td>
           <td>{{ props.item.count * props.item.cost }}</td>
+          <td>
+            <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.vendor.id}}">
+              {{ props.item.vendor.name }}
+            </router-link>
+          </td>
           <td>{{ props.item.created_at.date | moment('DD/MM/YYYY HH:mm:ss') }}</td>
           <td class="text-xs-right">
             <v-tooltip top>
@@ -129,6 +134,7 @@
       {text: i18n.t('components.count') as string},
       {text: i18n.t('components.cost') as string},
       {text: i18n.t('components.summaryCost') as string},
+      {text: i18n.t('components.vendor') as string},
       {text: i18n.t('components.created_at') as string},
       {text: '', value: '', sortable: false}
     ];
@@ -142,7 +148,7 @@
 
     // set current page name
     created() {
-      applicationStore.setCurrentPageTitle(`${i18n.t('components.index')}`);
+      applicationStore.setCurrentPageTitle({text: `${i18n.t('components.index')}`, image: 'mdi-cart'});
     }
 
     @Watch('tableParams') tableWatcher() {
@@ -205,4 +211,11 @@
 </script>
 
 <style scoped>
+  .darken {
+    opacity: 0.5;
+  }
+
+  .count-warning {
+    background: #ffedf0;
+  }
 </style>

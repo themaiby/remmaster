@@ -1,14 +1,15 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
 import IMenu from "../../models/IMenu";
 import ApiResponse from "../../models/IResponse";
 import {AxiosResponse} from "axios";
+import {http} from "../../plugins/axios";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
-  currentPageTitle: string = '';
+  currentPageTitle: { text: string, image?: string } = {text: '', image: ''};
+  currentPageImage: string | null = null;
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
@@ -23,8 +24,8 @@ class ApplicationStore extends VuexModule {
   }
 
   @Mutation
-  setCurrentPageTitle(title: string) {
-    this.currentPageTitle = title;
+  setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
+    this.currentPageTitle = parameters;
   }
 
   @Mutation

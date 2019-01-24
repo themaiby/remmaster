@@ -139,7 +139,7 @@
 
     // set current page name
     created() {
-      applicationStore.setCurrentPageTitle(`${i18n.t('vendors.index')}`);
+      applicationStore.setCurrentPageTitle({text: `${i18n.t('vendors.index')}`});
     }
 
     @Watch('tableParams') tableWatcher() {
