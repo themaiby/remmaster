@@ -43,12 +43,14 @@ export const ru = {
     contactTitle: 'Название контакта',
     contactValue: 'Контактные данные',
     icon: 'Иконка',
-    confirmDelete: 'Подтвердите удаление поставщика "{value}"'
+    confirmDelete: 'Подтвердите удаление поставщика "{value}"',
+    componentsCountMin: 'Мин. количество запчастей',
+    componentsCountMax: 'Макс. количество запчастей',
   },
   components: {
     index: 'Запчасти',
-    countFrom: 'Минимум запчастей',
-    countTo: 'Максимум запчастей',
+    countMin: 'Мин. количество',
+    countMax: 'Макс. количество',
     vendor: 'Поставщик',
     title: 'Название',
     article: 'Артикул',
@@ -59,6 +61,8 @@ export const ru = {
     show: 'Подробнее',
     update: 'Редактировать',
     delete: 'Удалить',
+    costMin: 'Мин. стоимость',
+    costMax: 'Макс. стоимость',
   },
   orders: {
     index: 'Заявки',

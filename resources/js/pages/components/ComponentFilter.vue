@@ -5,54 +5,106 @@
     scrollable
   >
     <VCard>
-      <VToolbar
-        card
-        color="white"
-        flat
-      >
-        <VToolbarTitle>{{ $t('vendors.filter') }}</VToolbarTitle>
-      </VToolbar>
-
       <VCardText>
         <VContainer grid-list-md>
           <VLayout wrap>
             <!-- Input -->
             <VFlex
+              xs6
+              sm6
+              md6
+            >
+              <VTextField
+                :label="$t('components.title')"
+                :hint="$t('menu.approximate')"
+                name="name"
+                v-model="filter.title"
+                @keypress.enter.native="apply"
+              />
+            </VFlex>
+            <VFlex
+              xs6
+              sm6
+              md6
+            >
+              <VTextField
+                :label="$t('components.article')"
+                :hint="$t('menu.approximate')"
+                name="title"
+                v-model="filter.article"
+                @keypress.enter.native="apply"
+              />
+            </VFlex>
+
+            <!-- vendor-->
+            <VFlex
               xs12
               sm12
               md12
             >
-              <VTextField
-                :label="$t('vendors.name')"
-                :hint="$t('menu.approximate')"
-                name="name"
-                v-model="filter.name"
-                @keypress.enter.native=""
-              />
+              <v-autocomplete
+                v-model="filter.vendor"
+                :hint="$t('menu.startTyping')"
+                :items="availableVendors"
+                :label="$t('components.vendor')"
+                persistent-hint
+                prepend-icon="mdi-truck-fast"
+                item-text="name"
+                item-value="id"
+                @keypress.enter.native="apply"
+              >
+                <v-slide-x-reverse-transition
+                  slot="append-outer"
+                  mode="out-in"
+                >
+                </v-slide-x-reverse-transition>
+              </v-autocomplete>
             </VFlex>
 
+            <!-- count -->
+            <v-flex xs3 sm3 md3>
+              <v-text-field :label="$t('components.countMin')"
+                            @keypress.enter.native="apply"
+                            name="countMin"
+                            v-validate="'numeric'"
+                            :error-messages="errors.collect('countMin')"
+                            :data-vv-as="$t('components.countMin')"
+                            v-model="filter.countMin"
+              />
+            </v-flex>
+            <v-flex xs3 sm3 md3>
+              <v-text-field :label="$t('components.countMax')"
+                            @keypress.enter.native="apply"
+                            name="countMax"
+                            v-validate="'numeric'"
+                            :error-messages="errors.collect('countMax')"
+                            :data-vv-as="$t('components.countMax')"
+                            v-model="filter.countMax"
+              />
+            </v-flex>
 
-            <!-- omponents count -->
-            <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('components.countFrom')"
-                            @keypress.enter.native=""
-                            name="componentsMin"
+            <!-- Cost -->
+            <v-flex xs3 sm3 md3>
+              <v-text-field :label="$t('components.costMin')"
+                            @keypress.enter.native="apply"
+                            name="costMin"
                             v-validate="'numeric'"
-                            :error-messages="errors.collect('componentsMin')"
-                            :data-vv-as="$t('components.countFrom')"
-                            v-model="filter.componentsMin"
+                            :error-messages="errors.collect('costMin')"
+                            :data-vv-as="$t('components.costMin')"
+                            v-model="filter.costMin"
               />
             </v-flex>
-            <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('components.countTo')"
-                            @keypress.enter.native=""
-                            name="componentsMax"
+            <v-flex xs3 sm3 md3>
+              <v-text-field :label="$t('components.costMax')"
+                            @keypress.enter.native="apply"
+                            name="costMax"
                             v-validate="'numeric'"
-                            :error-messages="errors.collect('componentsMax')"
-                            :data-vv-as="$t('components.countTo')"
-                            v-model="filter.componentsMax"
+                            :error-messages="errors.collect('costMax')"
+                            :data-vv-as="$t('components.costMax')"
+                            v-model="filter.costMax"
               />
             </v-flex>
+
 
             <!-- Datepickers -->
             <VFlex
@@ -146,34 +198,33 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {IVendorsFilter} from "../../models/ITableParams";
+  import {IComponentsFilter} from "../../models/ITableParams";
+  import {componentsStore} from "../../store/modules/ComponentsStore";
 
   @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
-      if (!value) this.$router.push({name: routeNames.vendors.index});
-    }
-
-    beforeMount() {
-      const filterStore = vendorsStore.tableParams.filter;
-      if (vendorsStore.tableParams.filter) this.filter = {...filterStore};
+      if (!value) this.$router.push({name: routeNames.components.index});
     }
 
     dialog: boolean = true;
-    filter: IVendorsFilter = {
-      name: '',
-      componentsMin: undefined,
-      componentsMax: undefined,
-      createdAtMin: '',
-      createdAtMax: '',
-    };
+    filter: IComponentsFilter = {};
     createdAtInput: object = {min: '', max: ''};
+
+    get availableVendors() {
+      return componentsStore.availableVendors;
+    }
+
+    beforeMount() {
+      const filterStore = componentsStore.tableParams.filter;
+      if (componentsStore.tableParams.filter) this.filter = {...filterStore};
+      componentsStore.getAvailableVendors();
+    }
 
     apply() {
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
+            componentsStore.setTableParams({...componentsStore.tableParams, filter: this.filter});
             this.dialog = false;
           }
         }

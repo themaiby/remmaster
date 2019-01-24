@@ -20,9 +20,10 @@ export interface IComponentsFilter {
   title?: string;
   countMin?: number;
   countMax?: number;
+  costMin?: number;
+  costMax?: number;
+  vendor?: string;
   createdAtMin?: string;
   createdAtMax?: string;
-  updatedAtMin?: string;
-  updatedAtMax?: string;
-  withTrashed?: boolean;
+  withDeleted?: boolean;
 }

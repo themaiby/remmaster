@@ -92,11 +92,9 @@ class ComponentFilter extends ModelFilter
      * @param string $name
      * @return ComponentFilter
      */
-    public function vendor(string $name)
+    public function vendor(string $id)
     {
-        return $this->related('vendor', function ($query) use ($name) {
-            return $query->whereRaw('LOWER(name) LIKE LOWER(?)', '%' . $name . '%');
-        });
+        return $this->related('vendor', 'id', '=', (int)$id);
     }
 
     /**
@@ -115,5 +113,18 @@ class ComponentFilter extends ModelFilter
     public function createdAtMax(string $value)
     {
         return $this->where('created_at', '<=', $value);
+    }
+
+    /**
+     * @param string $withTrashed
+     * @return mixed
+     */
+    public function withDeleted(string $withTrashed)
+    {
+        if ($withTrashed) {
+            return $this->withTrashed();
+        }
+
+        return $this;
     }
 }

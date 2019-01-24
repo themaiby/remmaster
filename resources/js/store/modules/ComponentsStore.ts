@@ -8,12 +8,14 @@ import IResponse from "../../models/IResponse";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import IMeta from "../../models/IMeta";
+import IVendor from "../../models/IVendor";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
   component: IComponent = {article: '', cost: 0, count: 0, title: ''};
   components: IComponent[] = [];
   isRequest: boolean = false;
+  isFilterLoading: boolean = false;
   meta: IMeta = {};
   message: string = '';
   errors: [] = [];
@@ -24,6 +26,7 @@ class ComponentsStore extends VuexModule {
     rowsPerPage: Number(localStorage.getItem('componentsPerPage')) || 5,
     sortBy: '',
   };
+  availableVendors: IVendor[] = [];
 
   @Mutation
   setComponents(components: IComponent[]) {
@@ -56,6 +59,16 @@ class ComponentsStore extends VuexModule {
     this.tableParams = {...this.tableParams, filter: null};
   }
 
+  @Mutation
+  setFilterLoading(isLoading: boolean) {
+    this.isFilterLoading = isLoading;
+  }
+
+  @Mutation
+  setAvailableVendors(vendors: IVendor[]) {
+    this.availableVendors = vendors;
+  }
+
   @Action
   async getComponents() {
     this.setIsRequest(true);
@@ -72,6 +85,17 @@ class ComponentsStore extends VuexModule {
 
     } finally {
       this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getAvailableVendors() {
+    this.setFilterLoading(true);
+    try {
+      const vendorsRes: AxiosResponse<IResponse<IVendor[]>> = await http.get(apiRoutes.components.availableVendors);
+      this.setAvailableVendors(vendorsRes.data.data);
+    } finally {
+      this.setFilterLoading(false);
     }
   }
 }
