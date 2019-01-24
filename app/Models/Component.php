@@ -59,18 +59,13 @@ class Component extends Model
     protected $table = 'components';
     protected $guard_name = 'api';
 
-    protected $fillable = [
-        'article', 'title', 'count', 'cost'
-    ];
-
-    protected $sortable = [
-        'article', 'title', 'count', 'cost', 'vendor'
-    ];
+    protected $fillable = ['article', 'title', 'count', 'cost'];
+    protected $sortable = ['article', 'title', 'count', 'cost', 'vendor', 'created_at', 'summary_cost'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function vendor()
+    public function vendor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Vendor::class);
     }
@@ -78,8 +73,40 @@ class Component extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orders()
+    public function orders(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_components');
+    }
+
+    /**
+     * Sorting for vendor column
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function vendorSortable(\Illuminate\Database\Eloquent\Builder $query, $direction)
+    {
+        return $query->join('vendors', 'components.vendor_id', '=', 'vendors.id')
+            ->orderBy('vendors.name', $direction)
+            ->select('components.*');
+    }
+
+    /**
+     * Sorting for summaryCost column
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function summaryCostSortable(\Illuminate\Database\Eloquent\Builder $query, $direction): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->orderByRaw("(cost * count) $direction");
+    }
+
+    /**
+     * @return float
+     */
+    public function getSummaryCostAttribute(): float
+    {
+        return $this->cost * $this->count;
     }
 }

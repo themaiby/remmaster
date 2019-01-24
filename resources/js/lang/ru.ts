@@ -55,7 +55,10 @@ export const ru = {
     count: 'Количество',
     cost: 'Цена',
     summaryCost: 'Цена за всё',
-    created_at: 'Добавлен'
+    created_at: 'Добавлен',
+    show: 'Подробнее',
+    update: 'Редактировать',
+    delete: 'Удалить',
   },
   orders: {
     index: 'Заявки',

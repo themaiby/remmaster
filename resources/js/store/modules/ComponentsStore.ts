@@ -21,7 +21,7 @@ class ComponentsStore extends VuexModule {
     page: 1,
     descending: false,
     filter: null,
-    rowsPerPage: Number(localStorage.getItem('rowsPerPage')) || 5,
+    rowsPerPage: Number(localStorage.getItem('componentsPerPage')) || 5,
     sortBy: '',
   };
 
@@ -37,7 +37,7 @@ class ComponentsStore extends VuexModule {
 
   @Mutation
   setTableParams(params: ITableParams<IComponentsFilter>) {
-    if (params.rowsPerPage) localStorage.setItem('rowsPerPage', params.rowsPerPage.toString());
+    if (params.rowsPerPage) localStorage.setItem('componentsPerPage', params.rowsPerPage.toString());
     this.tableParams = params;
   }
 

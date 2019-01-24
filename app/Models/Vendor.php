@@ -53,20 +53,15 @@ class Vendor extends Model
     protected $table = 'vendors';
     protected $guard_name = 'api';
 
-    protected $fillable = [
-        'name', 'note'
-    ];
-
-    protected $sortable = [
-        'name', 'created_at', 'deleted_at', 'components', 'components_count'
-    ];
+    protected $fillable = ['name', 'note'];
+    protected $sortable = ['name', 'created_at', 'deleted_at', 'components', 'components_count'];
 
     protected $withCount = 'components';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function contacts()
+    public function contacts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(VendorContact::class);
     }
@@ -74,7 +69,7 @@ class Vendor extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function components()
+    public function components(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Component::class);
     }

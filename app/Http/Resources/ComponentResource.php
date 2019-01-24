@@ -26,6 +26,7 @@ class ComponentResource extends JsonResource
             'title' => $this->title,
             'count' => $this->count,
             'cost' => number_format($this->cost, 2),
+            'summary_cost' => $this->summary_cost,
             'vendor' => $this->whenLoaded('vendor', [
                 'id' => $this->vendor->id,
                 'name' => $this->vendor->name,

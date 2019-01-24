@@ -31,9 +31,7 @@ class VendorController extends Controller
 
         $vendors = Vendor::sortable(['created_at' => 'desc'])
             ->filter($request->all())
-            ->paginate($perPage, [
-                'id', 'name', 'created_at'
-            ]);
+            ->paginate($perPage, ['id', 'name', 'created_at']);
 
         return VendorResource::collection($vendors);
     }
@@ -42,7 +40,6 @@ class VendorController extends Controller
      * Store vendor
      *
      * @param VendorRequest $request
-     * @param VendorService $service
      * @return VendorResource
      * @throws \Exception
      */

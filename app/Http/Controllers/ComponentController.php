@@ -7,9 +7,11 @@ use App\Http\Resources\ComponentResource;
 use App\Models\Component;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ComponentController extends Controller
 {
+    public const PER_PAGE_LIMIT = 100;
     /**
      * Display a listing of the resource.
      *
@@ -18,13 +20,21 @@ class ComponentController extends Controller
      */
     public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $components = Component::with('vendor')
+        $perPage = (int)$request->perPage > 100 ? self::PER_PAGE_LIMIT : $request->perPage;
+        $components = Component::with('vendor:id,name')
             ->sortable(['created_at' => 'desc'])
             ->filter($request->all())
-            ->paginate((int)$request->perPage, [
-                'id', 'title', 'article', 'count', 'cost', 'vendor_id', 'created_at', 'updated_at', 'deleted_at'
+            ->paginate($perPage, [
+                'id',
+                'title',
+                'article',
+                'count',
+                'cost',
+                'vendor_id',
+                'created_at',
+                'updated_at',
+                'deleted_at'
             ]);
-
         return ComponentResource::collection($components);
     }
 

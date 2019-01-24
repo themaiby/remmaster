@@ -11,4 +11,34 @@ class ComponentFilter extends ModelFilter
     * @var array
     */
     public $relations = [];
+
+    public function title(string $value)
+    {
+        return $this->whereRaw('LOWER(title) LIKE LOWER(?)', '%' . $value . '%');
+    }
+
+    public function article(string $value)
+    {
+        return $this->whereRaw('LOWER(article) LIKE LOWER(?)', '%' . $value . '%');
+    }
+
+    public function countMin(string $value)
+    {
+        return $this->where('count', '>=', (int)$value);
+    }
+
+    public function countMax(string $value)
+    {
+        return $this->where('count', '<=', (int)$value);
+    }
+
+    public function costMin(string $value)
+    {
+        return $this->where('cost', '>=', (float)$value);
+    }
+
+    public function costMax(string $value)
+    {
+        return $this->where('cost', '<=', (float)$value);
+    }
 }
