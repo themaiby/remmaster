@@ -7,11 +7,11 @@ use App\Http\Resources\ComponentResource;
 use App\Models\Component;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ComponentController extends Controller
 {
     public const PER_PAGE_LIMIT = 100;
+
     /**
      * Display a listing of the resource.
      *
@@ -30,10 +30,9 @@ class ComponentController extends Controller
                 'article',
                 'count',
                 'cost',
+                'summary_cost',
                 'vendor_id',
                 'created_at',
-                'updated_at',
-                'deleted_at'
             ]);
         return ComponentResource::collection($components);
     }
@@ -51,15 +50,18 @@ class ComponentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ComponentRequest $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ComponentRequest $request): array
+    public function store(ComponentRequest $request): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
-            'data' => Vendor::findOrFail($request->vendor_id)
-                ->components()
-                ->create($request->all())
-        ]);
+        $data = array_merge($request->all(), ['summary_cost' => $request->count * $request->cost]);
+        return response()->json(
+            [
+                'data' => Vendor::findOrFail($request->vendor_id)
+                    ->components()
+                    ->create($data)
+            ]
+        );
     }
 
     /**
@@ -78,12 +80,12 @@ class ComponentController extends Controller
      *
      * @param ComponentRequest $request
      * @param  \App\Models\Component $component
-     * @return \Illuminate\Http\Response
+     * @return ComponentResource
      */
-    public function update(ComponentRequest $request, Component $component): \Illuminate\Http\Response
+    public function update(ComponentRequest $request, Component $component): ComponentResource
     {
         $component->update($request->all());
-        return response()->json(['message' => 'success']);
+        return new ComponentResource($component->load('vendor'));
     }
 
     /**

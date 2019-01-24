@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\ComponentUpdatingEvent;
+use App\Events\UpdatingComponentEvent;
+use App\Observers\ComponentObserver;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -59,8 +62,11 @@ class Component extends Model
     protected $table = 'components';
     protected $guard_name = 'api';
 
-    protected $fillable = ['article', 'title', 'count', 'cost'];
+    protected $fillable = ['article', 'title', 'count', 'cost', 'summary_cost'];
     protected $sortable = ['article', 'title', 'count', 'cost', 'vendor', 'created_at', 'summary_cost'];
+    protected $dispatchesEvents = [
+        'updated' => ComponentUpdatingEvent::class
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -89,24 +95,5 @@ class Component extends Model
         return $query->join('vendors', 'components.vendor_id', '=', 'vendors.id')
             ->orderBy('vendors.name', $direction)
             ->select('components.*');
-    }
-
-    /**
-     * Sorting for summaryCost column
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param $direction
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function summaryCostSortable(\Illuminate\Database\Eloquent\Builder $query, $direction): \Illuminate\Database\Eloquent\Builder
-    {
-        return $query->orderByRaw("(cost * count) $direction");
-    }
-
-    /**
-     * @return float
-     */
-    public function getSummaryCostAttribute(): float
-    {
-        return $this->cost * $this->count;
     }
 }

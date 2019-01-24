@@ -33,7 +33,6 @@ class ComponentResource extends JsonResource
             ]),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'highlighted' => $this->count <= self::COUNT_TO_HIGHLIGHT
         ];
     }
 }

@@ -65,7 +65,7 @@
       >
         <tr
           :key="props.item.id"
-          :class="props.item.count === 0 ? 'darken' : props.item.highlighted ? 'count-warning' : ''"
+          :class="props.item.count === 0 ? 'darken' : ''"
         >
           <td>{{ props.item.title }}</td>
           <td>{{ props.item.article }}</td>

@@ -54,7 +54,7 @@ export const ru = {
     article: 'Артикул',
     count: 'Количество',
     cost: 'Цена',
-    summaryCost: 'Цена за всё',
+    summaryCost: 'Суммарная стоимость',
     created_at: 'Добавлен',
     show: 'Подробнее',
     update: 'Редактировать',
