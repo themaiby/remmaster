@@ -155,11 +155,15 @@
     }
 
     @Watch('createdComponent') redirectToCreatedComponent(component: IComponent) {
-      if (component.id && !this.continueCreating) this.$router.push({
-        name: routeNames.components.show,
-        params: {id: String(component.id)}
-      });
-      this.continueCreating = false;
+      if (component.id && !this.continueCreating) {
+        this.$router.push({
+          name: routeNames.components.show,
+          params: {id: String(component.id)}
+        });
+      } else {
+        componentsStore.getComponents();
+        this.continueCreating = false;
+      }
     }
 
     dialog: boolean = true;
