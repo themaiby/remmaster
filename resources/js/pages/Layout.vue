@@ -148,7 +148,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   #app-drawer {
     background: rgba(27, 27, 27, .84);
     padding: 0;

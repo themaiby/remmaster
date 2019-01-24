@@ -3,6 +3,7 @@
     <VToolbar
       flat
       color="white"
+      class="components-gradient"
     >
       <v-btn flat icon @click="refresh">
         <v-icon small>mdi-refresh</v-icon>
@@ -81,7 +82,7 @@
           <td class="text-xs-right">
             <v-tooltip top>
               <router-link :to="{name: routeNames.components.show, params: {id: props.item.id}}" slot="activator">
-                <VIcon color="primary" class="mr-2">
+                <VIcon color="primary" small>
                   mdi-information-outline
                 </VIcon>
               </router-link>
@@ -90,7 +91,7 @@
 
             <v-tooltip top>
               <router-link :to="{name: routeNames.components.update, params: {id: props.item.id}}" slot="activator">
-                <VIcon color="secondary lighten-1" class="mr-2" @click="">
+                <VIcon color="secondary lighten-1" @click="" small>
                   mdi-pencil
                 </VIcon>
               </router-link>
@@ -103,7 +104,7 @@
                 slot="activator"
                 @click="deleteComponent(props.item.id, $event)"
               >
-                <VIcon color="error" class="mr-2" @click="">
+                <VIcon color="error" @click="" small>
                   mdi-delete
                 </VIcon>
               </a>

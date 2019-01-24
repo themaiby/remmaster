@@ -1,0 +1,17 @@
+.components-gradient {
+    background: rgba(41, 128, 185, 0.31);
+    background: -webkit-linear-gradient(to top, #FFFFFF, rgba(250, 89, 125, 0.3), rgba(185, 73, 79, 0.3));
+    background: linear-gradient(to top, #FFFFFF, rgba(250, 89, 125, 0.3), rgba(185, 73, 79, 0.3));
+}
+
+.vendors-gradient {
+    background: rgba(41, 128, 185, 0.31);
+    background: -webkit-linear-gradient(to top, #FFFFFF, rgba(77, 250, 164, 0.3), rgba(60, 185, 71, 0.3));
+    background: linear-gradient(to top, #FFFFFF, rgba(77, 250, 164, 0.3), rgba(60, 185, 71, 0.3));
+}
+
+.orders-gradient {
+    background: rgba(41, 128, 185, 0.31);
+    background: -webkit-linear-gradient(to top, #FFFFFF, rgba(109, 213, 250, 0.30), rgba(41, 128, 185, 0.30));
+    background: linear-gradient(to top, #FFFFFF, rgba(109, 213, 250, 0.30), rgba(41, 128, 185, 0.30));
+}

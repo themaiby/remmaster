@@ -44,10 +44,8 @@
             >
               <v-autocomplete
                 v-model="filter.vendor"
-                :hint="$t('menu.startTyping')"
                 :items="availableVendors"
                 :label="$t('components.vendor')"
-                persistent-hint
                 prepend-icon="mdi-truck-fast"
                 item-text="name"
                 item-value="id"

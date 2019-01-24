@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <VToolbar
-      flat
-      color="white"
-    >
+    <VToolbar flat color="white" class="vendors-gradient">
       <v-btn flat icon @click="refresh">
         <v-icon small>mdi-refresh</v-icon>
       </v-btn>
@@ -74,7 +71,7 @@
           <td class="text-xs-right">
             <v-tooltip top>
               <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.id}}" slot="activator">
-                <VIcon color="primary" class="mr-2">
+                <VIcon color="primary" small>
                   mdi-information-outline
                 </VIcon>
               </router-link>
@@ -83,7 +80,7 @@
 
             <v-tooltip top>
               <router-link :to="{name: routeNames.vendors.update, params: {id: props.item.id}}" slot="activator">
-                <VIcon color="secondary lighten-1" class="mr-2" @click="">
+                <VIcon color="secondary lighten-1" small>
                   mdi-pencil
                 </VIcon>
               </router-link>
@@ -96,7 +93,7 @@
                 slot="activator"
                 @click="deleteVendor(props.item.id, $event)"
               >
-                <VIcon color="error" class="mr-2" @click="">
+                <VIcon color="error" class="mr-2" small>
                   mdi-delete
                 </VIcon>
               </a>
