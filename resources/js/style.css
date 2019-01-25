@@ -1,3 +1,5 @@
+@import "https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons";
+
 .vendors-gradient {
     background: rgba(41, 128, 185, 0.31);
     background: -webkit-linear-gradient(to top, #FFFFFF, rgba(250, 89, 125, 0.3), rgba(185, 73, 79, 0.3));

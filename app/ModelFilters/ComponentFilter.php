@@ -128,6 +128,10 @@ class ComponentFilter extends ModelFilter
         return $this;
     }
 
+    /**
+     * @param $values
+     * @return $this|ComponentFilter
+     */
     public function categories($values)
     {
         if (!is_array($values)) {
