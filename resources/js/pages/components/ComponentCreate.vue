@@ -105,6 +105,34 @@
               />
             </VFlex>
 
+            <!-- categories tree view -->
+            <v-flex xs12 md12 lg12 mt-3>
+              <v-label>{{ $t('components.categoryChoice') }}</v-label>
+            </v-flex>
+            <v-flex xs12 md12 lg12>
+              <div class="pa-3">
+                <v-treeview
+                  item-key="id"
+                  item-text="title"
+                  item-children="child"
+                  :items="availableCategories"
+                  active-class="grey lighten-4 indigo--text"
+                  expand-icon="mdi-chevron-down"
+                >
+                  <template slot="prepend" slot-scope="{ item }">
+                    <v-icon
+                      @click="component.category_id = item.id"
+                      :color="component.category_id === item.id ? 'success' : ''" small
+                    >
+                      {{ component.category_id === item.id ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank' }}
+                    </v-icon>
+                  </template>
+                  <template slot="label" slot-scope="{item}">
+                    <small>{{ item.title }}</small>
+                  </template>
+                </v-treeview>
+              </div>
+            </v-flex>
           </VLayout>
         </VContainer>
       </VCardText>
@@ -146,8 +174,6 @@
   import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
 
-  /* todo: add error message */
-
   @Component export default class VendorCreate extends Vue {
     private success: boolean = false;
     @Watch('dialog') routeBack(value: boolean) {
@@ -168,14 +194,19 @@
 
     dialog: boolean = true;
     continueCreating: boolean = false;
-    component: IComponent = {article: '', title: '', count: 0.00, cost: 0.00};
+    component: IComponent = {article: '', title: '', count: 0.00, cost: 0.00, category_id: 1};
 
     created() {
       componentsStore.getAvailableVendors();
+      componentsStore.getAvailableCategories();
     }
 
     get availableVendors() {
       return componentsStore.availableVendors;
+    }
+
+    get availableCategories() {
+      return componentsStore.availableCategories;
     }
 
     get isRequest() {
@@ -212,13 +243,5 @@
     }
   }
 </script>
-
-<style scoped>
-  .gradient-button {
-    background: #3C3B3F; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #605C3C, #3C3B3F); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #605C3C, #3C3B3F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  }
-</style>
 
 

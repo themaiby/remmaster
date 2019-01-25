@@ -65,6 +65,7 @@ export const ru = {
     costMin: 'Мин. стоимость',
     costMax: 'Макс. стоимость',
     new: 'Новая запчасть',
+    categoryChoice: 'Категория',
   },
   orders: {
     index: 'Заявки',

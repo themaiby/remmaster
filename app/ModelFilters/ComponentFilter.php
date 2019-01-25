@@ -127,4 +127,12 @@ class ComponentFilter extends ModelFilter
 
         return $this;
     }
+
+    public function categories($values)
+    {
+        if (!is_array($values)) {
+            return $this;
+        }
+        return $this->whereIn('category_id', $values);
+    }
 }

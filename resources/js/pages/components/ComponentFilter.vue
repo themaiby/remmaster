@@ -168,6 +168,26 @@
                 />
               </VMenu>
             </VFlex>
+
+            <!-- Category choice -->
+            <v-flex xs12 md12 lg12 mt-3>
+              <v-label>{{ $t('components.categoryChoice') }}</v-label>
+            </v-flex>
+            <v-flex xs12 md12 lg12>
+              <div class="pa-2">
+                <v-treeview
+                  item-key="id"
+                  item-children="child"
+                  :items="availableCategories"
+                  active-class="grey lighten-4 indigo--text"
+                  expand-icon="mdi-chevron-down"
+                >
+                  <template slot="prepend" slot-scope="{ item }">
+                    <v-checkbox v-model="filter.categories" :value="item.id" :label="item.title"/>
+                  </template>
+                </v-treeview>
+              </div>
+            </v-flex>
           </VLayout>
         </VContainer>
       </VCardText>
@@ -205,20 +225,27 @@
     }
 
     dialog: boolean = true;
-    filter: IComponentsFilter = {};
+    filter: IComponentsFilter = {categories: []};
     createdAtInput: object = {min: '', max: ''};
 
     get availableVendors() {
       return componentsStore.availableVendors;
     }
 
+    get availableCategories() {
+      return componentsStore.availableCategories;
+    }
+
     beforeMount() {
       const filterStore = componentsStore.tableParams.filter;
       if (componentsStore.tableParams.filter) this.filter = {...filterStore};
+
       componentsStore.getAvailableVendors();
+      componentsStore.getAvailableCategories();
     }
 
     apply() {
+      console.log(this.filter.categories);
       this.$validator.validate().then(
         valid => {
           if (valid) {

@@ -28,14 +28,17 @@ class ComponentRequest extends FormRequest
             'article' => 'required|string',
             'count' => 'required|int',
             'cost' => 'required|numeric',
-            'vendor_id' => 'required|int|exists:vendors,id'
+            'vendor_id' => 'required|int|exists:vendors,id',
+            'category_id' => 'required|int|exists:component_categories,id',
         ];
 
         $rulesUpdate = [
             'title' => 'sometimes|string',
             'article' => 'sometimes|string',
             'count' => 'sometimes|int',
-            'cost' => 'sometimes|numeric'
+            'cost' => 'sometimes|numeric',
+            'vendor_id' => 'sometimes|int|exists:vendors,id',
+            'category_id' => 'sometimes|int|exists:component_categories,id',
         ];
 
         if ($this->getMethod() === 'put') {

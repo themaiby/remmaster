@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ComponentRequest;
 use App\Http\Resources\ComponentResource;
 use App\Models\Component;
+use App\Models\ComponentCategory;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class ComponentController extends Controller
     public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $perPage = (int)$request->perPage > 100 ? self::PER_PAGE_LIMIT : $request->perPage;
-        $components = Component::with('vendor:id,name')
+        $components = Component::with('vendor:id,name', 'category:id,title')
             ->sortable(['created_at' => 'desc'])
             ->filter($request->all())
             ->paginate($perPage, [
@@ -31,6 +32,7 @@ class ComponentController extends Controller
                 'count',
                 'cost',
                 'summary_cost',
+                'category_id',
                 'vendor_id',
                 'created_at',
             ]);
@@ -44,6 +46,15 @@ class ComponentController extends Controller
     public function getAvailableVendors(): array
     {
         return ['data' => Vendor::select(['id', 'name'])->get()];
+    }
+
+    /**
+     * Values for category picker
+     * @return array
+     */
+    public function getAvailableCategories(): array
+    {
+        return ['data' => [ComponentCategory::with('child')->find(1)]];
     }
 
     /**

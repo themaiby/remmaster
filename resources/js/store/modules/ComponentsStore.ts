@@ -27,6 +27,7 @@ class ComponentsStore extends VuexModule {
     sortBy: '',
   };
   availableVendors: IVendor[] = [];
+  availableCategories: { id: number, title: string }[] = [];
   isComponentCreatingRequest: boolean = false;
 
   @Mutation
@@ -76,6 +77,11 @@ class ComponentsStore extends VuexModule {
   }
 
   @Mutation
+  setAvailableCategories(categories: { id: number, title: string }[]) {
+    this.availableCategories = categories;
+  }
+
+  @Mutation
   setComponent(component: IComponent) {
     this.component = component;
   }
@@ -111,6 +117,18 @@ class ComponentsStore extends VuexModule {
   }
 
   @Action
+  async getAvailableCategories() {
+    this.setFilterLoading(true);
+    try {
+      const categoriesRes: AxiosResponse<IResponse<{ id: number, title: string }[]>>
+        = await http.get(apiRoutes.components.availableCategories);
+      this.setAvailableCategories(categoriesRes.data.data);
+    } finally {
+      this.setFilterLoading(false);
+    }
+  }
+
+  @Action
   async createComponent(component: IComponent) {
     this.setIsComponentCreatingRequest(true);
     try {
@@ -125,6 +143,15 @@ class ComponentsStore extends VuexModule {
 
   @Action
   async getComponent(id: number) {
+    this.setIsRequest(true);
+    try {
+      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.show(id));
+      this.setComponent(componentRes.data.data);
+    } catch (e) {
+      this.setMessage(e.response.data.message);
+    } finally {
+      this.setIsRequest(false);
+    }
   }
 }
 

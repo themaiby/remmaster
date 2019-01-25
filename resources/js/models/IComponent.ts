@@ -8,6 +8,8 @@ export default interface IComponent {
   cost: number;
 
   id?: number;
+  category_id?: number;
+  category?: { id: number, title: string },
   vendor?: IVendor;
   vendor_id?: number;
   created_at?: IDateModel;

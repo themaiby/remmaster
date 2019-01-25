@@ -16,6 +16,7 @@ export interface IVendorsFilter {
 }
 
 export interface IComponentsFilter {
+  categories?: number[];
   article?: string;
   title?: string;
   countMin?: number;

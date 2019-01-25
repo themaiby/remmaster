@@ -72,7 +72,8 @@
           <td>{{ props.item.article }}</td>
           <td>{{ props.item.count }}</td>
           <td>{{ props.item.cost }}</td>
-          <td>{{ props.item.summary_cost}}</td>
+          <td>{{ props.item.summary_cost }}</td>
+          <td>{{ props.item.category.title }}</td>
           <td>
             <router-link :to="{name: routeNames.vendors.show, params: {id: props.item.vendor.id}}">
               {{ props.item.vendor.name }}
@@ -135,6 +136,7 @@
       {text: i18n.t('components.count') as string, value: 'count'},
       {text: i18n.t('components.cost') as string, value: 'cost'},
       {text: i18n.t('components.summaryCost') as string, value: 'summary_cost'},
+      {text: i18n.t('components.category') as string, value: 'category'},
       {text: i18n.t('components.vendor') as string, value: 'vendor'},
       {text: i18n.t('components.created_at') as string, value: 'created_at'},
       {text: '', value: '', sortable: false}

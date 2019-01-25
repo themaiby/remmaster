@@ -1,5 +1,9 @@
 <?php
 
+/* tmp */
+Route::get('/test', function () {
+    return \App\Models\ComponentCategory::with('childs')->find(1);
+});
 
 /* Auth routes */
 Route::post('/login', 'Auth\AuthController@login')
@@ -67,6 +71,10 @@ Route::group(['middleware' => 'jwt'], function () {
         Route::get('/availableVendors', 'ComponentController@getAvailableVendors')
             ->middleware('permission:components.show')
             ->name('components.vendors');
+
+        Route::get('/availableCategories', 'ComponentController@getAvailableCategories')
+            ->middleware('permission:components.show')
+            ->name('components.categories');
 
         Route::get('/{component}', 'ComponentController@show')
             ->middleware('permission:components.show')
