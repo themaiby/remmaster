@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "713d0ad3bab5edce14699e56ebe70a57",
+    "content-hash": "001b3e22f6a0801984981a68788fd373",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -131,16 +131,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660"
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8afa52cd417f4ec417b4bfe86b68106538a87660",
-                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
                 "shasum": ""
             },
             "require": {
@@ -183,20 +183,20 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2018-10-18T06:09:13+00:00"
+            "time": "2019-01-28T09:30:10+00:00"
         },
         {
             "name": "composer/composer",
-            "version": "1.8.0",
+            "version": "1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "d8aef3af866b28786ce9b8647e52c42496436669"
+                "reference": "a6a3b44581398b7135c7baa0557b7c5b10808b47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/d8aef3af866b28786ce9b8647e52c42496436669",
-                "reference": "d8aef3af866b28786ce9b8647e52c42496436669",
+                "url": "https://api.github.com/repos/composer/composer/zipball/a6a3b44581398b7135c7baa0557b7c5b10808b47",
+                "reference": "a6a3b44581398b7135c7baa0557b7c5b10808b47",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2018-12-03T09:31:16+00:00"
+            "time": "2019-01-30T07:31:34+00:00"
         },
         {
             "name": "composer/semver",
@@ -390,16 +390,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "dc523135366eb68f22268d069ea7749486458562"
+                "reference": "d17708133b6c276d6e42ef887a877866b909d892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/dc523135366eb68f22268d069ea7749486458562",
-                "reference": "dc523135366eb68f22268d069ea7749486458562",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/d17708133b6c276d6e42ef887a877866b909d892",
+                "reference": "d17708133b6c276d6e42ef887a877866b909d892",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2018-11-29T10:59:02+00:00"
+            "time": "2019-01-28T20:25:53+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1419,16 +1419,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.7.21",
+            "version": "v5.7.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "25f74458a242b61cc9e9c09d31f94fb13ed805f3"
+                "reference": "2ede55db4b8201ed0450fa7e7a4d7220aa29bc34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/25f74458a242b61cc9e9c09d31f94fb13ed805f3",
-                "reference": "25f74458a242b61cc9e9c09d31f94fb13ed805f3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2ede55db4b8201ed0450fa7e7a4d7220aa29bc34",
+                "reference": "2ede55db4b8201ed0450fa7e7a4d7220aa29bc34",
                 "shasum": ""
             },
             "require": {
@@ -1561,58 +1561,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-01-15T15:20:32+00:00"
-        },
-        {
-            "name": "laravel/homestead",
-            "version": "v7.20.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/homestead.git",
-                "reference": "cae38adcfdde1de1c4581e7a33872adaf9fbf926"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/cae38adcfdde1de1c4581e7a33872adaf9fbf926",
-                "reference": "cae38adcfdde1de1c4581e7a33872adaf9fbf926",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "symfony/console": "~3.3|~4.0",
-                "symfony/process": "~3.3|~4.0",
-                "symfony/yaml": "~3.3|~4.0"
-            },
-            "require-dev": {
-                "phly/changelog-generator": "^2.2",
-                "phpunit/phpunit": "^5.7 || ^6.0"
-            },
-            "bin": [
-                "bin/homestead"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Homestead\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "description": "A virtual machine for web artisans.",
-            "time": "2018-12-11T02:04:35+00:00"
+            "time": "2019-01-29T22:13:46+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -1851,16 +1800,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.49",
+            "version": "1.0.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a63cc83d8a931b271be45148fa39ba7156782ffd"
+                "reference": "dab4e7624efa543a943be978008f439c333f2249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a63cc83d8a931b271be45148fa39ba7156782ffd",
-                "reference": "a63cc83d8a931b271be45148fa39ba7156782ffd",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dab4e7624efa543a943be978008f439c333f2249",
+                "reference": "dab4e7624efa543a943be978008f439c333f2249",
                 "shasum": ""
             },
             "require": {
@@ -1931,7 +1880,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-11-23T23:41:29+00:00"
+            "time": "2019-02-01T08:50:36+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2134,16 +2083,16 @@
         },
         {
             "name": "nexmo/client",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Nexmo/nexmo-php.git",
-                "reference": "01809cc1e17a5af275913c49bb5d444eb6cc06d4"
+                "reference": "3dc03ca1dab726a23b757110897740e54304fc65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nexmo/nexmo-php/zipball/01809cc1e17a5af275913c49bb5d444eb6cc06d4",
-                "reference": "01809cc1e17a5af275913c49bb5d444eb6cc06d4",
+                "url": "https://api.github.com/repos/Nexmo/nexmo-php/zipball/3dc03ca1dab726a23b757110897740e54304fc65",
+                "reference": "3dc03ca1dab726a23b757110897740e54304fc65",
                 "shasum": ""
             },
             "require": {
@@ -2178,7 +2127,7 @@
                 }
             ],
             "description": "PHP Client for using Nexmo's API.",
-            "time": "2018-12-17T10:47:50+00:00"
+            "time": "2019-01-02T09:06:47+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3038,16 +2987,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.29.0",
+            "version": "2.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "7f308806ca051fca42685e4a97a282139a6a7982"
+                "reference": "60744813f22535415b8a716fb9252ba063ba056c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/7f308806ca051fca42685e4a97a282139a6a7982",
-                "reference": "7f308806ca051fca42685e4a97a282139a6a7982",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/60744813f22535415b8a716fb9252ba063ba056c",
+                "reference": "60744813f22535415b8a716fb9252ba063ba056c",
                 "shasum": ""
             },
             "require": {
@@ -3099,7 +3048,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2018-12-16T00:49:22+00:00"
+            "time": "2019-01-28T23:50:25+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4268,65 +4217,6 @@
             "time": "2019-01-03T09:07:35+00:00"
         },
         {
-            "name": "symfony/yaml",
-            "version": "v4.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d0aa6c0ea484087927b49fd513383a7d36190ca6",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "conflict": {
-                "symfony/console": "<3.4"
-            },
-            "require-dev": {
-                "symfony/console": "~3.4|~4.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Yaml Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.1",
             "source": {
@@ -4511,20 +4401,21 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.5.2",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "cfd5dc225767ca154853752abc93aeec040fcf36"
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/cfd5dc225767ca154853752abc93aeec040fcf36",
-                "reference": "cfd5dc225767ca154853752abc93aeec040fcf36",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.3.9",
+                "symfony/polyfill-ctype": "^1.9"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35 || ^5.0"
@@ -4532,7 +4423,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -4557,7 +4448,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2018-10-30T17:29:25+00:00"
+            "time": "2019-01-29T11:11:52+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -4898,6 +4789,56 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "laravel/homestead",
+            "version": "v8.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/homestead.git",
+                "reference": "e56b86c5034621894d2b5d92db18207d379269f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/e56b86c5034621894d2b5d92db18207d379269f9",
+                "reference": "e56b86c5034621894d2b5d92db18207d379269f9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "symfony/console": "~4.0",
+                "symfony/process": "~4.0",
+                "symfony/yaml": "~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "bin": [
+                "bin/homestead"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Homestead\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "A virtual machine for web artisans.",
+            "time": "2019-01-29T18:32:11+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -5647,16 +5588,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.2",
+            "version": "7.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944"
+                "reference": "2cb759721e53bc05f56487f628c6b9fbb6c18746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7c89093bd00f7d5ddf0ab81dee04f801416b4944",
-                "reference": "7c89093bd00f7d5ddf0ab81dee04f801416b4944",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2cb759721e53bc05f56487f628c6b9fbb6c18746",
+                "reference": "2cb759721e53bc05f56487f628c6b9fbb6c18746",
                 "shasum": ""
             },
             "require": {
@@ -5727,7 +5668,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-01-15T08:19:08+00:00"
+            "time": "2019-02-01T05:24:07+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5896,28 +5837,31 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.0.1",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f"
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/febd209a219cea7b56ad799b30ebbea34b71eb8f",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6fda8ce1974b62b14935adc02a9ed38252eca656",
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.4"
+                "phpunit/phpunit": "^7.5"
+            },
+            "suggest": {
+                "ext-posix": "*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -5942,7 +5886,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2018-11-25T09:31:21+00:00"
+            "time": "2019-02-01T05:27:49+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -6291,6 +6235,65 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v4.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/d0aa6c0ea484087927b49fd513383a7d36190ca6",
+                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-01-03T09:07:35+00:00"
         },
         {
             "name": "theseer/tokenizer",

@@ -54,6 +54,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereDeletedAt($value)
+ * @property float $summary_cost
+ * @property int $category_id
+ * @property-read \App\Models\ComponentCategory $category
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereSummaryCost($value)
  */
 class Component extends Model
 {

@@ -38,6 +38,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property string $timezone
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTimezone($value)
  */
 class User extends Authenticatable implements JWTSubject
 {

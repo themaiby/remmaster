@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorContact withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $icon
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorContact whereIcon($value)
  */
 class VendorContact extends Model
 {

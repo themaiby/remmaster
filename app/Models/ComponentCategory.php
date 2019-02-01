@@ -6,7 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ComponentCategory
+ *
  * @package App\Models
+ * @property int $id
+ * @property string $title
+ * @property int|null $parent_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ComponentCategory[] $child
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Component[] $components
+ * @property-read \App\Models\ComponentCategory|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComponentCategory whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class ComponentCategory extends Model
 {
