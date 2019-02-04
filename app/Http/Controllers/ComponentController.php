@@ -40,15 +40,6 @@ class ComponentController extends Controller
     }
 
     /**
-     * Values for component vendor picker
-     * @return array
-     */
-    public function getAvailableVendors(): array
-    {
-        return ['data' => Vendor::select(['id', 'name'])->get()];
-    }
-
-    /**
      * Values for category picker
      * @return array
      */

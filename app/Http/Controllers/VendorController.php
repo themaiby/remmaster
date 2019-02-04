@@ -86,4 +86,13 @@ class VendorController extends Controller
         $vendor->delete();
         return response()->json(['message' => 'Success']);
     }
+
+    /**
+     * Values for component vendor picker
+     * @return array
+     */
+    public function getAvailableVendors(): array
+    {
+        return ['data' => Vendor::select(['id', 'name'])->get()];
+    }
 }

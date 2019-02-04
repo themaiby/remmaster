@@ -68,7 +68,7 @@ Route::group(['middleware' => 'jwt'], function () {
             ->middleware('permission:components.show')
             ->name('components.index');
 
-        Route::get('/availableVendors', 'ComponentController@getAvailableVendors')
+        Route::get('/availableVendors', 'VendorController@getAvailableVendors')
             ->middleware('permission:components.show')
             ->name('components.vendors');
 
