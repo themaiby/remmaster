@@ -172,7 +172,6 @@
   import {routeNames} from "../../router/routeNames";
   import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
-  import {snack} from "../../utils/snack";
 
   @Component export default class VendorCreate extends Vue {
     dialog: boolean = true;
@@ -219,7 +218,6 @@
 
     // create then destroy component and redirect to component
     create() {
-      snack.success('messages.components.createdSuccess', {name: this.component.title});
       this.$validator.validate().then(valid => {
         if (valid) componentsStore.createComponent(this.component);
       });

@@ -1,6 +1,6 @@
 export const ru = {
   messages: {
-    notFound: 'По указанному запросу информация не найдена',
+    notFound: 'По Вашему запросу ничего не найдено',
     notAuthorized: 'Вы не авторизованы',
     components: {
       createdSuccess: 'Запчасть «{title} [{article}]» добавлена'
