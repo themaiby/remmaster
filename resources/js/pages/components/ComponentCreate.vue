@@ -8,7 +8,6 @@
     <VCard>
       <VToolbar
         card
-        :color="success ? 'light-green lighten-3' : 'white'"
         flat
       >
         <VToolbarTitle>{{ $t('components.new') }}</VToolbarTitle>
@@ -175,11 +174,15 @@
   import {componentsStore} from "../../store/modules/ComponentsStore";
 
   @Component export default class VendorCreate extends Vue {
-    private success: boolean = false;
+    dialog: boolean = true;
+    continueCreating: boolean = false;
+    component: IComponent = {article: '', title: '', count: 0.00, cost: 0.00, category_id: 1};
+
     @Watch('dialog') routeBack(value: boolean) {
       if (!value) this.$router.push({name: routeNames.components.index});
     }
 
+    // redirect when component will created
     @Watch('createdComponent') redirectToCreatedComponent(component: IComponent) {
       if (component.id && !this.continueCreating) {
         this.$router.push({
@@ -191,10 +194,6 @@
         this.continueCreating = false;
       }
     }
-
-    dialog: boolean = true;
-    continueCreating: boolean = false;
-    component: IComponent = {article: '', title: '', count: 0.00, cost: 0.00, category_id: 1};
 
     created() {
       componentsStore.getAvailableVendors();
@@ -217,29 +216,27 @@
       return componentsStore.component;
     }
 
+    // create then destroy component and redirect to component
     create() {
       this.$validator.validate().then(valid => {
         if (valid) componentsStore.createComponent(this.component);
       });
     }
 
+    // Send post data then clear model fields
     async createAndContinue() {
       this.$validator.validate().then(async valid => {
         this.continueCreating = true;
         if (valid) {
           await componentsStore.createComponent(this.component);
-          this.component = {title: '', article: '', count: 0.00, cost: 0.00};
+
+          // reset component's model
+          this.component = {title: '', article: '', count: 0.00, cost: 0.00, category_id: 1};
+
+          // disable validator after reset
           this.$validator.reset();
-          this.showSuccessMessage();
         }
       });
-    }
-
-    private showSuccessMessage() {
-      this.success = true;
-      setTimeout(() => {
-        this.success = false
-      }, 3000);
     }
   }
 </script>

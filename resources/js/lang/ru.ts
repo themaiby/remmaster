@@ -1,5 +1,16 @@
 export const ru = {
-  messages: {},
+  messages: {
+    notFound: 'По указанному запросу информация не найдена',
+    notAuthorized: 'Вы не авторизованы',
+    components: {
+      createdSuccess: 'Запчасть «{title} [{article}]» добавлена'
+    },
+    vendors: {
+      createdSuccess: 'Поставщик «{name}» добавлен',
+      updatedSuccess: 'Поставщик обновлён',
+      deletedSuccess: 'Поставщик «{name}» удалён',
+    }
+  },
   attributes: {
     email: 'E-Mail',
     password: 'Пароль'

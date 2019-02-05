@@ -116,6 +116,21 @@
         <RouterView/>
       </Transition>
     </VContent>
+
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :bottom="snackbar.y === 'bottom'"
+      :left="snackbar.x === 'left'"
+      :multi-line="snackbar.mode === 'multi-line'"
+      :right="snackbar.x === 'right'"
+      :timeout="snackbar.timeout"
+      :top="snackbar.y === 'top'"
+      :vertical="snackbar.mode === 'vertical'"
+      :color="snackbar.color"
+    >
+      {{ snackbar.text }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -129,6 +144,18 @@
   })
   export default class Layout extends Vue {
     navbarImg: string = require('../assets/navbar.png');
+
+    get snackbar() {
+      return applicationStore.snackbar;
+    }
+
+    get showSnackbar(): boolean {
+      return this.snackbar.show || false;
+    }
+
+    set showSnackbar(value: boolean) {
+      applicationStore.setSnackbar({...applicationStore.snackbar, show: value});
+    }
 
     get drawer(): boolean {
       return applicationStore.drawer;

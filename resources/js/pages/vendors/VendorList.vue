@@ -184,7 +184,7 @@
         deleteVendor = confirm(
           `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
         );
-        if (deleteVendor) vendorsStore.deleteVendor(id);
+        if (deleteVendor) vendorsStore.deleteVendor({id, name: vendor.name});
       }
 
     }

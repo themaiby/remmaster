@@ -9,6 +9,7 @@ import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import IMeta from "../../models/IMeta";
 import IVendor from "../../models/IVendor";
+import {snack} from "../../utils/snack";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
@@ -134,8 +135,12 @@ class ComponentsStore extends VuexModule {
     try {
       const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.create, component);
       this.setComponent(componentRes.data.data);
+      snack.success('messages.components.createdSuccess', {
+        title: this.component.title,
+        article: this.component.article
+      });
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsComponentCreatingRequest(false);
     }
@@ -148,7 +153,7 @@ class ComponentsStore extends VuexModule {
       const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.show(id));
       this.setComponent(componentRes.data.data);
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsRequest(false);
     }
