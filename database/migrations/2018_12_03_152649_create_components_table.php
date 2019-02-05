@@ -19,7 +19,8 @@ class CreateComponentsTable extends Migration
             $table->string('title');
             $table->unsignedInteger('count');
             $table->unsignedInteger('vendor_id')->index();
-            $table->double('cost');
+            $table->float('cost');
+            $table->float('summary_cost')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
