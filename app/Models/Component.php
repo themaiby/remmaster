@@ -67,7 +67,7 @@ class Component extends Model
     protected $table = 'components';
     protected $guard_name = 'api';
 
-    protected $fillable = ['article', 'title', 'count', 'cost', 'summary_cost', 'category_id'];
+    protected $fillable = ['article', 'title', 'count', 'cost', 'summary_cost', 'category_id', 'vendor_id'];
     protected $sortable = ['article', 'title', 'count', 'cost', 'vendor', 'created_at', 'summary_cost'];
     protected $dispatchesEvents = [
         'updated' => ComponentUpdatingEvent::class

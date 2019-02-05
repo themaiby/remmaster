@@ -8,99 +8,130 @@
     <VCard>
       <VToolbar
         card
-        color="white"
         flat
       >
-        <VToolbarTitle>{{ $t('vendors.update') }}</VToolbarTitle>
+        <VToolbarTitle>{{ $t('components.update') }}</VToolbarTitle>
       </VToolbar>
 
       <VCardText>
         <VContainer grid-list-md>
           <VLayout wrap>
-            <!-- Input -->
-            <VFlex xs12 sm12 md12>
+
+            <!-- title -->
+            <VFlex xs6 sm6 md6>
               <VTextField
-                :label="$t('vendors.name')"
-                name="name"
+                :label="$t('components.title')"
+                name="title"
                 v-validate="'required'"
-                :error-messages="errors.collect('name')"
-                v-model="vendor.name"
-                :data-vv-as="$t('vendors.name')"
-                @keypress.enter.native="create"
+                :error-messages="errors.collect('title')"
+                v-model="componentModel.title"
+                :data-vv-as="$t('components.title')"
+                @keypress.enter.native="update"
                 solo
                 :disabled="isRequest"
               />
             </VFlex>
-            <VFlex xs12 sm12 md12>
-              <v-textarea
-                name="name"
-                v-model="vendor.note"
+            <!-- article -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :label="$t('components.article')"
+                name="article"
+                v-validate="'required'"
+                :error-messages="errors.collect('article')"
+                v-model="componentModel.article"
+                :data-vv-as="$t('components.article')"
+                @keypress.enter.native="update"
                 solo
                 :disabled="isRequest"
-              >
-                <div slot="label">
-                  {{ $t('vendors.note') }}
-                  <small>{{ $t('menu.optional') }}</small>
-                </div>
-              </v-textarea>
+              />
             </VFlex>
 
-            <template v-for="(contact, idx) in vendor.contacts">
-              <VFlex xs1 sm1 md1>
-                <v-select :items="icons"
-                          solo
-                          ingle-line
-                          dense
-                          autofocus
-                          v-model="vendor.contacts[idx].icon"
-                          :disabled="isRequest"
+            <!-- vendor-->
+            <VFlex
+              xs12
+              sm12
+              md12
+            >
+              <v-autocomplete
+                v-model="componentModel.vendor_id"
+                :items="availableVendors"
+                :label="$t('components.vendor')"
+                prepend-icon="mdi-truck-fast"
+                item-text="name"
+                item-value="id"
+                name="vendor"
+                @keypress.enter.native="apply"
+                v-validate="'required'"
+                :error-messages="errors.collect('vendor')"
+                :data-vv-as="$t('components.vendor')"
+              >
+                <v-slide-x-reverse-transition
+                  slot="append-outer"
+                  mode="out-in"
                 >
-                  <template slot="selection" slot-scope="{item, index}">
-                    <v-icon>{{ item }}</v-icon>
-                  </template>
-                  <template slot="item" slot-scope="{item, index}">
-                    <v-icon>{{ item }}</v-icon>
-                  </template>
-                </v-select>
-              </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
-                <VTextField
-                  :label="$t('vendors.contactTitle')"
-                  v-model="vendor.contacts[idx].title"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactTitle[${idx}]`"
-                  :error-messages="errors.collect(`contactTitle[${idx}]`)"
-                  :data-vv-as="$t('vendors.contactTitle')"
-                  :disabled="isRequest"
-                />
-              </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
-                <VTextField
-                  :label="$t('vendors.contactValue')"
-                  v-model="vendor.contacts[idx].value"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactValue[${idx}]`"
-                  :error-messages="errors.collect(`contactValue[${idx}]`)"
-                  :data-vv-as="$t('vendors.contactTitle')"
-                  :disabled="isRequest"
-                />
-              </VFlex>
-              <v-spacer></v-spacer>
-              <VFlex xs1 sm1 md1>
-                <v-btn flat @click="deleteContact(idx)" icon ml3>
-                  <v-icon color="error">mdi-close</v-icon>
-                </v-btn>
-              </VFlex>
-            </template>
-            <VFlex xs12 sm12 md12>
-              <v-btn :disabled="isRequest"
-                     class="gradient-button"
-                     block dark mt2 @click="addContact">
-                {{ $t('vendors.addContact') }}
-              </v-btn>
+                </v-slide-x-reverse-transition>
+              </v-autocomplete>
             </VFlex>
+
+            <!-- count -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :hint="$t('components.count')"
+                persistent-hint
+                name="count"
+                v-validate="'required|numeric'"
+                :error-messages="errors.collect('count')"
+                v-model="componentModel.count"
+                :data-vv-as="$t('components.count')"
+                @keypress.enter.native="update"
+                solo
+                :disabled="isRequest"
+              />
+            </VFlex>
+            <!-- cost -->
+            <VFlex xs6 sm6 md6>
+              <VTextField
+                :hint="$t('components.cost')"
+                persistent-hint
+                name="cost"
+                v-validate="{required: true, regex: /^\$?[\d,]+(\.\d*)?$/}"
+                :error-messages="errors.collect('cost')"
+                :data-vv-as="$t('components.cost')"
+                v-model="componentModel.cost"
+                @keypress.enter.native="update"
+                solo
+                :disabled="isRequest"
+              />
+            </VFlex>
+
+            <!-- categories tree view -->
+            <v-flex xs12 md12 lg12 mt-3>
+              <v-label>{{ $t('components.categoryChoice') }}</v-label>
+            </v-flex>
+            <v-flex xs12 md12 lg12>
+              <div class="pa-3">
+                <v-treeview
+                  item-key="id"
+                  item-text="title"
+                  item-children="child"
+                  :items="availableCategories"
+                  active-class="grey lighten-4 indigo--text"
+                  expand-icon="mdi-chevron-down"
+                >
+                  <template slot="prepend" slot-scope="{ item }">
+                    <v-icon
+                      @click="componentModel.category.id = item.id"
+                      :color="componentModel.category.id === item.id ? 'success' : ''" small
+                    >
+                      {{ componentModel.category.id === item.id ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank' }}
+                    </v-icon>
+                  </template>
+                  <template slot="label" slot-scope="{item}">
+                    <small>{{ item.title }}</small>
+                  </template>
+                </v-treeview>
+              </div>
+            </v-flex>
           </VLayout>
         </VContainer>
       </VCardText>
@@ -118,7 +149,7 @@
         <VBtn
           color="blue darken-1"
           flat
-          @click="confirm"
+          @click="update"
           :loading="isRequest"
         >
           {{ $t('menu.submit') }}
@@ -131,88 +162,65 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IVendor from "../../models/IVendor";
-  import IContact from "../../models/IContact";
-  import {vendorsStore} from "../../store/modules/VendorsStore";
+  import IComponent from "../../models/IComponent";
+  import {componentsStore} from "../../store/modules/ComponentsStore";
 
   @Component export default class VendorsEdit extends Vue {
+    private componentModel: IComponent = {
+      title: '',
+      count: 0,
+      cost: 0,
+      article: '',
+      category_id: 0,
+      vendor_id: 0,
+      category: {id: 0, title: ''}
+    };
+    private isLoaded: boolean = false;
+    private dialog: boolean = true;
+
     @Watch('dialog') routeBack(value: boolean) {
       if (!value) this.$router.push({
-        name: routeNames.vendors.show,
+        name: routeNames.components.show,
         params: {
-          id: String(this.vendor.id)
+          id: String(this.component.id)
         }
       });
     }
 
-    @Watch('storedVendor') setLocaleVendorModel(vendor: IVendor) {
-      if (!this.vendor.id) this.vendor = {...vendor};
+    get component(): IComponent {
+      return componentsStore.component;
     }
 
-    vendor: IVendor = {name: ''};
-    dialog: boolean = true;
-    icons = [
-      'mdi-cellphone',
-      'mdi-deskphone',
-      'mdi-email',
-      'mdi-skype',
-      'mdi-telegram',
-      'mdi-linkedin',
-      'mdi-web',
-      'mdi-account-card-details',
-      'mdi-home-city',
-    ];
-
-    created() {
-      // full assign cuz without  destruct local vendor will reactive
-      if (!vendorsStore.vendor.id) {
-        vendorsStore.getVendor(Number(this.$route.params.id));
-      } else {
-        this.vendor = {...vendorsStore.vendor};
-      }
+    get availableVendors() {
+      return componentsStore.availableVendors;
     }
 
-    get storedVendor() {
-      return vendorsStore.vendor;
+    get availableCategories() {
+      return componentsStore.availableCategories;
     }
 
     get isRequest() {
-      return vendorsStore.isRequest;
+      return componentsStore.isUpdateRequest;
     }
 
-    addContact() {
-      const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: IContact = {
-        icon,
-        title: '',
-        value: ''
+    async created() {
+      componentsStore.getAvailableVendors();
+      componentsStore.getAvailableCategories();
+      // full reassign because without destruct local component will reactive
+      if (!componentsStore.component.id) {
+        await componentsStore.getComponent(Number(this.$route.params.id));
+      }
+      this.componentModel = {
+        ...componentsStore.component,
+        category_id: this.component.category ? (this.component.category.id || 1) : 1,
+        vendor_id: this.component.vendor ? (this.component.vendor.id || 0) : 0,
       };
-      if (!this.vendor.contacts) {
-        this.vendor.contacts = [contact];
-      } else {
-        this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
     }
 
-    deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
-      }
-    }
-
-    // if its more contacts that icons then return from start
-    getIconIndex(currentContactsLength: number): number {
-      return currentContactsLength >= this.icons.length ?
-        (currentContactsLength % this.icons.length) :
-        currentContactsLength;
-    }
-
-    confirm() {
+    update() {
       this.$validator.validate().then(valid => {
         if (valid) {
-          vendorsStore.updateVendor(this.vendor);
+          componentsStore.updateComponent(this.componentModel);
           this.dialog = false;
         }
       });

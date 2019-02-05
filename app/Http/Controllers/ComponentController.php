@@ -74,7 +74,7 @@ class ComponentController extends Controller
      */
     public function show(Component $component): ComponentResource
     {
-        return new ComponentResource($component->load('vendor'));
+        return new ComponentResource($component->load('vendor', 'category'));
     }
 
     /**
@@ -87,6 +87,8 @@ class ComponentController extends Controller
     public function update(ComponentRequest $request, Component $component): ComponentResource
     {
         $component->update($request->all());
+
+
         return new ComponentResource($component->load('vendor'));
     }
 

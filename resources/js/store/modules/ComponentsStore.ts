@@ -16,6 +16,7 @@ class ComponentsStore extends VuexModule {
   component: IComponent = {article: '', cost: 0, count: 0, title: ''};
   components: IComponent[] = [];
   isRequest: boolean = false;
+  isUpdateRequest: boolean = false;
   isFilterLoading: boolean = false;
   meta: IMeta = {};
   message: string = '';
@@ -43,6 +44,11 @@ class ComponentsStore extends VuexModule {
 
   @Mutation
   setIsRequest(isRequest: boolean) {
+    this.isRequest = isRequest;
+  }
+
+  @Mutation
+  setIsUpdateRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
@@ -156,6 +162,21 @@ class ComponentsStore extends VuexModule {
       snack.err(e.response.data.message);
     } finally {
       this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async updateComponent(component: IComponent) {
+    this.setIsUpdateRequest(true);
+    try {
+      if (component.id != null) {
+        const componentRes: AxiosResponse<IResponse<IComponent>> = await http.put(apiRoutes.components.update(component.id), component);
+        this.setComponent(componentRes.data.data);
+      }
+    } catch (e) {
+      snack.err(e.response.data.message);
+    } finally {
+      this.setIsUpdateRequest(false);
     }
   }
 }
