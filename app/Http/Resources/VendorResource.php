@@ -23,7 +23,7 @@ class VendorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'components_count' => $this->components_count,
-            'components_cost' => number_format($componentsPriceSummary, 2),
+            'components_cost' => round($componentsPriceSummary, 2),
             'created_at' => $this->created_at,
         ];
     }
