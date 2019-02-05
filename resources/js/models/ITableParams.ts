@@ -14,3 +14,17 @@ export interface IVendorsFilter {
   createdAtMin?: string;
   createdAtMax?: string;
 }
+
+export interface IComponentsFilter {
+  categories?: number[];
+  article?: string;
+  title?: string;
+  countMin?: number;
+  countMax?: number;
+  costMin?: number;
+  costMax?: number;
+  vendor?: string;
+  createdAtMin?: string;
+  createdAtMax?: string;
+  withDeleted?: boolean;
+}

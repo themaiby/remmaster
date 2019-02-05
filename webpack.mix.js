@@ -28,6 +28,15 @@ let chunkNamesProd = 'js/[name].[chunkhash].js';
 
 mix
     .ts('resources/js/app.ts', 'public/js').options({processCssUrls: true})
+    .styles(
+        [
+            'node_modules/@mdi/font/css/materialdesignicons.css',
+            'node_modules/vuetify/dist/vuetify.min.css',
+            'resources/js/style.css'
+        ],
+        'public/css/style.css'
+    )
+    .copy('node_modules/@mdi/font/fonts', 'public/fonts')
     .webpackConfig({
         module: {},
         resolve: {
@@ -37,5 +46,6 @@ mix
             publicPath: '/',
             chunkFilename: mix.inProduction() ? chunkNamesProd : chunkNamesDev,
         },
+
         plugins: mix.inProduction() ? wpPluginsProd : wpPluginsDev,
     });

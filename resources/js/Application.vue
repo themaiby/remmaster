@@ -1,7 +1,11 @@
 <template>
   <v-app id="content-body">
     <router-view v-if="applicationLoaded"></router-view>
-    <span v-else>Loading...</span>
+    <VContainer v-else fluid fill-height>
+      <VLayout align-center justify-center>
+        <v-progress-circular :size="100" color="primary" indeterminate />
+      </VLayout>
+    </VContainer>
   </v-app>
 </template>
 
