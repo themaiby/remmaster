@@ -14,7 +14,7 @@ class AddSummaryCostColumnToComponentsTable extends Migration
     public function up()
     {
         Schema::table('components', function (Blueprint $table) {
-            $table->float('summary_cost')->nullable();
+            $table->double('summary_cost')->nullable();
         });
 
         DB::table('components')->update([
@@ -22,7 +22,7 @@ class AddSummaryCostColumnToComponentsTable extends Migration
         ]);
 
         Schema::table('components', function (Blueprint $table) {
-            $table->float('summary_cost')->nullable(false)->change();
+            $table->double('summary_cost')->nullable(false)->change();
         });
     }
 
