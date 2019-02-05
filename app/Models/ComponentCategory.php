@@ -54,7 +54,7 @@ class ComponentCategory extends Model
      */
     public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(ComponentCategory::class, 'parent_id'); /*todo: add with*/
+        return $this->belongsTo(ComponentCategory::class, 'parent_id')->with('parent');
     }
 
     /**

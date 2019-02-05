@@ -69,7 +69,7 @@ class ComponentController extends Controller
      */
     public function show(Component $component): ComponentResource
     {
-        return new ComponentResource($component->load('vendor', 'category'));
+        return new ComponentResource($component->load('vendor', 'category.parent'));
     }
 
     /**
