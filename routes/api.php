@@ -95,4 +95,11 @@ Route::group(['middleware' => 'jwt'], function () {
             ->name('components.delete')
             ->where(['component' => '[0-9]+']);
     });
+
+
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', 'OrderController@index')
+            ->middleware('permission:orders.show')
+            ->name('orders.show');
+    });
 });

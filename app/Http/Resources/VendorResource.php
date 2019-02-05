@@ -16,7 +16,7 @@ class VendorResource extends JsonResource
     {
         $componentsPriceSummary = 0;
         foreach ($this->components as $component) {
-            $componentsPriceSummary += $component->cost * $component->count;
+            $componentsPriceSummary += $component->summary_cost;
         }
 
         return [

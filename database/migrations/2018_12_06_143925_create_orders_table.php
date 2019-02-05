@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
 
@@ -72,7 +72,7 @@ class CreateOrdersTable extends Migration
                 ->onDelete('cascade');
             $table->foreign('status_id')
                 ->references('id')
-                ->on('statuses')
+                ->on('order_statuses')
                 ->onDelete('cascade');
             $table->foreign('user_id')
                 ->references('id')
