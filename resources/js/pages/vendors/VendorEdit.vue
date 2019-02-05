@@ -135,7 +135,7 @@
   import IContact from "../../models/IContact";
   import {vendorsStore} from "../../store/modules/VendorsStore";
 
-  @Component export default class VendorsEdit extends Vue {
+  @Component export default class VendorEdit extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
       if (!value) this.$router.push({
         name: routeNames.vendors.show,

@@ -25,6 +25,7 @@ export const apiRoutes = {
     index: 'components',
     create: 'components',
     availableVendors: 'components/availableVendors',
+    availableCategories: 'components/availableCategories',
     show: (id: number) => `components/${id}`,
     update: (id: number) => `components/${id}`,
     delete: (id: number) => `components/${id}`,

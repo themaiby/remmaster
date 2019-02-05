@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\ComponentUpdatingEvent;
+use App\Events\UpdatingComponentEvent;
+use App\Observers\ComponentObserver;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,6 +54,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereDeletedAt($value)
+ * @property float $summary_cost
+ * @property int $category_id
+ * @property-read \App\Models\ComponentCategory $category
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereSummaryCost($value)
  */
 class Component extends Model
 {
@@ -59,18 +67,16 @@ class Component extends Model
     protected $table = 'components';
     protected $guard_name = 'api';
 
-    protected $fillable = [
-        'article', 'title', 'count', 'cost'
-    ];
-
-    protected $sortable = [
-        'article', 'title', 'count', 'cost', 'vendor'
+    protected $fillable = ['article', 'title', 'count', 'cost', 'summary_cost', 'category_id', 'vendor_id'];
+    protected $sortable = ['article', 'title', 'count', 'cost', 'vendor', 'created_at', 'summary_cost'];
+    protected $dispatchesEvents = [
+        'updated' => ComponentUpdatingEvent::class
     ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function vendor()
+    public function vendor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Vendor::class);
     }
@@ -78,8 +84,29 @@ class Component extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orders()
+    public function orders(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_components');
+    }
+
+    /**
+     * Sorting for vendor column
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $direction
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function vendorSortable(\Illuminate\Database\Eloquent\Builder $query, $direction)
+    {
+        return $query->join('vendors', 'components.vendor_id', '=', 'vendors.id')
+            ->orderBy('vendors.name', $direction)
+            ->select('components.*');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(ComponentCategory::class);
     }
 }

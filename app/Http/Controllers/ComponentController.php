@@ -5,51 +5,66 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ComponentRequest;
 use App\Http\Resources\ComponentResource;
 use App\Models\Component;
+use App\Models\ComponentCategory;
 use App\Models\Vendor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ComponentController extends Controller
 {
+    public const PER_PAGE_LIMIT = 100;
+
     /**
      * Display a listing of the resource.
      *
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $components = Component::with('vendor')
+        $perPage = (int)$request->perPage > 100 ? self::PER_PAGE_LIMIT : $request->perPage;
+        $components = Component::with('vendor:id,name', 'category:id,title')
             ->sortable(['created_at' => 'desc'])
             ->filter($request->all())
-            ->paginate((int)$request->perPage, [
-                'id', 'title', 'article', 'count', 'cost', 'vendor_id', 'created_at', 'updated_at', 'deleted_at'
+            ->paginate($perPage, [
+                'id',
+                'title',
+                'article',
+                'count',
+                'cost',
+                'summary_cost',
+                'category_id',
+                'vendor_id',
+                'created_at',
             ]);
-
         return ComponentResource::collection($components);
     }
 
     /**
-     * Values for component vendor picker
+     * Values for category picker
      * @return array
      */
-    public function getAvailableVendors(): array
+    public function getAvailableCategories(): array
     {
-        return ['data' => Vendor::select(['id', 'name'])->get()];
+        return ['data' => [ComponentCategory::with('child')->find(1)]];
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param ComponentRequest $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(ComponentRequest $request): array
+    public function store(ComponentRequest $request): JsonResponse
     {
-        return response()->json([
-            'data' => Vendor::findOrFail($request->vendor_id)
-                ->components()
-                ->create($request->all())
-        ]);
+        $data = array_merge($request->all(), ['summary_cost' => $request->count * $request->cost]);
+        return response()->json(
+            [
+                'data' => Vendor::findOrFail($request->vendor_id)
+                    ->components()
+                    ->create($data)
+            ]
+        );
     }
 
     /**
@@ -60,7 +75,7 @@ class ComponentController extends Controller
      */
     public function show(Component $component): ComponentResource
     {
-        return new ComponentResource($component->load('vendor'));
+        return new ComponentResource($component->load('vendor', 'category'));
     }
 
     /**
@@ -68,22 +83,24 @@ class ComponentController extends Controller
      *
      * @param ComponentRequest $request
      * @param  \App\Models\Component $component
-     * @return \Illuminate\Http\Response
+     * @return ComponentResource
      */
-    public function update(ComponentRequest $request, Component $component): \Illuminate\Http\Response
+    public function update(ComponentRequest $request, Component $component): ComponentResource
     {
         $component->update($request->all());
-        return response()->json(['message' => 'success']);
+
+
+        return new ComponentResource($component->load('vendor'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Component $component
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      * @throws \Exception
      */
-    public function destroy(Component $component): \Illuminate\Http\Response
+    public function destroy(Component $component): JsonResponse
     {
         $component->delete();
         return response()->json(['message' => 'success']);

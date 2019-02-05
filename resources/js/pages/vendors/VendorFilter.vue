@@ -5,14 +5,6 @@
     scrollable
   >
     <VCard>
-      <VToolbar
-        card
-        color="white"
-        flat
-      >
-        <VToolbarTitle>{{ $t('vendors.filter') }}</VToolbarTitle>
-      </VToolbar>
-
       <VCardText>
         <VContainer grid-list-md>
           <VLayout wrap>
@@ -34,22 +26,22 @@
 
             <!-- omponents count -->
             <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('components.countFrom')"
+              <v-text-field :label="$t('vendors.componentsCountMin')"
                             @keypress.enter.native=""
                             name="componentsMin"
                             v-validate="'numeric'"
                             :error-messages="errors.collect('componentsMin')"
-                            :data-vv-as="$t('components.countFrom')"
+                            :data-vv-as="$t('vendors.componentsCountMin')"
                             v-model="filter.componentsMin"
               />
             </v-flex>
             <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('components.countTo')"
+              <v-text-field :label="$t('vendors.componentsCountMax')"
                             @keypress.enter.native=""
                             name="componentsMax"
                             v-validate="'numeric'"
                             :error-messages="errors.collect('componentsMax')"
-                            :data-vv-as="$t('components.countTo')"
+                            :data-vv-as="$t('vendors.componentsCountMax')"
                             v-model="filter.componentsMax"
               />
             </v-flex>

@@ -6,6 +6,7 @@ import router from "./router/router";
 import "@/plugins/validator";
 import "@/plugins/vuetify";
 import i18n from "./plugins/i18n";
+/*import './style.css';*/
 
 Vue.use(require('vue-moment'));
 

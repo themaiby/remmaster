@@ -116,6 +116,28 @@
         <RouterView/>
       </Transition>
     </VContent>
+
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :bottom="snackbar.y === 'bottom'"
+      :left="snackbar.x === 'left'"
+      :multi-line="snackbar.mode === 'multi-line'"
+      :right="snackbar.x === 'right'"
+      :timeout="snackbar.timeout"
+      :top="snackbar.y === 'top'"
+      :vertical="snackbar.mode === 'vertical'"
+      :color="snackbar.color"
+    >
+      {{ snackbar.text }}
+      <v-btn
+        flat
+        icon
+        @click="hideSnack"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -129,6 +151,10 @@
   })
   export default class Layout extends Vue {
     navbarImg: string = require('../assets/navbar.png');
+
+    get snackbar() {
+      return applicationStore.snackbar;
+    }
 
     get drawer(): boolean {
       return applicationStore.drawer;
@@ -145,10 +171,14 @@
     created() {
       applicationStore.getMenu();
     }
+
+    hideSnack() {
+      applicationStore.hideSnackbar();
+    }
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   #app-drawer {
     background: rgba(27, 27, 27, .84);
     padding: 0;

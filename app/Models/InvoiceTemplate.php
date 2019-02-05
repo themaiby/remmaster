@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InvoiceTemplate whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InvoiceTemplate whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $serialized
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\InvoiceTemplate whereSerialized($value)
  */
 class InvoiceTemplate extends Model
 {

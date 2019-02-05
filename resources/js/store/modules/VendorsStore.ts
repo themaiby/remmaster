@@ -10,6 +10,7 @@ import IMeta from "../../models/IMeta";
 import IResponse from "../../models/IResponse";
 import ITableParams, {IVendorsFilter} from "../../models/ITableParams";
 import IVendor from "../../models/IVendor";
+import {snack} from "../../utils/snack";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
@@ -35,7 +36,7 @@ class VendorsStore extends VuexModule {
     page: 1,
     descending: false,
     filter: null,
-    rowsPerPage: Number(localStorage.getItem('rowsPerPage')) || 5,
+    rowsPerPage: Number(localStorage.getItem('vendorsPerPage')) || 5,
     sortBy: '',
   };
 
@@ -51,7 +52,7 @@ class VendorsStore extends VuexModule {
 
   @Mutation
   setTableParams(params: ITableParams<IVendorsFilter>) {
-    if (params.rowsPerPage) localStorage.setItem('rowsPerPage', params.rowsPerPage.toString());
+    if (params.rowsPerPage) localStorage.setItem('vendorsPerPage', params.rowsPerPage.toString());
     this.tableParams = params;
   }
 
@@ -125,22 +126,22 @@ class VendorsStore extends VuexModule {
         ...vendor, contacts: vendor.contacts ? vendor.contacts : []
       });
       this.setVendor(vendorResp.data.data);
+      snack.success('messages.vendors.createdSuccess', {name: this.vendor.name});
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsVendorCreatingRequest(false);
     }
   }
 
   @Action
-  async deleteVendor(id: number) {
+  async deleteVendor({id, name = ''}: { id: number, name: string }) {
     this.setIsRequest(true);
     try {
       const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.vendors.delete(id));
-
+      if (name) snack.info('messages.vendors.deletedSuccess', {name: name});
     } catch (e) {
-      this.setMessage(e.response.data.message);
-
+      snack.err(e.response.data.message);
     } finally {
       this.getVendors();
     }
@@ -155,9 +156,10 @@ class VendorsStore extends VuexModule {
           ...vendor, contacts: vendor.contacts ? vendor.contacts : []
         });
         this.setVendor(vendorResp.data.data);
+        snack.success('messages.vendors.updatedSuccess');
       }
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsVendorCreatingRequest(false);
     }

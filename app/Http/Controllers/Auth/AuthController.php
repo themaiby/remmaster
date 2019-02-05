@@ -54,7 +54,7 @@ class AuthController extends Controller
         $cookie = cookie()->forever(self::TOKEN_COOKIE_NAME, $token);
 
         return response()
-            ->json(['access_token' => $token, 'token_type' => 'bearer', 'expires_in' => $expireTime])
+            ->json(['message' => 'Authorized'], 200)
             ->withCookie($cookie);
     }
 

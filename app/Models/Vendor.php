@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use EloquentFilter\Filterable;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
@@ -48,25 +49,20 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class Vendor extends Model
 {
-    use HasRoles, SoftDeletes, Sortable, Filterable;
+    use HasRoles, SoftDeletes, Sortable, Filterable, CascadeSoftDeletes;
 
     protected $table = 'vendors';
     protected $guard_name = 'api';
-
-    protected $fillable = [
-        'name', 'note'
-    ];
-
-    protected $sortable = [
-        'name', 'created_at', 'deleted_at', 'components', 'components_count'
-    ];
-
+    protected $fillable = ['name', 'note'];
+    protected $sortable = ['name', 'created_at', 'deleted_at', 'components', 'components_count'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $withCount = 'components';
+    protected $cascadeDeletes = ['components'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function contacts()
+    public function contacts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(VendorContact::class);
     }
@@ -74,7 +70,7 @@ class Vendor extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function components()
+    public function components(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Component::class);
     }

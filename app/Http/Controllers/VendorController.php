@@ -31,9 +31,7 @@ class VendorController extends Controller
 
         $vendors = Vendor::sortable(['created_at' => 'desc'])
             ->filter($request->all())
-            ->paginate($perPage, [
-                'id', 'name', 'created_at'
-            ]);
+            ->paginate($perPage, ['id', 'name', 'created_at']);
 
         return VendorResource::collection($vendors);
     }
@@ -42,7 +40,6 @@ class VendorController extends Controller
      * Store vendor
      *
      * @param VendorRequest $request
-     * @param VendorService $service
      * @return VendorResource
      * @throws \Exception
      */
@@ -88,5 +85,14 @@ class VendorController extends Controller
     {
         $vendor->delete();
         return response()->json(['message' => 'Success']);
+    }
+
+    /**
+     * Values for component vendor picker
+     * @return array
+     */
+    public function getAvailableVendors(): array
+    {
+        return ['data' => Vendor::select(['id', 'name'])->get()];
     }
 }

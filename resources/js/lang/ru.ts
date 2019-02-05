@@ -1,5 +1,18 @@
 export const ru = {
-  messages: {},
+  messages: {
+    notFound: 'По Вашему запросу ничего не найдено',
+    notAuthorized: 'Вы не авторизованы',
+    components: {
+      createdSuccess: 'Запчасть «{title} [{article}]» добавлена',
+      updatedSuccess: 'Информация о запчасти обновлена',
+      deletedSuccess: 'Запчасть «{title}» удалена',
+    },
+    vendors: {
+      createdSuccess: 'Поставщик «{name}» добавлен',
+      updatedSuccess: 'Информация о поставщике обновлена',
+      deletedSuccess: 'Поставщик «{name}» удалён',
+    }
+  },
   attributes: {
     email: 'E-Mail',
     password: 'Пароль'
@@ -19,6 +32,7 @@ export const ru = {
     submit: 'Подтвердить',
     optional: '(необязательно)',
     approximate: 'Приблизительное значение',
+    submitAndContinue: 'Подтвердить и продолжить',
   },
   auth: {
     login: 'Вход'
@@ -43,12 +57,34 @@ export const ru = {
     contactTitle: 'Название контакта',
     contactValue: 'Контактные данные',
     icon: 'Иконка',
-    confirmDelete: 'Подтвердите удаление поставщика "{value}"'
+    confirmDelete: 'Подтвердите удаление поставщика "{value}"',
+    componentsCountMin: 'Мин. количество запчастей',
+    componentsCountMax: 'Макс. количество запчастей',
   },
   components: {
     index: 'Запчасти',
-    countFrom: 'Минимум запчастей',
-    countTo: 'Максимум запчастей',
+    countMin: 'Мин. количество',
+    countMax: 'Макс. количество',
+    vendor: 'Поставщик',
+    title: 'Наименование',
+    article: 'Артикул',
+    count: 'Количество',
+    cost: 'Цена',
+    summaryCost: 'Суммарная стоимость',
+    created_at: 'Добавлен',
+    show: 'Подробнее',
+    update: 'Редактировать',
+    delete: 'Удалить',
+    costMin: 'Мин. стоимость',
+    costMax: 'Макс. стоимость',
+    new: 'Новая запчасть',
+    categoryChoice: 'Категория',
+    category: 'Категория',
+    component: 'Информация о запчасти',
+    ordersNow: 'Заявки на данный момент',
+    showOrderList: 'Отобразить заявки',
+    confirmDelete: 'Подтвердите удаление поставщика "{value}"',
+
   },
   orders: {
     index: 'Заявки',

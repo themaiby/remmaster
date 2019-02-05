@@ -1,14 +1,16 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
 import IMenu from "../../models/IMenu";
 import ApiResponse from "../../models/IResponse";
 import {AxiosResponse} from "axios";
+import {http} from "../../plugins/axios";
+import {ISnackbar} from "../../models/ISnackbar";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
-  currentPageTitle: string = '';
+  currentPageTitle: { text: string, image?: string } = {text: '', image: ''};
+  currentPageImage: string | null = null;
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
@@ -16,6 +18,17 @@ class ApplicationStore extends VuexModule {
   menu: IMenu[] = [];
   requestInProgress: boolean = false;
   itWasTokenRefreshAttempt: boolean = false;
+  snackbar: ISnackbar = {show: false, y: 'top', x: 'right', mode: '', timeout: 3000, text: '', color: 'secondary'};
+
+  @Mutation
+  setSnackbar(snackbar: ISnackbar) {
+    this.snackbar = {...this.snackbar, ...snackbar, show: true};
+  }
+
+  @Mutation
+  hideSnackbar() {
+    this.snackbar = {...this.snackbar, show: false};
+  }
 
   @Mutation
   setTokenRefreshAttempt(attempted: boolean) {
@@ -23,8 +36,8 @@ class ApplicationStore extends VuexModule {
   }
 
   @Mutation
-  setCurrentPageTitle(title: string) {
-    this.currentPageTitle = title;
+  setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
+    this.currentPageTitle = parameters;
   }
 
   @Mutation

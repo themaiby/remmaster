@@ -42,20 +42,20 @@ class VendorFilter extends ModelFilter
     }
 
     /**
-     * @param int $count
+     * @param string $count
      * @return VendorFilter|\Illuminate\Database\Eloquent\Builder
      */
-    public function componentsMin(int $count)
+    public function componentsMin(string $count)
     {
-        return $this->has('components', '>=', $count);
+        return $this->has('components', '>=', (int)$count);
     }
 
     /**
-     * @param int $count
+     * @param string $count
      * @return VendorFilter|\Illuminate\Database\Eloquent\Builder
      */
-    public function componentsMax(int $count)
+    public function componentsMax(string $count)
     {
-        return $this->has('components', '<=', $count);
+        return $this->has('components', '<=', (int)$count);
     }
 }

@@ -12,6 +12,11 @@ export const routeNames = {
   },
   components: {
     index: 'components.index',
+    show: 'components.show',
+    create: 'components.create',
+    delete: 'components.delete',
+    update: 'components.update',
+    filter: 'components.filter',
   },
   orders: {
     index: 'orders.index',
