@@ -6,7 +6,6 @@ use App\Http\Requests\ComponentRequest;
 use App\Http\Resources\ComponentResource;
 use App\Models\Component;
 use App\Models\ComponentCategory;
-use App\Models\Vendor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -58,13 +57,8 @@ class ComponentController extends Controller
     public function store(ComponentRequest $request): JsonResponse
     {
         $data = array_merge($request->all(), ['summary_cost' => $request->count * $request->cost]);
-        return response()->json(
-            [
-                'data' => Vendor::findOrFail($request->vendor_id)
-                    ->components()
-                    ->create($data)
-            ]
-        );
+        $component = Component::create($data);
+        return response()->json(['data' => $component->load('vendor')]);
     }
 
     /**

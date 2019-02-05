@@ -13,7 +13,7 @@ import {snack} from "../../utils/snack";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
-  component: IComponent = {article: '', cost: 0, count: 0, title: ''};
+  component: IComponent = {article: '', cost: 0, count: 0, title: '', vendor: {name: '', id: 0}};
   components: IComponent[] = [];
   isRequest: boolean = false;
   isUpdateRequest: boolean = false;
