@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public const PER_PAGE_LIMIT = 100;
+    protected $service;
+
+    public function __construct(OrderService $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * Display a listing of the resource.
