@@ -150,7 +150,7 @@ class ComponentsStore extends VuexModule {
   async getComponent(id: number) {
     this.setIsRequest(true);
     try {
-      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.show(id));
+      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.get(apiRoutes.components.show(id));
       this.setComponent(componentRes.data.data);
     } catch (e) {
       snack.err(e.response.data.message);

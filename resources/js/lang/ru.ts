@@ -64,7 +64,7 @@ export const ru = {
     countMin: 'Мин. количество',
     countMax: 'Макс. количество',
     vendor: 'Поставщик',
-    title: 'Название',
+    title: 'Наименование',
     article: 'Артикул',
     count: 'Количество',
     cost: 'Цена',
@@ -78,6 +78,9 @@ export const ru = {
     new: 'Новая запчасть',
     categoryChoice: 'Категория',
     category: 'Категория',
+    component: 'Информация о запчасти',
+    ordersNow: 'Заявки на данный момент',
+    showOrderList: 'Отобразить заявки',
   },
   orders: {
     index: 'Заявки',
