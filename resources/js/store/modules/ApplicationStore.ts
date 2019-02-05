@@ -26,6 +26,11 @@ class ApplicationStore extends VuexModule {
   }
 
   @Mutation
+  hideSnackbar() {
+    this.snackbar = {...this.snackbar, show: false};
+  }
+
+  @Mutation
   setTokenRefreshAttempt(attempted: boolean) {
     this.itWasTokenRefreshAttempt = attempted;
   }

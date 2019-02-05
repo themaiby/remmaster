@@ -130,6 +130,13 @@
       :color="snackbar.color"
     >
       {{ snackbar.text }}
+      <v-btn
+        flat
+        icon
+        @click="hideSnack"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
     </v-snackbar>
   </div>
 </template>
@@ -149,14 +156,6 @@
       return applicationStore.snackbar;
     }
 
-    get showSnackbar(): boolean {
-      return this.snackbar.show || false;
-    }
-
-    set showSnackbar(value: boolean) {
-      applicationStore.setSnackbar({...applicationStore.snackbar, show: value});
-    }
-
     get drawer(): boolean {
       return applicationStore.drawer;
     }
@@ -171,6 +170,10 @@
 
     created() {
       applicationStore.getMenu();
+    }
+
+    hideSnack() {
+      applicationStore.hideSnackbar();
     }
   }
 </script>
