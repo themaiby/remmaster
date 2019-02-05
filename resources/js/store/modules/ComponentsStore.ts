@@ -93,6 +93,11 @@ class ComponentsStore extends VuexModule {
     this.component = component;
   }
 
+  /* GETTERS */
+  get getComponentById() {
+    return (id: number) => this.components.find(c => c.id === id);
+  }
+
   @Action
   async getComponents() {
     this.setIsRequest(true);
@@ -172,11 +177,25 @@ class ComponentsStore extends VuexModule {
       if (component.id != null) {
         const componentRes: AxiosResponse<IResponse<IComponent>> = await http.put(apiRoutes.components.update(component.id), component);
         this.setComponent(componentRes.data.data);
+        snack.success('messages.components.updatedSuccess');
       }
     } catch (e) {
       snack.err(e.response.data.message);
     } finally {
       this.setIsUpdateRequest(false);
+    }
+  }
+
+  @Action
+  async deleteComponent({id, title = ''}: { id: number, title: string }) {
+    this.setIsRequest(true);
+    try {
+      const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.components.delete(id));
+      if (title) snack.info('messages.components.deletedSuccess', {title});
+    } catch (e) {
+      snack.err(e.response.data.message);
+    } finally {
+      this.getComponents();
     }
   }
 }

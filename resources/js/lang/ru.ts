@@ -3,11 +3,13 @@ export const ru = {
     notFound: 'По Вашему запросу ничего не найдено',
     notAuthorized: 'Вы не авторизованы',
     components: {
-      createdSuccess: 'Запчасть «{title} [{article}]» добавлена'
+      createdSuccess: 'Запчасть «{title} [{article}]» добавлена',
+      updatedSuccess: 'Информация о запчасти обновлена',
+      deletedSuccess: 'Запчасть «{title}» удалена',
     },
     vendors: {
       createdSuccess: 'Поставщик «{name}» добавлен',
-      updatedSuccess: 'Поставщик обновлён',
+      updatedSuccess: 'Информация о поставщике обновлена',
       deletedSuccess: 'Поставщик «{name}» удалён',
     }
   },
@@ -81,6 +83,8 @@ export const ru = {
     component: 'Информация о запчасти',
     ordersNow: 'Заявки на данный момент',
     showOrderList: 'Отобразить заявки',
+    confirmDelete: 'Подтвердите удаление поставщика "{value}"',
+
   },
   orders: {
     index: 'Заявки',

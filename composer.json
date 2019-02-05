@@ -9,6 +9,7 @@
         "ext-json": "*",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
+        "iatstuti/laravel-cascade-soft-deletes": "^1.5",
         "kyslik/column-sortable": "^5.7",
         "laravel/framework": "5.7.*",
         "predis/predis": "^1.1",

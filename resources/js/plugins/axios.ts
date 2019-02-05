@@ -24,6 +24,7 @@ http.interceptors.response.use(
         break;
 
       default:
+        snack.err(r.response.data.message);
         return Promise.reject(r);
     }
   }

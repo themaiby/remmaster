@@ -7,6 +7,7 @@ use App\Http\Resources\ComponentResource;
 use App\Models\Component;
 use App\Models\ComponentCategory;
 use App\Models\Vendor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ComponentController extends Controller
@@ -52,9 +53,9 @@ class ComponentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ComponentRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(ComponentRequest $request): \Illuminate\Http\JsonResponse
+    public function store(ComponentRequest $request): JsonResponse
     {
         $data = array_merge($request->all(), ['summary_cost' => $request->count * $request->cost]);
         return response()->json(
@@ -96,10 +97,10 @@ class ComponentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Component $component
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      * @throws \Exception
      */
-    public function destroy(Component $component): \Illuminate\Http\Response
+    public function destroy(Component $component): JsonResponse
     {
         $component->delete();
         return response()->json(['message' => 'success']);

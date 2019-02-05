@@ -127,6 +127,7 @@
   import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import IComponent from "../../models/IComponent";
 
   @Component
   export default class ComponentList extends Vue {
@@ -190,22 +191,18 @@
       componentsStore.resetFilter();
     }
 
-    deleteComponent() {
+    deleteComponent(id: number, $event: Event,) {
+      $event.preventDefault();
+      const component: IComponent | undefined = componentsStore.getComponentById(id);
+
+      let deleteVendor: boolean = false;
+      if (component) {
+        deleteVendor = confirm(
+          `${this.$t('components.confirmDelete', {value: component.title})}`
+        );
+        if (deleteVendor) componentsStore.deleteComponent({id, title: component.title});
+      }
     }
-
-    /*    deleteVendor(id: number, $event: Event,) {
-          $event.preventDefault();
-          const vendor: IVendor | undefined = componentsStore.getVendorById(id);
-
-          let deleteVendor: boolean = false;
-          if (vendor) {
-            deleteVendor = confirm(
-              `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
-            );
-            if (deleteVendor) componentsStore.deleteVendor(id);
-          }
-
-        }*/
 
     refresh() {
       componentsStore.getComponents();

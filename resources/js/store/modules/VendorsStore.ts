@@ -139,7 +139,7 @@ class VendorsStore extends VuexModule {
     this.setIsRequest(true);
     try {
       const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.vendors.delete(id));
-      if (name) snack.warn('messages.vendors.deletedSuccess', {name: name});
+      if (name) snack.info('messages.vendors.deletedSuccess', {name: name});
     } catch (e) {
       snack.err(e.response.data.message);
     } finally {

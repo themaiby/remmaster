@@ -186,7 +186,6 @@
         );
         if (deleteVendor) vendorsStore.deleteVendor({id, name: vendor.name});
       }
-
     }
 
     refresh() {
