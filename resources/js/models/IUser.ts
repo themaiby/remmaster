@@ -16,26 +16,3 @@ export default interface IUser {
 }
 
 
-/*   // Can the user do specified action (has permission)
-  can(action: string): boolean {
-    if (this.isAdmin()) return true; // Administrator has all permissions
-
-    if (!this.permissions) return false; // empty - no permissions
-
-    return this.permissions.some((permission) => {
-      return permission.name === action
-    })
-  }
-
-  hasRole(roleName: string): boolean {
-    if (!this.roles) return false;
-    return this.roles.some((role) => {
-      return role.name === roleName
-    })
-  }
-
-  isAdmin(): boolean {
-    return this.hasRole(IRole.ADMIN)
-  }
-
-  */

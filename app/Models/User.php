@@ -45,6 +45,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, HasRoles;
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'email_verified_at'];
+
     /**
      * The attributes that are mass assignable.
      *

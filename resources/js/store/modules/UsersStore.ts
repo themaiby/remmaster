@@ -1,34 +1,37 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
-import IUser from "../../models/IUser";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
 import IResponseError from "../../models/IResponseError";
+import {createUserModel, User} from "../../models/User";
+import {DateTime} from "../../models/DateTime";
+
+const defaultDateTime: DateTime = {timezone: null, timezone_type: null, date: null};
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})
 class UsersStore extends VuexModule {
   authorized: boolean = false;
   isRequest: boolean = false;
-  currentUser: IUser = {
-    id: 0,
-    first_name: '',
-    last_name: '',
-    email: '',
+  currentUser: User = createUserModel({
+    id: null,
+    first_name: null,
+    last_name: null,
+    email: null,
     permissions: [],
     roles: [],
-    email_verified_at: {date: '', timezone: '', timezone_type: 0},
-    created_at: {date: '', timezone: '', timezone_type: 0},
-    updated_at: {date: '', timezone: '', timezone_type: 0},
-    deleted_at: {date: '', timezone: '', timezone_type: 0},
-  };
+    email_verified_at: defaultDateTime,
+    created_at: defaultDateTime,
+    updated_at: defaultDateTime,
+    deleted_at: defaultDateTime,
+  });
   message: string = '';
   errors: [] = [];
 
   @Mutation
-  setCurrentUser(user: IUser) {
-    this.currentUser = user;
+  setCurrentUser(user: User) {
+    this.currentUser = createUserModel(user);
   }
 
   @Mutation
@@ -55,7 +58,7 @@ class UsersStore extends VuexModule {
   async getCurrentUser() {
     this.setIsRequest(true);
     try {
-      const userResp: AxiosResponse<IResponse<IUser>> = await http.get(apiRoutes.users.current);
+      const userResp: AxiosResponse<IResponse<User>> = await http.get(apiRoutes.users.current);
       this.setCurrentUser(userResp.data.data);
     } finally {
       this.setIsRequest(false);
@@ -70,7 +73,7 @@ class UsersStore extends VuexModule {
 
     // Try to login
     try {
-      const loginResp: AxiosResponse = await http.post(apiRoutes.users.login, {email, password});
+      await http.post(apiRoutes.users.login, {email, password});
       this.setAuthorized(true);
       await this.getCurrentUser();
     } catch (e) {

@@ -1,4 +1,5 @@
 import Vue from "vue";
+import "reflect-metadata";
 import Application from "./Application.vue";
 import {store} from "./store/store";
 import router from "./router/router";
@@ -6,7 +7,6 @@ import router from "./router/router";
 import "@/plugins/validator";
 import "@/plugins/vuetify";
 import i18n from "./plugins/i18n";
-import "reflect-metadata";
 
 Vue.use(require('vue-moment'));
 

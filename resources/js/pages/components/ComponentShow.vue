@@ -70,7 +70,6 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import i18n from "../../plugins/i18n";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
   import IComponent from "../../models/IComponent";
@@ -91,7 +90,7 @@
     }
 
     get userCanUpdate() {
-      return userHelper.can(usersStore.currentUser, 'components.update');
+      return usersStore.currentUser.can('components.update');
     }
 
     get isRequest() {
