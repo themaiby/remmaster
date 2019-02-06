@@ -20,6 +20,7 @@ export class Contact implements ContactScheme {
   @Type(() => DateTime) created_at: DateTime | null = null;
   @Type(() => DateTime) updated_at: DateTime | null = null;
 }
+
 export const createContactModel = (contact: Contact) => plainToClass(Contact, contact);
 export const defaultContactModel: ContactScheme = {
   created_at: null,

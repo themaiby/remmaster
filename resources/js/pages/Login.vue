@@ -1,70 +1,70 @@
 <template>
   <VContent id="content-body">
     <VContainer
-      fluid
       fill-height
+      fluid
     >
       <VLayout
         align-center
         justify-center
       >
         <VFlex
-          xs12
-          sm8
           md4
+          sm8
+          xs12
         >
-            <VCardText>
-              <VForm>
-                <VTextField
-                  @keypress.enter.native="login"
-                  prepend-icon="mdi-email"
-                  name="email"
-                  type="email"
-                  v-model="email"
-                  :label="$t('attributes.email')"
-                  :disabled="isRequest"
-                  v-validate="'required|email'"
-                  :error-messages="errors.collect('email')"
-                  autofocus
-                />
-                <VTextField
-                  @keypress.enter.native="login"
-                  prepend-icon="mdi-lock"
-                  name="password"
-                  type="password"
-                  v-model="password"
-                  :label="$t('attributes.password')"
-                  :disabled="isRequest"
-                  v-validate="'required'"
-                  :error-messages="errors.collect('password')"
-                  :type="show ? 'text' : 'password'"
-                  :append-icon="show ? 'visibility_off' : 'visibility'"
-                  @click:append="show = !show"
-                />
-                <br>
-                <VAlert
-                  v-show="message"
-                  :value="true"
-                  type="error"
-                  transition="scale-transition"
-                  outline
-                >
-                  <v-icon>mdi-success</v-icon>
-                  {{ message }}
-                </VAlert>
-              </VForm>
-            </VCardText>
-            <VCardActions>
-              <VBtn
-                :loading="isRequest"
-                block
-                id="login-button"
-                @click="login"
-                dark
+          <VCardText>
+            <VForm>
+              <VTextField
+                :disabled="isRequest"
+                :error-messages="errors.collect('email')"
+                :label="$t('attributes.email')"
+                @keypress.enter.native="login"
+                autofocus
+                name="email"
+                prepend-icon="mdi-email"
+                type="email"
+                v-model="email"
+                v-validate="'required|email'"
+              />
+              <VTextField
+                :append-icon="show ? 'visibility_off' : 'visibility'"
+                :disabled="isRequest"
+                :error-messages="errors.collect('password')"
+                :label="$t('attributes.password')"
+                :type="show ? 'text' : 'password'"
+                @click:append="show = !show"
+                @keypress.enter.native="login"
+                name="password"
+                prepend-icon="mdi-lock"
+                type="password"
+                v-model="password"
+                v-validate="'required'"
+              />
+              <br>
+              <VAlert
+                :value="true"
+                outline
+                transition="scale-transition"
+                type="error"
+                v-show="message"
               >
-                {{ $t('auth.login') }}
-              </VBtn>
-            </VCardActions>
+                <v-icon>mdi-success</v-icon>
+                {{ message }}
+              </VAlert>
+            </VForm>
+          </VCardText>
+          <VCardActions>
+            <VBtn
+              :loading="isRequest"
+              @click="login"
+              block
+              dark
+              id="login-button"
+            >
+              {{ $t('auth.login') }}
+            </VBtn>
+          </VCardActions>
         </VFlex>
       </VLayout>
     </VContainer>

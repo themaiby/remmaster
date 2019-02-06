@@ -1,30 +1,30 @@
 <template>
   <v-container>
     <VToolbar
-      flat
-      color="white"
       class="components-gradient"
+      color="white"
+      flat
     >
-      <v-btn flat icon @click="refresh">
+      <v-btn @click="refresh" flat icon>
         <v-icon small>mdi-refresh</v-icon>
       </v-btn>
       <VSpacer/>
       <VBtn
-        v-if="true"
-        dark
-        color="blue-grey darken-4"
-        class="mb-2"
         :to="{name: routeNames.components.create}"
+        class="mb-2"
+        color="blue-grey darken-4"
+        dark
         flat
         icon
+        v-if="true"
       >
         <VIcon>mdi-plus</VIcon>
       </VBtn>
       <VBtn
         :color="filter ? 'primary' : 'blue-grey darken-4'"
-        dark
-        class="mb-2"
         :to="{name: routeNames.components.filter}"
+        class="mb-2"
+        dark
         flat
         icon
       >
@@ -33,14 +33,14 @@
         </VIcon>
       </VBtn>
       <VBtn
-        small
-        color="red accent-2"
+        @click="resetFilter"
         class="mb-2"
+        color="red accent-2"
         dark
         flat
-        v-if="filter"
-        @click="resetFilter"
         icon
+        small
+        v-if="filter"
       >
         <VIcon small>
           mdi-filter-remove
@@ -51,13 +51,13 @@
     <v-data-table
       :headers="headers"
       :items="components"
-      :pagination.sync="tableParams"
-      :total-items="meta.total"
       :loading="isRequest"
+      :pagination.sync="tableParams"
       :rows-per-page-items="[5, 10, 25, 50, 100]"
+      :total-items="meta.total"
       class="elevation-24"
     >
-      <v-progress-linear slot="progress" color="grey" indeterminate height="2"/>
+      <v-progress-linear color="grey" height="2" indeterminate slot="progress"/>
 
       <!-- todo: transition -->
       <template
@@ -65,8 +65,8 @@
         slot-scope="props"
       >
         <tr
-          :key="props.item.id"
           :class="props.item.count === 0 ? 'darken' : ''"
+          :key="props.item.id"
         >
           <td>{{ props.item.title }}</td>
           <td>{{ props.item.article }}</td>
@@ -92,7 +92,7 @@
 
             <v-tooltip top>
               <router-link :to="{name: routeNames.components.update, params: {id: props.item.id}}" slot="activator">
-                <VIcon color="secondary lighten-1" @click="" small>
+                <VIcon @click="" color="secondary lighten-1" small>
                   mdi-pencil
                 </VIcon>
               </router-link>
@@ -102,10 +102,10 @@
             <v-tooltip top>
               <a
                 :href="`/components/${props.item.id}/delete`"
-                slot="activator"
                 @click="deleteComponent(props.item.id, $event)"
+                slot="activator"
               >
-                <VIcon color="error" @click="" small>
+                <VIcon @click="" color="error" small>
                   mdi-delete
                 </VIcon>
               </a>

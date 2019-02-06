@@ -30,6 +30,11 @@ class VendorsStore extends VuexModule {
     sortBy: '',
   };
 
+  /* GETTERS */
+  get getVendorById() {
+    return (id: number) => this.vendors.find(vendor => vendor.id === id);
+  }
+
   @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
@@ -64,11 +69,6 @@ class VendorsStore extends VuexModule {
   @Mutation
   setMessage(message: string) {
     this.message = message;
-  }
-
-  /* GETTERS */
-  get getVendorById() {
-    return (id: number) => this.vendors.find(vendor => vendor.id === id);
   }
 
   /*   ACTIONS   */

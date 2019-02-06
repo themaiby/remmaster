@@ -1,8 +1,8 @@
 <template>
   <VDialog
-    v-model="dialog"
     max-width="1000px"
     scrollable
+    v-model="dialog"
   >
     <VCard>
       <VCardText>
@@ -10,180 +10,180 @@
           <VLayout wrap>
             <!-- Input -->
             <VFlex
-              xs6
-              sm6
               md6
+              sm6
+              xs6
             >
               <VTextField
-                :label="$t('components.title')"
                 :hint="$t('menu.approximate')"
+                :label="$t('components.title')"
+                @keypress.enter.native="apply"
                 name="name"
                 v-model="filter.title"
-                @keypress.enter.native="apply"
               />
             </VFlex>
             <VFlex
-              xs6
-              sm6
               md6
+              sm6
+              xs6
             >
               <VTextField
-                :label="$t('components.article')"
                 :hint="$t('menu.approximate')"
+                :label="$t('components.article')"
+                @keypress.enter.native="apply"
                 name="title"
                 v-model="filter.article"
-                @keypress.enter.native="apply"
               />
             </VFlex>
 
             <!-- vendor-->
             <VFlex
-              xs12
-              sm12
               md12
+              sm12
+              xs12
             >
               <v-autocomplete
-                v-model="filter.vendor"
                 :items="availableVendors"
                 :label="$t('components.vendor')"
-                prepend-icon="mdi-truck-fast"
+                @keypress.enter.native="apply"
                 item-text="name"
                 item-value="id"
-                @keypress.enter.native="apply"
+                prepend-icon="mdi-truck-fast"
+                v-model="filter.vendor"
               >
                 <v-slide-x-reverse-transition
-                  slot="append-outer"
                   mode="out-in"
+                  slot="append-outer"
                 >
                 </v-slide-x-reverse-transition>
               </v-autocomplete>
             </VFlex>
 
             <!-- count -->
-            <v-flex xs3 sm3 md3>
-              <v-text-field :label="$t('components.countMin')"
+            <v-flex md3 sm3 xs3>
+              <v-text-field :data-vv-as="$t('components.countMin')"
+                            :error-messages="errors.collect('countMin')"
+                            :label="$t('components.countMin')"
                             @keypress.enter.native="apply"
                             name="countMin"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('countMin')"
-                            :data-vv-as="$t('components.countMin')"
                             v-model="filter.countMin"
+                            v-validate="'numeric'"
               />
             </v-flex>
-            <v-flex xs3 sm3 md3>
-              <v-text-field :label="$t('components.countMax')"
+            <v-flex md3 sm3 xs3>
+              <v-text-field :data-vv-as="$t('components.countMax')"
+                            :error-messages="errors.collect('countMax')"
+                            :label="$t('components.countMax')"
                             @keypress.enter.native="apply"
                             name="countMax"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('countMax')"
-                            :data-vv-as="$t('components.countMax')"
                             v-model="filter.countMax"
+                            v-validate="'numeric'"
               />
             </v-flex>
 
             <!-- Cost -->
-            <v-flex xs3 sm3 md3>
-              <v-text-field :label="$t('components.costMin')"
+            <v-flex md3 sm3 xs3>
+              <v-text-field :data-vv-as="$t('components.costMin')"
+                            :error-messages="errors.collect('costMin')"
+                            :label="$t('components.costMin')"
                             @keypress.enter.native="apply"
                             name="costMin"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('costMin')"
-                            :data-vv-as="$t('components.costMin')"
                             v-model="filter.costMin"
+                            v-validate="'numeric'"
               />
             </v-flex>
-            <v-flex xs3 sm3 md3>
-              <v-text-field :label="$t('components.costMax')"
+            <v-flex md3 sm3 xs3>
+              <v-text-field :data-vv-as="$t('components.costMax')"
+                            :error-messages="errors.collect('costMax')"
+                            :label="$t('components.costMax')"
                             @keypress.enter.native="apply"
                             name="costMax"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('costMax')"
-                            :data-vv-as="$t('components.costMax')"
                             v-model="filter.costMax"
+                            v-validate="'numeric'"
               />
             </v-flex>
 
 
             <!-- Datepickers -->
             <VFlex
-              xs12
-              sm6
-              md6
               class="mt-3"
+              md6
+              sm6
+              xs12
             >
               <v-label>{{$t('vendors.createDate')}}</v-label>
               <VMenu
                 :close-on-content-click="false"
-                v-model="createdAtInput.min"
                 :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
                 full-width
+                lazy
                 min-width="290px"
+                offset-y
+                transition="scale-transition"
+                v-model="createdAtInput.min"
               >
                 <VTextField
-                  slot="activator"
-                  v-model="filter.createdAtMin"
                   prepend-icon="mdi-calendar"
                   readonly
+                  slot="activator"
+                  v-model="filter.createdAtMin"
                 />
                 <VDatePicker
-                  v-model="filter.createdAtMin"
-                  @input="createdAtInput.min = false"
                   :first-day-of-week="0"
+                  @input="createdAtInput.min = false"
                   locale="ru-ru"
+                  v-model="filter.createdAtMin"
                 />
               </VMenu>
             </VFlex>
 
             <VFlex
-              xs12
-              sm6
-              md6
               class="mt-3"
+              md6
+              sm6
+              xs12
             >
               <v-label>{{ $t('vendors.createDateTo') }}</v-label>
               <VMenu
                 :close-on-content-click="false"
-                v-model="createdAtInput.max"
                 :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
                 full-width
+                lazy
                 min-width="290px"
+                offset-y
+                transition="scale-transition"
+                v-model="createdAtInput.max"
               >
                 <VTextField
-                  slot="activator"
-                  v-model="filter.createdAtMax"
                   prepend-icon="mdi-calendar"
                   readonly
+                  slot="activator"
+                  v-model="filter.createdAtMax"
                 />
                 <VDatePicker
-                  v-model="filter.createdAtMax"
-                  @input="createdAtInput.max = false"
                   :first-day-of-week="0"
+                  @input="createdAtInput.max = false"
                   locale="ru-ru"
+                  v-model="filter.createdAtMax"
                 />
               </VMenu>
             </VFlex>
 
             <!-- Category choice -->
-            <v-flex xs12 md12 lg12 mt-3>
+            <v-flex lg12 md12 mt-3 xs12>
               <v-label>{{ $t('components.categoryChoice') }}</v-label>
             </v-flex>
-            <v-flex xs12 md12 lg12>
+            <v-flex lg12 md12 xs12>
               <div class="pa-2">
                 <v-treeview
-                  item-key="id"
-                  item-children="child"
                   :items="availableCategories"
                   active-class="grey lighten-4 indigo--text"
                   expand-icon="mdi-chevron-down"
+                  item-children="child"
+                  item-key="id"
                 >
                   <template slot="prepend" slot-scope="{ item }">
-                    <v-checkbox v-model="filter.categories" :value="item.id" :label="item.title"/>
+                    <v-checkbox :label="item.title" :value="item.id" v-model="filter.categories"/>
                   </template>
                 </v-treeview>
               </div>
@@ -195,16 +195,16 @@
       <VCardActions>
         <VSpacer/>
         <VBtn
+          @click="dialog = false"
           color="blue darken-1"
           flat
-          @click="dialog = false"
         >
           {{ $t('menu.cancel') }}
         </VBtn>
         <VBtn
+          @click="apply"
           color="blue darken-1"
           flat
-          @click="apply"
         >
           {{ $t('menu.apply') }}
         </VBtn>

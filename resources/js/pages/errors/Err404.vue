@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fill-height fluid>
         <h1>Not found</h1>
         <v-divider/>
         <a @click="$router.go(-2)"><h3>Back</h3></a>

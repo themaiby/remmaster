@@ -33,7 +33,8 @@ export class Component implements ComponentScheme {
   @Type(() => DateTime) updated_at: DateTime | null = null;
 }
 
-export class ComponentCollection extends Array<Component> {}
+export class ComponentCollection extends Array<Component> {
+}
 
 export const createComponentModel = (component: ComponentScheme): Component => plainToClass(Component, component);
 export const defaultComponentModel: ComponentScheme = {

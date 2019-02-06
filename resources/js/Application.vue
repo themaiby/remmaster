@@ -1,9 +1,9 @@
 <template>
   <v-app id="content-body">
     <router-view v-if="applicationLoaded"></router-view>
-    <VContainer v-else fluid fill-height>
+    <VContainer fill-height fluid v-else>
       <VLayout align-center justify-center>
-        <v-progress-circular :size="100" color="primary" indeterminate />
+        <v-progress-circular :size="100" color="primary" indeterminate/>
       </VLayout>
     </VContainer>
   </v-app>

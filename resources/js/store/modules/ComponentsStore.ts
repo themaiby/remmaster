@@ -40,6 +40,11 @@ class ComponentsStore extends VuexModule {
   availableCategories: ComponentCategoryScheme[] = [];
   isComponentCreatingRequest: boolean = false;
 
+  /* GETTERS */
+  get getComponentById() {
+    return (id: number) => this.components.find(c => c.id === id);
+  }
+
   @Mutation setIsComponentCreatingRequest(isRequest: boolean) {
     this.isComponentCreatingRequest = isRequest;
   }
@@ -87,11 +92,6 @@ class ComponentsStore extends VuexModule {
 
   @Mutation setComponent(component: ComponentScheme) {
     this.component = createComponentModel(component);
-  }
-
-  /* GETTERS */
-  get getComponentById() {
-    return (id: number) => this.components.find(c => c.id === id);
   }
 
   @Action

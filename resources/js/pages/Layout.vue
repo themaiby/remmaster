@@ -1,18 +1,18 @@
 <template>
   <div>
     <VNavigationDrawer
-      v-model="drawer"
       app
       dark
-      mobile-break-point="991"
-      width="260"
       id="app-drawer-common"
+      mobile-break-point="991"
+      v-model="drawer"
+      width="260"
     >
       <v-img
         :src="navbarImg"
         height="100%"
       >
-        <VList dense class="fill-height" id="app-drawer">
+        <VList class="fill-height" dense id="app-drawer">
 
           <v-list-tile avatar style="padding: 10px">
             <v-list-tile-title class="title">
@@ -23,9 +23,9 @@
           <v-divider></v-divider>
 
           <VFlex class="text-xs-center"
+                 fill-height
                  mt-5
-                 v-if="!(menu.length)"
-                 fill-height>
+                 v-if="!(menu.length)">
             <VProgressCircular
               :size="70"
               :width="4"
@@ -35,10 +35,10 @@
           </VFlex>
           <template v-for="item in menu">
             <VLayout
-              v-if="item.heading"
               :key="item.heading"
-              row
               align-center
+              row
+              v-if="item.heading"
             >
               <VFlex xs6>
                 <VSubheader v-if="item.heading">
@@ -46,22 +46,22 @@
                 </VSubheader>
               </VFlex>
               <VFlex
-                xs6
                 class="text-xs-center"
+                xs6
               >
                 <a
-                  href="#!"
                   class="body-2 black--text"
+                  href="#!"
                 >
                   EDIT
                 </a>
               </VFlex>
             </VLayout>
             <VListGroup
-              v-else-if="item.children"
               :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
               append-icon=""
+              v-else-if="item.children"
             >
               <VListTile slot="activator">
                 <VListTileContent>
@@ -71,11 +71,11 @@
                 </VListTileContent>
               </VListTile>
               <VListTile
-                v-for="(child, i) in item.children"
                 :key="i"
                 :to="{name: child.routeName}"
                 active-class="blue-grey lighten-1"
                 ripple
+                v-for="(child, i) in item.children"
               >
                 <VListTileAction v-if="child.icon">
                   <VIcon>{{ child.icon }}</VIcon>
@@ -88,11 +88,11 @@
               </VListTile>
             </VListGroup>
             <VListTile
-              v-else
               :key="item.text"
               :to="{name: item.routeName}"
               active-class="blue-grey darken-2"
               ripple
+              v-else
             >
               <VListTileAction>
                 <VIcon>{{ item.icon }}</VIcon>
@@ -110,8 +110,8 @@
     <VContent>
       <Toolbar class="transparent"/>
       <Transition
-        name="fade"
         mode="out-in"
+        name="fade"
       >
         <RouterView/>
       </Transition>
@@ -119,21 +119,21 @@
 
     <!-- Snackbar -->
     <v-snackbar
-      v-model="snackbar.show"
       :bottom="snackbar.y === 'bottom'"
+      :color="snackbar.color"
       :left="snackbar.x === 'left'"
       :multi-line="snackbar.mode === 'multi-line'"
       :right="snackbar.x === 'right'"
       :timeout="snackbar.timeout"
       :top="snackbar.y === 'top'"
       :vertical="snackbar.mode === 'vertical'"
-      :color="snackbar.color"
+      v-model="snackbar.show"
     >
       {{ snackbar.text }}
       <v-btn
+        @click="hideSnack"
         flat
         icon
-        @click="hideSnack"
       >
         <v-icon>mdi-close</v-icon>
       </v-btn>
