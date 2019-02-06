@@ -8,7 +8,7 @@ import {http} from "../plugins/axios";
 import {apiRoutes} from "../apiRoutes";
 import {usersStore} from "../store/modules/UsersStore";
 import {AxiosResponse} from "axios";
-import IResponse from "../models/IResponse";
+import IResponse from "../interfaces/IResponse";
 import {UserScheme} from "../models/User";
 
 export default async ({next}: IMiddleware) => {

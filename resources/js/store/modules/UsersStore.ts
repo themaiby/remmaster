@@ -3,7 +3,7 @@ import {store} from "../store";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
-import IResponse from "../../models/IResponse";
+import IResponse from "../../interfaces/IResponse";
 import {createUserModel, defaultUserModel, User, UserScheme} from "../../models/User";
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})

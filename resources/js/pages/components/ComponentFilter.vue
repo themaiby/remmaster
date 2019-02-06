@@ -216,7 +216,7 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import {IComponentsFilter} from "../../models/ITableParams";
+  import {IComponentsFilter} from "../../interfaces/ITableParams";
   import {componentsStore} from "../../store/modules/ComponentsStore";
 
   @Component export default class VendorFilter extends Vue {

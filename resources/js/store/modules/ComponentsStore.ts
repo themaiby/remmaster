@@ -1,13 +1,13 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
-import IComponent from "../../models/IComponent";
-import ITableParams, {IComponentsFilter} from "../../models/ITableParams";
+import IComponent from "../../interfaces/IComponent";
+import ITableParams, {IComponentsFilter} from "../../interfaces/ITableParams";
 import {QueryBuilder} from "../../utils/QueryBuilder";
 import {AxiosResponse} from "axios";
-import IResponse from "../../models/IResponse";
+import IResponse from "../../interfaces/IResponse";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
-import IMeta from "../../models/IMeta";
+import IMeta from "../../interfaces/IMeta";
 import {snack} from "../../utils/snack";
 import {createVendorModel, VendorCollection, VendorScheme} from "../../models/Vendor";
 import {

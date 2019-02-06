@@ -6,9 +6,9 @@ import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 /* Interfaces */
 import {AxiosResponse} from "axios";
-import IMeta from "../../models/IMeta";
-import IResponse from "../../models/IResponse";
-import ITableParams, {IVendorsFilter} from "../../models/ITableParams";
+import IMeta from "../../interfaces/IMeta";
+import IResponse from "../../interfaces/IResponse";
+import ITableParams, {IVendorsFilter} from "../../interfaces/ITableParams";
 import {snack} from "../../utils/snack";
 import {createVendorModel, defaultVendorModel, Vendor, VendorCollection, VendorScheme} from "../../models/Vendor";
 

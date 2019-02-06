@@ -1,5 +1,5 @@
 import IDateModel from "./IDateModel";
-import {Vendor} from "./Vendor";
+import {Vendor} from "../models/Vendor";
 
 export default interface IComponent {
   article: string;

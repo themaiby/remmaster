@@ -1,4 +1,4 @@
-import TableParams from "../models/ITableParams";
+import TableParams from "../interfaces/ITableParams";
 
 export class QueryBuilder<T> {
   private readonly _p: TableParams<T>;

@@ -139,7 +139,7 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {IVendorsFilter} from "../../models/ITableParams";
+  import {IVendorsFilter} from "../../interfaces/ITableParams";
 
   @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {

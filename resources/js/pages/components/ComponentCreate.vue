@@ -170,7 +170,7 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IComponent from "../../models/IComponent";
+  import IComponent from "../../interfaces/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
 
   @Component export default class VendorCreate extends Vue {

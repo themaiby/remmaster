@@ -1,21 +1,21 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
-import IMenu from "../../models/IMenu";
-import ApiResponse from "../../models/IResponse";
+import ApiResponse from "../../interfaces/IResponse";
 import {AxiosResponse} from "axios";
 import {http} from "../../plugins/axios";
-import {ISnackbar} from "../../models/ISnackbar";
+import {ISnackbar} from "../../interfaces/ISnackbar";
+import {createMenuModel, Menu, MenuScheme} from "../../models/Menu";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+  menu: Menu[] = [];
   currentPageTitle: { text: string, image?: string } = {text: '', image: ''};
   currentPageImage: string | null = null;
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
   loaded: boolean = false;
-  menu: IMenu[] = [];
   requestInProgress: boolean = false;
   itWasTokenRefreshAttempt: boolean = false;
   snackbar: ISnackbar = {show: false, y: 'top', x: 'right', mode: '', timeout: 3000, text: '', color: 'secondary'};
@@ -51,14 +51,14 @@ class ApplicationStore extends VuexModule {
   }
 
   @Mutation
-  setMenu(menu: IMenu[]) {
-    this.menu = menu;
+  setMenu(menu: MenuScheme[]) {
+    this.menu = menu.map(item => createMenuModel(item));
   }
 
   @Action
   async getMenu() {
     try {
-      const menu: AxiosResponse<ApiResponse<IMenu[]>> = await http.get(apiRoutes.app.menu);
+      const menu: AxiosResponse<ApiResponse<MenuScheme[]>> = await http.get(apiRoutes.app.menu);
       this.context.commit('setMenu', menu.data.data);
     } catch (e) {
     }

@@ -72,7 +72,7 @@
   import i18n from "../../plugins/i18n";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
-  import IComponent from "../../models/IComponent";
+  import IComponent from "../../interfaces/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
   import {Component as ComponentModel, defaultComponentModel} from "../../models/Component";
 

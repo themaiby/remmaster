@@ -1,4 +1,4 @@
-import IComponent from "./IComponent";
+import IComponent from "../interfaces/IComponent";
 import {DateTime} from "./DateTime";
 import {plainToClass, Type} from "class-transformer";
 import {Contact} from "./Contact";
