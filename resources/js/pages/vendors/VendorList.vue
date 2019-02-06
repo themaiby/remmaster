@@ -113,8 +113,8 @@
   import i18n from "../../plugins/i18n";
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
-  import IVendor from "../../models/IVendor";
   import {usersStore} from "../../store/modules/UsersStore";
+  import {Vendor} from "../../models/Vendor";
 
   @Component
   export default class VendorList extends Vue {
@@ -176,14 +176,14 @@
 
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
-      const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
+      const vendor: Vendor | undefined = vendorsStore.getVendorById(id);
 
       let deleteVendor: boolean = false;
       if (vendor) {
         deleteVendor = confirm(
           `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
         );
-        if (deleteVendor) vendorsStore.deleteVendor({id, name: vendor.name});
+        deleteVendor ? vendorsStore.deleteVendor({id, name: vendor.name}) : false;
       }
     }
 

@@ -1,5 +1,5 @@
 import IDateModel from "./IDateModel";
-import IVendor from "./IVendor";
+import {Vendor} from "./Vendor";
 
 export default interface IComponent {
   article: string;
@@ -10,7 +10,7 @@ export default interface IComponent {
   id?: number;
   category_id?: number;
   category?: { id: number, title: string },
-  vendor?: IVendor;
+  vendor?: Vendor;
   vendor_id?: number;
   created_at?: IDateModel;
   updated_at?: IDateModel;

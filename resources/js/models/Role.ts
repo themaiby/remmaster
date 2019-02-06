@@ -11,8 +11,3 @@ export class Role {
   @Type(() => DateTime) updated_at: DateTime | null = null;
 }
 
-export class RoleCollection extends Array<Role> {
-  hasName(name: string) {
-    return this.some((role) => role.name === name);
-  }
-}

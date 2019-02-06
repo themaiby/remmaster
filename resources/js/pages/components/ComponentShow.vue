@@ -74,6 +74,7 @@
   import {routeNames} from "../../router/routeNames";
   import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import {Component as ComponentModel, defaultComponentModel} from "../../models/Component";
 
   @Component
   export default class VendorShow extends Vue {
@@ -85,7 +86,7 @@
       applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${component.title}"`});
     }
 
-    get component(): IComponent {
+    get component(): ComponentModel {
       return componentsStore.component;
     }
 
@@ -103,7 +104,7 @@
     }
 
     destroyed() {
-      componentsStore.setComponent({article: '', title: '', cost: 0, count: 0});
+      componentsStore.setComponent(defaultComponentModel);
     }
   }
 </script>

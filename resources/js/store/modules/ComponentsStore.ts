@@ -8,13 +8,21 @@ import IResponse from "../../models/IResponse";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import IMeta from "../../models/IMeta";
-import IVendor from "../../models/IVendor";
 import {snack} from "../../utils/snack";
+import {createVendorModel, VendorCollection, VendorScheme} from "../../models/Vendor";
+import {
+  Component,
+  ComponentCollection,
+  ComponentScheme,
+  createComponentModel,
+  defaultComponentModel
+} from "../../models/Component";
+import {ComponentCategoryScheme} from "../../models/ComponentCategory";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
-  component: IComponent = {article: '', cost: 0, count: 0, title: '', vendor: {name: '', id: 0}};
-  components: IComponent[] = [];
+  component: Component = defaultComponentModel;
+  components: ComponentCollection = [];
   isRequest: boolean = false;
   isUpdateRequest: boolean = false;
   isFilterLoading: boolean = false;
@@ -28,69 +36,57 @@ class ComponentsStore extends VuexModule {
     rowsPerPage: Number(localStorage.getItem('componentsPerPage')) || 5,
     sortBy: '',
   };
-  availableVendors: IVendor[] = [];
-  availableCategories: { id: number, title: string }[] = [];
+  availableVendors: VendorCollection = [];
+  availableCategories: ComponentCategoryScheme[] = [];
   isComponentCreatingRequest: boolean = false;
 
-  @Mutation
-  setIsComponentCreatingRequest(isRequest: boolean) {
+  @Mutation setIsComponentCreatingRequest(isRequest: boolean) {
     this.isComponentCreatingRequest = isRequest;
   }
 
-  @Mutation
-  setComponents(components: IComponent[]) {
-    this.components = components;
+  @Mutation setComponents(components: ComponentScheme[]) {
+    this.components = components.map(component => createComponentModel(component));
   }
 
-  @Mutation
-  setIsRequest(isRequest: boolean) {
+  @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setIsUpdateRequest(isRequest: boolean) {
+  @Mutation setIsUpdateRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setTableParams(params: ITableParams<IComponentsFilter>) {
+  @Mutation setTableParams(params: ITableParams<IComponentsFilter>) {
     if (params.rowsPerPage) localStorage.setItem('componentsPerPage', params.rowsPerPage.toString());
     this.tableParams = params;
   }
 
-  @Mutation
-  setMeta(meta: IMeta) {
+  @Mutation setMeta(meta: IMeta) {
     this.meta = meta;
   }
 
-  @Mutation
-  setMessage(message: string) {
+  @Mutation setMessage(message: string) {
     this.message = message;
   }
 
-  @Mutation
-  resetFilter() {
+  @Mutation resetFilter() {
     this.tableParams = {...this.tableParams, filter: null};
   }
 
-  @Mutation
-  setFilterLoading(isLoading: boolean) {
+  @Mutation setFilterLoading(isLoading: boolean) {
     this.isFilterLoading = isLoading;
   }
 
-  @Mutation
-  setAvailableVendors(vendors: IVendor[]) {
-    this.availableVendors = vendors;
+  @Mutation setAvailableVendors(vendors: VendorScheme[]) {
+    this.availableVendors = vendors.map(vendor => createVendorModel(vendor));
   }
 
-  @Mutation
-  setAvailableCategories(categories: { id: number, title: string }[]) {
+  @Mutation setAvailableCategories(categories: { id: number, title: string }[]) {
     this.availableCategories = categories;
   }
 
-  @Mutation
-  setComponent(component: IComponent) {
-    this.component = component;
+  @Mutation setComponent(component: ComponentScheme) {
+    this.component = createComponentModel(component);
   }
 
   /* GETTERS */
@@ -103,7 +99,7 @@ class ComponentsStore extends VuexModule {
     this.setIsRequest(true);
     try {
       const queryString = (new QueryBuilder<IComponentsFilter>(this.tableParams)).build();
-      const componentsRes: AxiosResponse<IResponse<IComponent[]>> = (
+      const componentsRes: AxiosResponse<IResponse<ComponentScheme[]>> = (
         await http.get(apiRoutes.components.index, {params: queryString})
       );
       this.setMeta(componentsRes.data.meta);
@@ -121,7 +117,7 @@ class ComponentsStore extends VuexModule {
   async getAvailableVendors() {
     this.setFilterLoading(true);
     try {
-      const vendorsRes: AxiosResponse<IResponse<IVendor[]>> = await http.get(apiRoutes.components.availableVendors);
+      const vendorsRes: AxiosResponse<IResponse<VendorScheme[]>> = await http.get(apiRoutes.components.availableVendors);
       this.setAvailableVendors(vendorsRes.data.data);
     } finally {
       this.setFilterLoading(false);
@@ -144,7 +140,7 @@ class ComponentsStore extends VuexModule {
   async createComponent(component: IComponent) {
     this.setIsComponentCreatingRequest(true);
     try {
-      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.create, component);
+      const componentRes: AxiosResponse<IResponse<ComponentScheme>> = await http.post(apiRoutes.components.create, component);
       this.setComponent(componentRes.data.data);
       snack.success('messages.components.createdSuccess', {
         title: this.component.title,
@@ -161,7 +157,7 @@ class ComponentsStore extends VuexModule {
   async getComponent(id: number) {
     this.setIsRequest(true);
     try {
-      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.get(apiRoutes.components.show(id));
+      const componentRes: AxiosResponse<IResponse<ComponentScheme>> = await http.get(apiRoutes.components.show(id));
       this.setComponent(componentRes.data.data);
     } catch (e) {
       snack.err(e.response.data.message);
@@ -171,11 +167,11 @@ class ComponentsStore extends VuexModule {
   }
 
   @Action
-  async updateComponent(component: IComponent) {
+  async updateComponent(component: Component) {
     this.setIsUpdateRequest(true);
     try {
       if (component.id != null) {
-        const componentRes: AxiosResponse<IResponse<IComponent>> = await http.put(apiRoutes.components.update(component.id), component);
+        const componentRes: AxiosResponse<IResponse<ComponentScheme>> = await http.put(apiRoutes.components.update(component.id), component);
         this.setComponent(componentRes.data.data);
         snack.success('messages.components.updatedSuccess');
       }
@@ -187,7 +183,7 @@ class ComponentsStore extends VuexModule {
   }
 
   @Action
-  async deleteComponent({id, title = ''}: { id: number, title: string }) {
+  async deleteComponent({id, title = ''}: { id: number, title: string | null }) {
     this.setIsRequest(true);
     try {
       const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.components.delete(id));

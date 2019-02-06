@@ -131,17 +131,16 @@
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../plugins/i18n";
-  import IVendor from "../../models/IVendor";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
+  import {defaultVendorModel, Vendor} from "../../models/Vendor";
 
   @Component
   export default class VendorShow extends Vue {
     pageTitle: string = String(i18n.t('vendors.vendor'));
     vendorUpdateRoute: string = routeNames.vendors.update;
 
-    @Watch('vendor') updateTitleAfterVendorReceived(vendor: IVendor) {
+    @Watch('vendor') updateTitleAfterVendorReceived(vendor: Vendor) {
       applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${vendor.name}"`});
     }
 
@@ -159,10 +158,10 @@
     }
 
     destroyed() {
-      vendorsStore.setVendor({name: ''});
+      vendorsStore.setVendor(defaultVendorModel);
     }
 
-    get vendor(): IVendor {
+    get vendor(): Vendor {
       return vendorsStore.vendor;
     }
   }

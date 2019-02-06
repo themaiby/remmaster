@@ -9,29 +9,19 @@ import {AxiosResponse} from "axios";
 import IMeta from "../../models/IMeta";
 import IResponse from "../../models/IResponse";
 import ITableParams, {IVendorsFilter} from "../../models/ITableParams";
-import IVendor from "../../models/IVendor";
 import {snack} from "../../utils/snack";
+import {createVendorModel, defaultVendorModel, Vendor, VendorCollection, VendorScheme} from "../../models/Vendor";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
   meta: IMeta = {};
+  vendor: Vendor = createVendorModel(defaultVendorModel);
+  vendors: VendorCollection = [];
+
   isRequest: boolean = false;
   isVendorCreatingRequest: boolean = false;
-  vendors: IVendor[] = [];
   message: string = '';
   errors: [] = [];
-  vendor: IVendor = {
-    id: 0,
-    name: '',
-    components_count: 0,
-    components_cost: 0,
-    note: '',
-    components: [],
-    contacts: [],
-    created_at: {date: '', timezone_type: 0, timezone: ''},
-    updated_at: {date: '', timezone_type: 0, timezone: ''},
-    deleted_at: {date: '', timezone_type: 0, timezone: ''}
-  };
   tableParams: ITableParams<IVendorsFilter> = {
     page: 1,
     descending: false,
@@ -40,18 +30,23 @@ class VendorsStore extends VuexModule {
     sortBy: '',
   };
 
-  @Mutation
-  setIsRequest(isRequest: boolean) {
+  @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setIsVendorCreatingRequest(isRequest: boolean) {
+  @Mutation setVendor(vendor: VendorScheme) {
+    this.vendor = createVendorModel(vendor);
+  }
+
+  @Mutation setVendors(vendors: VendorCollection) {
+    this.vendors = vendors.map((vendor => createVendorModel(vendor)));
+  }
+
+  @Mutation setIsVendorCreatingRequest(isRequest: boolean) {
     this.isVendorCreatingRequest = isRequest;
   }
 
-  @Mutation
-  setTableParams(params: ITableParams<IVendorsFilter>) {
+  @Mutation setTableParams(params: ITableParams<IVendorsFilter>) {
     if (params.rowsPerPage) localStorage.setItem('vendorsPerPage', params.rowsPerPage.toString());
     this.tableParams = params;
   }
@@ -59,16 +54,6 @@ class VendorsStore extends VuexModule {
   @Mutation
   resetFilter() {
     this.tableParams = {...this.tableParams, filter: null};
-  }
-
-  @Mutation
-  setVendor(vendor: IVendor) {
-    this.vendor = vendor;
-  }
-
-  @Mutation
-  setVendors(vendors: IVendor[]) {
-    this.vendors = vendors;
   }
 
   @Mutation
@@ -92,12 +77,11 @@ class VendorsStore extends VuexModule {
     this.setIsRequest(true);
     try {
       const queryString = (new QueryBuilder<IVendorsFilter>(this.tableParams)).build();
-      const vendors: AxiosResponse<IResponse<IVendor[]>> = (
+      const vendors: AxiosResponse<IResponse<VendorScheme[]>> = (
         await http.get(apiRoutes.vendors.index, {params: queryString})
       );
-      this.context.commit('setMeta', vendors.data.meta);
-      this.context.commit('setVendors', vendors.data.data);
-
+      this.setMeta(vendors.data.meta);
+      this.setVendors(vendors.data.data);
     } catch (e) {
       this.setMessage(e.response.data.message);
     } finally {
@@ -109,7 +93,7 @@ class VendorsStore extends VuexModule {
   async getVendor(id: number) {
     this.setIsRequest(true);
     try {
-      const vendorResponse: AxiosResponse<IResponse<IVendor>> = await http.get(apiRoutes.vendors.show(id));
+      const vendorResponse: AxiosResponse<IResponse<VendorScheme>> = await http.get(apiRoutes.vendors.show(id));
       this.setVendor(vendorResponse.data.data);
     } catch (e) {
       this.setMessage(e.response.data.message);
@@ -119,10 +103,10 @@ class VendorsStore extends VuexModule {
   }
 
   @Action
-  async createVendor(vendor: IVendor) {
+  async createVendor(vendor: VendorScheme) {
     this.setIsVendorCreatingRequest(true);
     try {
-      const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.post(apiRoutes.vendors.create, {
+      const vendorResp: AxiosResponse<IResponse<VendorScheme>> = await http.post(apiRoutes.vendors.create, {
         ...vendor, contacts: vendor.contacts ? vendor.contacts : []
       });
       this.setVendor(vendorResp.data.data);
@@ -135,10 +119,10 @@ class VendorsStore extends VuexModule {
   }
 
   @Action
-  async deleteVendor({id, name = ''}: { id: number, name: string }) {
+  async deleteVendor({id, name = ''}: { id: number, name: string | null }) {
     this.setIsRequest(true);
     try {
-      const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.vendors.delete(id));
+      await http.delete(apiRoutes.vendors.delete(id));
       if (name) snack.info('messages.vendors.deletedSuccess', {name: name});
     } catch (e) {
       snack.err(e.response.data.message);
@@ -148,13 +132,15 @@ class VendorsStore extends VuexModule {
   }
 
   @Action
-  async updateVendor(vendor: IVendor) {
+  async updateVendor(vendor: VendorScheme) {
     this.setIsVendorCreatingRequest(true);
     try {
       if (vendor.id != null) {
-        const vendorResp: AxiosResponse<IResponse<IVendor>> = await http.put(apiRoutes.vendors.update(vendor.id), {
-          ...vendor, contacts: vendor.contacts ? vendor.contacts : []
-        });
+        const vendorResp: AxiosResponse<IResponse<VendorScheme>> = await http.put(apiRoutes.vendors.update(vendor.id),
+          {
+            ...vendor,
+            contacts: vendor.contacts ? vendor.contacts : []
+          });
         this.setVendor(vendorResp.data.data);
         snack.success('messages.vendors.updatedSuccess');
       }

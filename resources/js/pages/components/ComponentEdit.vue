@@ -162,19 +162,11 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import {Component as ComponentModel, createComponentModel, defaultComponentModel} from "../../models/Component";
 
   @Component export default class VendorsEdit extends Vue {
-    private componentModel: IComponent = {
-      title: '',
-      count: 0,
-      cost: 0,
-      article: '',
-      category_id: 0,
-      vendor_id: 0,
-      category: {id: 0, title: ''}
-    };
+    private componentModel: ComponentModel = createComponentModel(defaultComponentModel);
     private isLoaded: boolean = false;
     private dialog: boolean = true;
 
@@ -187,7 +179,7 @@
       });
     }
 
-    get component(): IComponent {
+    get component(): ComponentModel {
       return componentsStore.component;
     }
 

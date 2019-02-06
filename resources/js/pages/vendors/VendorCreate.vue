@@ -127,23 +127,12 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IVendor from "../../models/IVendor";
-  import IContact from "../../models/IContact";
   import {vendorsStore} from "../../store/modules/VendorsStore";
+  import {createVendorModel, defaultVendorModel, Vendor} from "../../models/Vendor";
+  import {Contact, createContactModel, defaultContactModel} from "../../models/Contact";
 
   @Component export default class VendorCreate extends Vue {
-    @Watch('dialog') routeBack(value: boolean) {
-      if (!value) this.$router.push({name: routeNames.vendors.index});
-    }
-
-    @Watch('createdVendor') redirectToCreatedVendor(vendor: IVendor) {
-      if (vendor.id) this.$router.push({
-        name: routeNames.vendors.show,
-        params: {
-          id: String(vendor.id)
-        }
-      });
-    }
+    vendor: Vendor = createVendorModel(defaultVendorModel);
 
     dialog: boolean = true;
     icons = [
@@ -158,11 +147,18 @@
       'mdi-home-city',
     ];
 
-    vendor: IVendor = {
-      name: '',
-      note: '',
-      contacts: null,
-    };
+    @Watch('dialog') routeBack(value: boolean) {
+      if (!value) this.$router.push({name: routeNames.vendors.index});
+    }
+
+    @Watch('createdVendor') redirectToCreatedVendor(vendor: Vendor) {
+      if (vendor.id) this.$router.push({
+        name: routeNames.vendors.show,
+        params: {
+          id: String(vendor.id)
+        }
+      });
+    }
 
     get isRequest() {
       return vendorsStore.isVendorCreatingRequest;
@@ -174,11 +170,7 @@
 
     addContact() {
       const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: IContact = {
-        icon,
-        title: '',
-        value: ''
-      };
+      const contact: Contact = createContactModel(defaultContactModel);
       if (!this.vendor.contacts) {
         this.vendor.contacts = [contact];
       } else {

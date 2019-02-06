@@ -131,9 +131,9 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IVendor from "../../models/IVendor";
-  import IContact from "../../models/IContact";
   import {vendorsStore} from "../../store/modules/VendorsStore";
+  import {defaultVendorModel, Vendor} from "../../models/Vendor";
+  import {Contact, defaultContactModel} from "../../models/Contact";
 
   @Component export default class VendorEdit extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
@@ -145,11 +145,11 @@
       });
     }
 
-    @Watch('storedVendor') setLocaleVendorModel(vendor: IVendor) {
+    @Watch('storedVendor') setLocaleVendorModel(vendor: Vendor) {
       if (!this.vendor.id) this.vendor = {...vendor};
     }
 
-    vendor: IVendor = {name: ''};
+    vendor: Vendor = defaultVendorModel;
     dialog: boolean = true;
     icons = [
       'mdi-cellphone',
@@ -182,23 +182,11 @@
 
     addContact() {
       const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: IContact = {
-        icon,
-        title: '',
-        value: ''
-      };
+      const contact: Contact = defaultContactModel;
       if (!this.vendor.contacts) {
         this.vendor.contacts = [contact];
       } else {
         this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
-    }
-
-    deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
       }
     }
 
@@ -207,6 +195,14 @@
       return currentContactsLength >= this.icons.length ?
         (currentContactsLength % this.icons.length) :
         currentContactsLength;
+    }
+
+    deleteContact(idxToDelete: number) {
+      if (this.vendor.contacts) {
+        this.vendor.contacts = this.vendor.contacts.filter(
+          (contact, idx) => idx !== idxToDelete
+        );
+      }
     }
 
     confirm() {

@@ -126,7 +126,7 @@
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import {usersStore} from "../../store/modules/UsersStore";
   import {componentsStore} from "../../store/modules/ComponentsStore";
-  import IComponent from "../../models/IComponent";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component
   export default class ComponentList extends Vue {
@@ -192,7 +192,7 @@
 
     deleteComponent(id: number, $event: Event,) {
       $event.preventDefault();
-      const component: IComponent | undefined = componentsStore.getComponentById(id);
+      const component: ComponentModel | undefined = componentsStore.getComponentById(id);
 
       let deleteVendor: boolean = false;
       if (component) {
