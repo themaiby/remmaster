@@ -5,52 +5,33 @@ import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
 import IResponseError from "../../models/IResponseError";
-import {createUserModel, User} from "../../models/User";
-import {DateTime} from "../../models/DateTime";
-
-const defaultDateTime: DateTime = {timezone: null, timezone_type: null, date: null};
+import {createUserModel, defaultUserModel, User, UserScheme} from "../../models/User";
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})
 class UsersStore extends VuexModule {
   authorized: boolean = false;
   isRequest: boolean = false;
-  currentUser: User = createUserModel({
-    id: null,
-    first_name: null,
-    last_name: null,
-    email: null,
-    permissions: [],
-    roles: [],
-    email_verified_at: defaultDateTime,
-    created_at: defaultDateTime,
-    updated_at: defaultDateTime,
-    deleted_at: defaultDateTime,
-  });
-  message: string = '';
-  errors: [] = [];
+  currentUser: User = createUserModel(defaultUserModel);
+  message: string | null = null;
+  errors: [] | null = null; // todo: make model
 
-  @Mutation
-  setCurrentUser(user: User) {
+  @Mutation setCurrentUser(user: UserScheme) {
     this.currentUser = createUserModel(user);
   }
 
-  @Mutation
-  setIsRequest(isRequest: boolean) {
+  @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setAuthorized(authorized: boolean) {
+  @Mutation setAuthorized(authorized: boolean) {
     this.authorized = authorized;
   }
 
-  @Mutation
-  setMessage(message: string) {
+  @Mutation setMessage(message: string) {
     this.message = message;
   }
 
-  @Mutation
-  setErrors(errors: []) {
+  @Mutation setErrors(errors: []) {
     this.errors = errors;
   }
 
@@ -58,9 +39,9 @@ class UsersStore extends VuexModule {
   async getCurrentUser() {
     this.setIsRequest(true);
     try {
-      const userResp: AxiosResponse<IResponse<User>> = await http.get(apiRoutes.users.current);
+      const userResp: AxiosResponse<IResponse<UserScheme>> = await http.get(apiRoutes.users.current);
       this.setCurrentUser(userResp.data.data);
-    } finally {
+    } finally { /* todo: add catch */
       this.setIsRequest(false);
     }
   }

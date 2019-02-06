@@ -1,9 +1,22 @@
 import {plainToClass, Type} from "class-transformer";
-import {DateTime} from "./DateTime";
+import {DateTime, defaultDateTimeModel} from "./DateTime";
 import {Role, RoleCollection} from "./Role";
 import {Permission, PermissionCollection} from "./Permission";
 
-export class User {
+export interface UserScheme {
+  id: number | null;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  permissions: PermissionCollection | null;
+  roles: RoleCollection | null;
+  email_verified_at: DateTime | null;
+  created_at: DateTime | null;
+  updated_at: DateTime | null;
+  deleted_at: DateTime | null;
+}
+
+export class User implements UserScheme {
   id: number | null = null;
   first_name: string | null = null;
   last_name: string | null = null;
@@ -17,24 +30,30 @@ export class User {
   @Type(() => DateTime) updated_at: DateTime | null = null;
   @Type(() => DateTime) deleted_at: DateTime | null = null;
 
-  // Can the user do specified action (has permission)
+  /* Methods */
   can(action: string): boolean {
-    if (this.isAdmin()) return true; // Administrator has all permissions
-    if (!this.permissions) return false; // empty - no permissions
-    return this.permissions.some((permission) => permission.name === action);
+    return this.isAdmin() || !this.permissions ? false : this.permissions.hasName(action);
   }
 
-  hasRole(roleName: string): boolean {
-    if (!this.roles) return false;
-    return this.roles.some((role) => role.name === roleName);
+  hasRole(role: string): boolean {
+    return !this.roles ? false : this.roles.hasName(role);
   }
 
   isAdmin(): boolean {
-    return this.hasRole('Admin') // todo: move to const
+    return this.hasRole(Role.Administrator);
   }
-
 }
 
-export const createUserModel = (user: User): User => {
-  return plainToClass(User, user);
+export const createUserModel = (user: UserScheme): User => plainToClass(User, user);
+export const defaultUserModel: UserScheme = {
+  id: null,
+  first_name: null,
+  last_name: null,
+  email: null,
+  permissions: null,
+  roles: null,
+  email_verified_at: defaultDateTimeModel,
+  created_at: defaultDateTimeModel,
+  updated_at: defaultDateTimeModel,
+  deleted_at: defaultDateTimeModel,
 };
