@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | View Storage Paths
+    | View Storage IPaths
     |--------------------------------------------------------------------------
     |
     | Most templating systems load templates from disk. Here you may specify
