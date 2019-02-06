@@ -1,5 +1,5 @@
 import {plainToClass, Type} from "class-transformer";
-import {DateTime, defaultDateTimeModel} from "./DateTime";
+import {DateTime} from "./DateTime";
 import {Role, RoleCollection} from "./Role";
 import {Permission, PermissionCollection} from "./Permission";
 
@@ -17,6 +17,7 @@ export interface UserScheme {
 }
 
 export class User implements UserScheme {
+  /* Primitive types */
   id: number | null = null;
   first_name: string | null = null;
   last_name: string | null = null;
@@ -45,6 +46,8 @@ export class User implements UserScheme {
 }
 
 export const createUserModel = (user: UserScheme): User => plainToClass(User, user);
+
+// For initial data in store
 export const defaultUserModel: UserScheme = {
   id: null,
   first_name: null,
@@ -52,8 +55,8 @@ export const defaultUserModel: UserScheme = {
   email: null,
   permissions: null,
   roles: null,
-  email_verified_at: defaultDateTimeModel,
-  created_at: defaultDateTimeModel,
-  updated_at: defaultDateTimeModel,
-  deleted_at: defaultDateTimeModel,
+  email_verified_at: null,
+  created_at: null,
+  updated_at: null,
+  deleted_at: null,
 };

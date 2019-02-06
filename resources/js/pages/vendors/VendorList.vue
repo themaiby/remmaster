@@ -114,7 +114,6 @@
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import IVendor from "../../models/IVendor";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
 
   @Component
@@ -129,7 +128,7 @@
 
     beforeCreate() {
       // restrict access if not allowed
-      if (!userHelper.can(usersStore.currentUser, 'vendors.show')) {
+      if (!usersStore.currentUser.can('vendors.show')) {
         this.$router.push({name: routeNamesObj.errors.notFound})
       }
     }

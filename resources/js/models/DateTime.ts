@@ -3,5 +3,3 @@ export class DateTime {
   timezone: string | null = null;
   timezone_type: number | null = null;
 }
-
-export const defaultDateTimeModel: DateTime = {timezone: null, timezone_type: null, date: null};

@@ -13,10 +13,3 @@ export class PermissionCollection extends Array<Permission> {
     return this.some((permission) => permission.name === name);
   }
 }
-
-export const defaultPermissionModel: Permission = {
-  id: null,
-  name: null,
-  created_at: null,
-  updated_at: null,
-};

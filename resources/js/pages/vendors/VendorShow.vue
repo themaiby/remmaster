@@ -146,7 +146,7 @@
     }
 
     get userCanUpdate() {
-      return userHelper.can(usersStore.currentUser, 'vendors.update');
+      return usersStore.currentUser.can('vendors.update');
     }
 
     get isRequest() {

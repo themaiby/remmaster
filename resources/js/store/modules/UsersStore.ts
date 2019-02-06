@@ -4,14 +4,13 @@ import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 import {AxiosResponse} from "axios";
 import IResponse from "../../models/IResponse";
-import IResponseError from "../../models/IResponseError";
 import {createUserModel, defaultUserModel, User, UserScheme} from "../../models/User";
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})
 class UsersStore extends VuexModule {
+  currentUser: User = createUserModel(defaultUserModel);
   authorized: boolean = false;
   isRequest: boolean = false;
-  currentUser: User = createUserModel(defaultUserModel);
   message: string | null = null;
   errors: [] | null = null; // todo: make model
 
@@ -48,20 +47,15 @@ class UsersStore extends VuexModule {
 
   @Action
   async loginRequest({email, password}: { email: string, password: string }) {
-    // start request
     this.setIsRequest(true);
     this.setMessage('');
-
-    // Try to login
     try {
       await http.post(apiRoutes.users.login, {email, password});
       this.setAuthorized(true);
       await this.getCurrentUser();
     } catch (e) {
-      const err: IResponseError = e;
-      this.setMessage(err.response.data.message);
-      this.setErrors(err.response.data.errors);
-
+      this.setMessage(e.response.data.message);
+      this.setErrors(e.response.data.errors);
     } finally {
       this.setIsRequest(false);
     }

@@ -124,7 +124,6 @@
   import i18n from "../../plugins/i18n";
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {componentsStore} from "../../store/modules/ComponentsStore";
   import IComponent from "../../models/IComponent";
@@ -145,7 +144,7 @@
 
     beforeCreate() {
       // restrict access if not allowed
-      if (!userHelper.can(usersStore.currentUser, 'components.show')) {
+      if (!usersStore.currentUser.can('components.show')) {
         this.$router.push({name: routeNamesObj.errors.notFound})
       }
     }
