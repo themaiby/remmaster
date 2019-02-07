@@ -17,10 +17,12 @@ http.interceptors.response.use(
         usersStore.setAuthorized(false);
         snack.warn('messages.notAuthorized');
         router.push({name: routeNames.login});
+        return Promise.reject(r);
         break;
       case 404:
         snack.warn('messages.notFound');
         router.go(-1);
+        return Promise.reject(r);
         break;
 
       default:
