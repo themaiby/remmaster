@@ -1,7 +1,7 @@
-import IMeta from "./IMeta";
+import {Meta} from "../models/Meta";
 
 export default interface IResponse<T> {
   data: T;
-  meta: IMeta;
+  meta: Meta;
   message?: string;
 }

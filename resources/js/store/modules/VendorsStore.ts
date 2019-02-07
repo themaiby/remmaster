@@ -6,15 +6,15 @@ import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
 /* Interfaces */
 import {AxiosResponse} from "axios";
-import IMeta from "../../interfaces/IMeta";
 import IResponse from "../../interfaces/IResponse";
 import ITableParams, {IVendorsFilter} from "../../interfaces/ITableParams";
 import {snack} from "../../utils/snack";
 import {createVendorModel, defaultVendorModel, Vendor, VendorCollection, VendorScheme} from "../../models/Vendor";
+import {createMetaModel, defaultMetaModel, Meta, MetaScheme} from "../../models/Meta";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
-  meta: IMeta = {};
+  meta: Meta = createMetaModel(defaultMetaModel);
   vendor: Vendor = createVendorModel(defaultVendorModel);
   vendors: VendorCollection = [];
 
@@ -62,8 +62,8 @@ class VendorsStore extends VuexModule {
   }
 
   @Mutation
-  setMeta(meta: IMeta) {
-    this.meta = meta;
+  setMeta(meta: MetaScheme) {
+    this.meta = createMetaModel(meta);
   }
 
   @Mutation

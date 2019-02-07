@@ -1,7 +1,7 @@
-import IComponent from "../interfaces/IComponent";
 import {DateTime} from "./DateTime";
 import {plainToClass, Type} from "class-transformer";
 import {Contact} from "./Contact";
+import {Component as ComponentModel, ComponentCollection} from "./Component";
 
 export interface VendorScheme {
   id: number | null;
@@ -9,7 +9,7 @@ export interface VendorScheme {
   components_count: number | null;
   components_cost: number | null;
   note: string | null;
-  components: IComponent[] | null;
+  components: ComponentCollection | null;
   contacts: Contact[] | null | null;
   created_at: DateTime | null;
   updated_at: DateTime | null;
@@ -22,7 +22,7 @@ export class Vendor implements VendorScheme {
   note: string | null = null;
   components_cost: number | null = null;
   components_count: number | null = null;
-  components: IComponent[] | null = null;
+  @Type(() => ComponentModel) components: ComponentCollection | null = null;
   @Type(() => Contact) contacts: Contact[] | null = null;
   @Type(() => DateTime) created_at: DateTime | null = null;
   @Type(() => DateTime) deleted_at: DateTime | null = null;

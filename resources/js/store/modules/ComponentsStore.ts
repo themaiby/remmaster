@@ -1,13 +1,11 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
-import IComponent from "../../interfaces/IComponent";
 import ITableParams, {IComponentsFilter} from "../../interfaces/ITableParams";
 import {QueryBuilder} from "../../utils/QueryBuilder";
 import {AxiosResponse} from "axios";
 import IResponse from "../../interfaces/IResponse";
 import {http} from "../../plugins/axios";
 import {apiRoutes} from "../../apiRoutes";
-import IMeta from "../../interfaces/IMeta";
 import {snack} from "../../utils/snack";
 import {createVendorModel, VendorCollection, VendorScheme} from "../../models/Vendor";
 import {
@@ -18,6 +16,7 @@ import {
   defaultComponentModel
 } from "../../models/Component";
 import {ComponentCategoryScheme} from "../../models/ComponentCategory";
+import {createMetaModel, defaultMetaModel, Meta, MetaScheme} from "../../models/Meta";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
@@ -26,7 +25,7 @@ class ComponentsStore extends VuexModule {
   isRequest: boolean = false;
   isUpdateRequest: boolean = false;
   isFilterLoading: boolean = false;
-  meta: IMeta = {};
+  meta: Meta = createMetaModel(defaultMetaModel);
   message: string = '';
   errors: [] = [];
   tableParams: ITableParams<IComponentsFilter> = {
@@ -66,8 +65,8 @@ class ComponentsStore extends VuexModule {
     this.tableParams = params;
   }
 
-  @Mutation setMeta(meta: IMeta) {
-    this.meta = meta;
+  @Mutation setMeta(meta: MetaScheme) {
+    this.meta = createMetaModel(meta);
   }
 
   @Mutation setMessage(message: string) {
@@ -137,7 +136,7 @@ class ComponentsStore extends VuexModule {
   }
 
   @Action
-  async createComponent(component: IComponent) {
+  async createComponent(component: ComponentScheme) {
     this.setIsComponentCreatingRequest(true);
     try {
       const componentRes: AxiosResponse<IResponse<ComponentScheme>> = await http.post(apiRoutes.components.create, component);
