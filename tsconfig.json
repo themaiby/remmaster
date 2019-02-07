@@ -15,6 +15,7 @@
         "removeComments": true,
         "suppressImplicitAnyIndexErrors": true,
         "allowSyntheticDefaultImports": true,
+        "strictPropertyInitialization": false,
         "strict": true
     },
     "exclude": [
