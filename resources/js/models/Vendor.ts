@@ -40,17 +40,18 @@ export class Vendor implements VendorScheme {
    * Get single Vendor
    * @param id
    */
-  static async get(id: number): Promise<ResponseModel<VendorScheme>> {
-    const v: AxiosResponse<ResponseScheme<VendorScheme>> = await http.get(`vendors/${id}`);
-    return new ResponseModel<VendorScheme>(v.data, Vendor);
+  static async get(id: number): Promise<ResponseModel<Vendor>> {
+    const v: AxiosResponse<ResponseScheme<Vendor>> = await http.get(`vendors/${id}`);
+    return new ResponseModel<Vendor>(v.data, Vendor);
   }
 
   /**
    * Get vendors dependencies from query
    * @param query
    */
-  static async all(query?: {}): Promise<ResponseModel<VendorScheme[]>> {
-    const v: AxiosResponse<ResponseScheme<VendorScheme[]>> = await http.get(`vendors`);
-    return new ResponseModel<VendorScheme[]>(v.data, Vendor);
+  static async all(query?: {}): Promise<ResponseModel<Vendor[]>> {
+    const v: AxiosResponse<ResponseScheme<Vendor[]>> = await http.get(`vendors`, {params: query});
+    return new ResponseModel<Vendor[]>(v.data, Vendor);
   }
 }
+

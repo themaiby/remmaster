@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VendorResource extends JsonResource
@@ -24,7 +25,7 @@ class VendorResource extends JsonResource
             'name' => $this->name,
             'components_count' => $this->components_count,
             'components_cost' => round($componentsPriceSummary, 2),
-            'created_at' => $this->created_at,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
         ];
     }
 

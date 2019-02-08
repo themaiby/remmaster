@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
             'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'timezone' => $this->timezone,
         ];
     }
 }

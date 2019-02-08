@@ -14,6 +14,7 @@ export interface UserScheme {
   created_at: DateTime | null;
   updated_at: DateTime | null;
   deleted_at: DateTime | null;
+  timezone: string;
 }
 
 export class User implements UserScheme {
@@ -22,6 +23,7 @@ export class User implements UserScheme {
   first_name: string | null = null;
   last_name: string | null = null;
   email: string | null = null;
+  timezone: string = 'UTC';
 
   /* Nested types */
   @Type(() => Permission) permissions: PermissionCollection | null = null;
@@ -53,4 +55,5 @@ export const defaultUserModel: UserScheme = {
   created_at: null,
   updated_at: null,
   deleted_at: null,
+  timezone: null,
 };

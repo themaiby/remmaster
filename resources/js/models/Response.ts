@@ -10,7 +10,7 @@ export interface ResponseScheme<T> {
 }
 
 export class Response<T> implements ResponseScheme<T> {
-  public data: T | T[];
+  public data: T;
   public message: string;
   public meta: Meta;
   public errors: [];
