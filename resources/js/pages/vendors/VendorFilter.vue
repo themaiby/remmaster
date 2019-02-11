@@ -147,8 +147,8 @@
     }
 
     beforeMount() {
-      const filterStore = vendorsStore.tableParams.filter;
-      if (vendorsStore.tableParams.filter) this.filter = {...filterStore};
+      const filterStore = vendorsStore.filter;
+      if (vendorsStore.filter) this.filter = {...filterStore};
     }
 
     dialog: boolean = true;
@@ -165,7 +165,8 @@
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
+            vendorsStore.setFilter(this.filter);
+            vendorsStore.getVendors();
             this.dialog = false;
           }
         }

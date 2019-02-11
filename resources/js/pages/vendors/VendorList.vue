@@ -155,7 +155,7 @@
     }
 
     get filter() {
-      return this.tableParams.filter;
+      return vendorsStore.filter;
     }
 
     get vendors() {
@@ -176,7 +176,7 @@
 
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
-      const vendor: Vendor | undefined = vendorsStore.getVendorById(id);
+      const vendor: Vendor | undefined = Vendor.find(id);
 
       let deleteVendor: boolean = false;
       if (vendor) {

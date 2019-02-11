@@ -1,89 +1,68 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {QueryBuilder} from "../../utils/QueryBuilder";
 
 import {store} from "../store";
-import {http} from "../../plugins/axios";
-import {apiRoutes} from "../../apiRoutes";
-/* Interfaces */
-import {AxiosResponse} from "axios";
-import IResponse from "../../interfaces/IResponse";
-import ITableParams, {IVendorsFilter} from "../../interfaces/ITableParams";
 import {snack} from "../../utils/snack";
-import {createVendorModel, defaultVendorModel, Vendor, VendorCollection, VendorScheme} from "../../models/Vendor";
-import {createMetaModel, defaultMetaModel, Meta, MetaScheme} from "../../models/Meta";
+import {Vendor} from "../../models/Vendor";
+import {createMetaModel, Meta, MetaScheme} from "../../models/Meta";
+import {Filter} from "../../models/Filter";
+import {TableParams} from "../../models/TableParams";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
-  meta: Meta = createMetaModel(defaultMetaModel);
-  vendor: Vendor = createVendorModel(defaultVendorModel);
-  vendors: VendorCollection = [];
+
+  meta: Meta = new Meta;
+  vendor: Vendor = new Vendor;
+  vendors: Vendor[] = [];
+  tableParams = new TableParams;
+  filter: Filter.Vendor | null = null;
 
   isRequest: boolean = false;
   isVendorCreatingRequest: boolean = false;
-  message: string = '';
   errors: [] = [];
-  tableParams: ITableParams<IVendorsFilter> = {
-    page: 1,
-    descending: false,
-    filter: null,
-    rowsPerPage: Number(localStorage.getItem('vendorsPerPage')) || 5,
-    sortBy: '',
-  };
-
-  /* GETTERS */
-  get getVendorById() {
-    return (id: number) => this.vendors.find(vendor => vendor.id === id);
-  }
 
   @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation setVendor(vendor: VendorScheme) {
-    this.vendor = createVendorModel(vendor);
+  @Mutation setVendor(vendor: Vendor) {
+    this.vendor = vendor;
   }
 
-  @Mutation setVendors(vendors: VendorCollection) {
-    this.vendors = vendors.map((vendor => createVendorModel(vendor)));
+  @Mutation setVendors(vendors: Vendor[]) {
+    this.vendors = vendors;
   }
 
   @Mutation setIsVendorCreatingRequest(isRequest: boolean) {
     this.isVendorCreatingRequest = isRequest;
   }
 
-  @Mutation setTableParams(params: ITableParams<IVendorsFilter>) {
-    if (params.rowsPerPage) localStorage.setItem('vendorsPerPage', params.rowsPerPage.toString());
-    this.tableParams = params;
+  @Mutation setTableParams(params: TableParams) {
+    this.tableParams = new TableParams(params);
   }
 
-  @Mutation
-  resetFilter() {
-    this.tableParams = {...this.tableParams, filter: null};
+  @Mutation setFilter(filter: Filter.Vendor) {
+    this.filter = new Filter.Vendor(filter);
   }
 
-  @Mutation
-  setMeta(meta: MetaScheme) {
+  @Mutation resetFilter() {
+    this.filter = null;
+  }
+
+  @Mutation setMeta(meta: MetaScheme) {
     this.meta = createMetaModel(meta);
   }
 
-  @Mutation
-  setMessage(message: string) {
-    this.message = message;
-  }
 
-  /*   ACTIONS   */
   @Action
   async getVendors() {
     this.setIsRequest(true);
     try {
-      const queryString = (new QueryBuilder<IVendorsFilter>(this.tableParams)).build();
-      const vendors: AxiosResponse<IResponse<VendorScheme[]>> = (
-        await http.get(apiRoutes.vendors.index, {params: queryString})
-      );
-      this.setMeta(vendors.data.meta);
-      this.setVendors(vendors.data.data);
+      console.log(this.filter);
+      const vendors = await Vendor.all({...this.tableParams, ...this.filter});
+      this.setMeta(vendors.meta);
+      this.setVendors(vendors.data);
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsRequest(false);
     }
@@ -93,23 +72,21 @@ class VendorsStore extends VuexModule {
   async getVendor(id: number) {
     this.setIsRequest(true);
     try {
-      const vendorResponse: AxiosResponse<IResponse<VendorScheme>> = await http.get(apiRoutes.vendors.show(id));
-      this.setVendor(vendorResponse.data.data);
+      const vendor = await Vendor.get(id);
+      this.setVendor(vendor.data);
     } catch (e) {
-      this.setMessage(e.response.data.message);
+      snack.err(e.response.data.message);
     } finally {
       this.setIsRequest(false);
     }
   }
 
   @Action
-  async createVendor(vendor: VendorScheme) {
+  async createVendor(vendor: Vendor) {
     this.setIsVendorCreatingRequest(true);
     try {
-      const vendorResp: AxiosResponse<IResponse<VendorScheme>> = await http.post(apiRoutes.vendors.create, {
-        ...vendor, contacts: vendor.contacts ? vendor.contacts : []
-      });
-      this.setVendor(vendorResp.data.data);
+      const vendorRes = await Vendor.create({...vendor, contacts: vendor.contacts ? vendor.contacts : []});
+      this.setVendor(vendorRes.data);
       snack.success('messages.vendors.createdSuccess', {name: this.vendor.name});
     } catch (e) {
       snack.err(e.response.data.message);
@@ -122,7 +99,7 @@ class VendorsStore extends VuexModule {
   async deleteVendor({id, name = ''}: { id: number, name: string | null }) {
     this.setIsRequest(true);
     try {
-      await http.delete(apiRoutes.vendors.delete(id));
+      await Vendor.delete(id);
       if (name) snack.info('messages.vendors.deletedSuccess', {name: name});
     } catch (e) {
       snack.err(e.response.data.message);
@@ -132,16 +109,12 @@ class VendorsStore extends VuexModule {
   }
 
   @Action
-  async updateVendor(vendor: VendorScheme) {
+  async updateVendor(vendor: Vendor) {
     this.setIsVendorCreatingRequest(true);
     try {
       if (vendor.id != null) {
-        const vendorResp: AxiosResponse<IResponse<VendorScheme>> = await http.put(apiRoutes.vendors.update(vendor.id),
-          {
-            ...vendor,
-            contacts: vendor.contacts ? vendor.contacts : []
-          });
-        this.setVendor(vendorResp.data.data);
+        const vendorResp = await Vendor.update({...vendor, contacts: vendor.contacts ? vendor.contacts : []});
+        this.setVendor(vendorResp.data);
         snack.success('messages.vendors.updatedSuccess');
       }
     } catch (e) {
