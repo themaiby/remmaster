@@ -1,4 +1,5 @@
-import {Type} from "class-transformer";
+import Vue from "vue";
+import {plainToClass, Type} from "class-transformer";
 import {Contact} from "./Contact";
 import {DateTime} from "./DateTime";
 import {Component as ComponentModel} from "./Component";
@@ -7,16 +8,17 @@ import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
 
 export class Vendor {
-  id: number;
-  name: string;
-  note: string;
-  components_cost: number;
-  components_count: number;
-  @Type(() => ComponentModel) components: ComponentModel[];
-  @Type(() => Contact) contacts: Contact[];
-  @Type(() => DateTime) created_at: DateTime;
-  @Type(() => DateTime) deleted_at: DateTime;
-  @Type(() => DateTime) updated_at: DateTime;
+
+  id?: number;
+  name?: string;
+  note?: string;
+  components_cost?: number;
+  components_count?: number;
+  @Type(() => ComponentModel) components?: ComponentModel[];
+  @Type(() => Contact) contacts?: Contact[];
+  @Type(() => DateTime) created_at?: DateTime;
+  @Type(() => DateTime) deleted_at?: DateTime;
+  @Type(() => DateTime) updated_at?: DateTime;
 
   /**
    * @param identifier
@@ -67,6 +69,26 @@ export class Vendor {
   static async getAvailable(query?: {}): Promise<ResponseModel<Vendor[]>> {
     const res: AxiosResponse<ResponseScheme<Vendor[]>> = await http.get(`vendors/available`, {params: query});
     return new ResponseModel(res.data, Vendor);
+  }
+
+  /**
+   * @param icon
+   * @param title
+   * @param value
+   */
+  public addContact(icon: string, title: string, value: string) {
+    const newContact = plainToClass(Contact, {icon, title, value});
+    this.contacts ?
+      Vue.set(this, 'contacts', [...this.contacts, newContact]) :
+      Vue.set(this, 'contacts', [newContact]);
+  }
+
+  public removeContact(index: number) {
+    if (this.contacts) {
+      this.contacts = this.contacts.filter(
+        (contact, idx) => idx !== index
+      );
+    }
   }
 }
 

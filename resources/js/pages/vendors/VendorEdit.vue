@@ -132,8 +132,8 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {defaultVendorModel, Vendor} from "../../models/Vendor";
-  import {Contact, defaultContactModel} from "../../models/Contact";
+  import {Vendor} from "../../models/Vendor";
+  import {plainToClass} from "class-transformer";
 
   @Component export default class VendorEdit extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
@@ -146,10 +146,10 @@
     }
 
     @Watch('storedVendor') setLocaleVendorModel(vendor: Vendor) {
-      if (!this.vendor.id) this.vendor = {...vendor};
+      if (!this.vendor.id) this.vendor = vendor;
     }
 
-    vendor: Vendor = defaultVendorModel;
+    vendor: Vendor = new Vendor();
     dialog: boolean = true;
     icons = [
       'mdi-cellphone',
@@ -168,7 +168,7 @@
       if (!vendorsStore.vendor.id) {
         vendorsStore.getVendor(Number(this.$route.params.id));
       } else {
-        this.vendor = {...vendorsStore.vendor};
+        this.vendor = plainToClass(Vendor, vendorsStore.vendor);
       }
     }
 
@@ -182,12 +182,7 @@
 
     addContact() {
       const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: Contact = defaultContactModel;
-      if (!this.vendor.contacts) {
-        this.vendor.contacts = [contact];
-      } else {
-        this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
+      this.vendor.addContact(icon, '', '');
     }
 
     // if its more contacts that icons then return from start
@@ -198,11 +193,7 @@
     }
 
     deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
-      }
+      this.vendor.removeContact(idxToDelete);
     }
 
     confirm() {

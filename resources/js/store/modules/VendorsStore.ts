@@ -84,7 +84,7 @@ class VendorsStore extends VuexModule {
   async createVendor(vendor: Vendor) {
     this.setIsVendorCreatingRequest(true);
     try {
-      const vendorRes = await Vendor.create({...vendor, contacts: vendor.contacts ? vendor.contacts : []});
+      const vendorRes = await Vendor.create(vendor);
       this.setVendor(vendorRes.data);
       snack.success('messages.vendors.createdSuccess', {name: this.vendor.name});
     } catch (e) {
@@ -112,7 +112,7 @@ class VendorsStore extends VuexModule {
     this.setIsVendorCreatingRequest(true);
     try {
       if (vendor.id != null) {
-        const vendorResp = await Vendor.update({...vendor, contacts: vendor.contacts ? vendor.contacts : []});
+        const vendorResp = await Vendor.update(vendor);
         this.setVendor(vendorResp.data);
         snack.success('messages.vendors.updatedSuccess');
       }

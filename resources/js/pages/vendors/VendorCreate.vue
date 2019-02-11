@@ -129,7 +129,6 @@
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import {Vendor} from "../../models/Vendor";
-  import {Contact, createContactModel, defaultContactModel} from "../../models/Contact";
 
   @Component export default class VendorCreate extends Vue {
     vendor: Vendor = new Vendor;
@@ -170,20 +169,11 @@
 
     addContact() {
       const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: Contact = createContactModel(defaultContactModel);
-      if (!this.vendor.contacts) {
-        this.vendor.contacts = [contact];
-      } else {
-        this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
+      this.vendor.addContact(icon, '', '');
     }
 
     deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
-      }
+      this.vendor.removeContact(idxToDelete);
     }
 
     // if its more contacts that icons then return from start

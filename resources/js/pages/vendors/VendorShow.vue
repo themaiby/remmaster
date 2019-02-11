@@ -133,7 +133,7 @@
   import i18n from "../../plugins/i18n";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
-  import {defaultVendorModel, Vendor} from "../../models/Vendor";
+  import {Vendor} from "../../models/Vendor";
 
   @Component
   export default class VendorShow extends Vue {
@@ -158,7 +158,7 @@
     }
 
     destroyed() {
-      vendorsStore.setVendor(defaultVendorModel);
+      vendorsStore.setVendor(new Vendor());
     }
 
     get vendor(): Vendor {
