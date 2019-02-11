@@ -1,24 +1,12 @@
 import {DateTime} from "./DateTime";
 import {Vendor} from "./Vendor";
 import {ComponentCategory} from "./ComponentCategory";
-import {plainToClass, Type} from "class-transformer";
+import {Type} from "class-transformer";
+import {Response as ResponseModel, ResponseScheme} from "./Response";
+import {AxiosResponse} from "axios";
+import {http} from "../plugins/axios";
 
-export interface ComponentScheme {
-  id: number | null;
-  article: string | null;
-  title: string | null;
-  count: number | null;
-  cost: number | null;
-  category_id: number | null;
-  vendor_id: number | null;
-  category: ComponentCategory | null,
-  vendor: Vendor | null;
-  created_at: DateTime | null;
-  updated_at: DateTime | null;
-  deleted_at: DateTime | null;
-}
-
-export class Component implements ComponentScheme {
+export class Component {
   id: number | null = null;
   title: string | null = null;
   article: string | null = null;
@@ -31,23 +19,48 @@ export class Component implements ComponentScheme {
   @Type(() => DateTime) created_at: DateTime | null = null;
   @Type(() => DateTime) deleted_at: DateTime | null = null;
   @Type(() => DateTime) updated_at: DateTime | null = null;
+
+  /**
+   * @param query
+   */
+  static async all(query?: {}): Promise<ResponseModel<Component[]>> {
+    const res: AxiosResponse<ResponseScheme<Component[]>> = await http.get(`components`, {params: query});
+    return new ResponseModel(res.data, Component);
+  }
+
+  /**
+   * @param component
+   */
+  static async create(component: Component): Promise<ResponseModel<Component>> {
+    const res: AxiosResponse<ResponseScheme<Component>> = await http.post(`components`, component);
+    return new ResponseModel(res.data, Component);
+  }
+
+  /**
+   * @param identifier
+   */
+  static async get(identifier: number): Promise<ResponseModel<Component>> {
+    const res: AxiosResponse<ResponseScheme<Component>> = await http.get(`components/${identifier}`);
+    return new ResponseModel(res.data, Component);
+  }
+
+  /**
+   * @param component
+   */
+  static async update(component: Component): Promise<ResponseModel<Component>> {
+    const res: AxiosResponse<ResponseScheme<Component>> = await http.put(`components/${component.id}`, component);
+    return new ResponseModel(res.data, Component);
+  }
+
+  /**
+   * @param identifier
+   */
+  static async delete(identifier: number): Promise<ResponseModel<{ new(): { message?: string, errors?: [] } }>> {
+    const res: AxiosResponse<ResponseModel<{ new(): { message?: string, errors?: [] } }>> = await http.delete(`components/${identifier}`);
+    return new ResponseModel(res.data, class {
+      message?: string;
+      errors?: [];
+    });
+  }
 }
 
-export class ComponentCollection extends Array<Component> {
-}
-
-export const createComponentModel = (component: ComponentScheme): Component => plainToClass(Component, component);
-export const defaultComponentModel: ComponentScheme = {
-  article: null,
-  category: null,
-  category_id: null,
-  cost: null,
-  count: null,
-  created_at: null,
-  deleted_at: null,
-  id: null,
-  title: null,
-  updated_at: null,
-  vendor: null,
-  vendor_id: null
-};

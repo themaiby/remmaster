@@ -20,7 +20,6 @@ export class Response<T> implements ResponseScheme<T> {
    * @param mapResponseTo
    */
   constructor(res: ResponseScheme<T>, mapResponseTo: Function) {
-
     if (Array.isArray(res.data)) res.data = res.data.map(item => plainToClass(mapResponseTo as ClassType<T>, item));
     if (!Array.isArray(res)) this.data = plainToClass(mapResponseTo as ClassType<T>, res.data);
 

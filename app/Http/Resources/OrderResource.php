@@ -26,7 +26,7 @@ class OrderResource extends JsonResource
             'client_number' => $this->client_number,
             'device_name' => $this->device_name,
             'device_imei' => $this->device_imei,
-            'created_at' => $this->created_at,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
         ];
     }
 }

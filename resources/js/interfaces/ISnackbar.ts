@@ -5,5 +5,5 @@ export interface ISnackbar {
   mode?: string,
   timeout: number;
   text: string;
-  color?: string;
+  color: 'error' | 'warning' | 'success' | 'info' | 'secondary' | 'primary';
 }

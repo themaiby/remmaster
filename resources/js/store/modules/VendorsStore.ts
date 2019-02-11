@@ -57,7 +57,6 @@ class VendorsStore extends VuexModule {
   async getVendors() {
     this.setIsRequest(true);
     try {
-      console.log(this.filter);
       const vendors = await Vendor.all({...this.tableParams, ...this.filter});
       this.setMeta(vendors.meta);
       this.setVendors(vendors.data);

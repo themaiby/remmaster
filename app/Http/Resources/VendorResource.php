@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VendorResource extends JsonResource
@@ -43,8 +42,8 @@ class VendorResource extends JsonResource
             'note' => $this->note,
             'contacts' => $this->whenLoaded('contacts'),
             'components' => $this->whenLoaded('components', ComponentResource::collection($this->components)),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
+            'updated_at' => ['date' => $this->updated_at->toATOMstring()],
         ];
     }
 }

@@ -45,6 +45,9 @@ Route::group(['middleware' => 'jwt'], function () {
                 ->middleware('permission:vendors.destroy')
                 ->name('vendors.destroy')
                 ->where(['vendor' => '[0-9]+']);
+            Route::get('/available', 'VendorController@getAvailableVendors')
+                ->middleware('permission:components.show')
+                ->name('components.vendors');
 
             /* VENDOR CONTACTS */
             Route::group(
@@ -67,14 +70,6 @@ Route::group(['middleware' => 'jwt'], function () {
         Route::get('/', 'ComponentController@index')
             ->middleware('permission:components.show')
             ->name('components.index');
-
-        Route::get('/availableVendors', 'VendorController@getAvailableVendors')
-            ->middleware('permission:components.show')
-            ->name('components.vendors');
-
-        Route::get('/availableCategories', 'ComponentController@getAvailableCategories')
-            ->middleware('permission:components.show')
-            ->name('components.categories');
 
         Route::get('/{component}', 'ComponentController@show')
             ->middleware('permission:components.show')
@@ -101,5 +96,11 @@ Route::group(['middleware' => 'jwt'], function () {
         Route::get('/', 'OrderController@index')
             ->middleware('permission:orders.show')
             ->name('orders.show');
+    });
+
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/available', 'ComponentController@getAvailableCategories')
+            ->middleware('permission:components.show')
+            ->name('components.categories');
     });
 });

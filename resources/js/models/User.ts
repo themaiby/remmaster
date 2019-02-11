@@ -1,59 +1,47 @@
-import {plainToClass, Type} from "class-transformer";
+import {Type} from "class-transformer";
 import {DateTime} from "./DateTime";
 import {Role} from "./Role";
 import {Permission, PermissionCollection} from "./Permission";
+import {Response as ResponseModel, ResponseScheme} from "./Response";
+import {AxiosResponse} from "axios";
+import {http} from "../plugins/axios";
 
-export interface UserScheme {
-  id: number | null;
-  first_name: string | null;
-  last_name: string | null;
-  email: string | null;
-  permissions: PermissionCollection | null;
-  roles: Role[] | null;
-  email_verified_at: DateTime | null;
-  created_at: DateTime | null;
-  updated_at: DateTime | null;
-  deleted_at: DateTime | null;
-  timezone: string;
-}
-
-export class User implements UserScheme {
+export class User {
   /* Primitive types */
-  id: number | null = null;
-  first_name: string | null = null;
-  last_name: string | null = null;
-  email: string | null = null;
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
   timezone: string = 'UTC';
 
   /* Nested types */
-  @Type(() => Permission) permissions: PermissionCollection | null = null;
-  @Type(() => Role) roles: Role[] | null = null;
-  @Type(() => DateTime) email_verified_at: DateTime | null = null;
-  @Type(() => DateTime) created_at: DateTime | null = null;
-  @Type(() => DateTime) updated_at: DateTime | null = null;
-  @Type(() => DateTime) deleted_at: DateTime | null = null;
+  @Type(() => Permission) permissions: PermissionCollection;
+  @Type(() => Role) roles: Role[];
+  @Type(() => DateTime) email_verified_at: DateTime;
+  @Type(() => DateTime) created_at: DateTime;
+  @Type(() => DateTime) updated_at: DateTime;
+  @Type(() => DateTime) deleted_at: DateTime;
+
+  /**
+   * Get authorized user
+   */
+  static async getCurrent(): Promise<ResponseModel<User>> {
+    const res: AxiosResponse<ResponseScheme<User>> = await http.get(`me`);
+    return new ResponseModel(res.data, User);
+  }
+
+  static async login(credentials: { email: string, password: string }) {
+    await http.post('login', credentials);
+    return true;
+  }
 
   can = (action: string): boolean => {
     if (this.isAdmin()) return true;
     return !this.permissions ? false : this.permissions.hasName(action);
   };
+
   hasRole = (name: string): boolean => (!this.roles ? false : this.roles.some((role) => role.name === name));
+
   isAdmin = (): boolean => (this.hasRole(Role.Administrator));
 }
 
-export const createUserModel = (user: UserScheme): User => plainToClass(User, user);
-
-// For initial data in store
-export const defaultUserModel: UserScheme = {
-  id: null,
-  first_name: null,
-  last_name: null,
-  email: null,
-  permissions: null,
-  roles: null,
-  email_verified_at: null,
-  created_at: null,
-  updated_at: null,
-  deleted_at: null,
-  timezone: null,
-};

@@ -35,6 +35,7 @@ class ComponentController extends Controller
                 'category_id',
                 'vendor_id',
                 'created_at',
+                'updated_at',
             ]);
         return ComponentResource::collection($components);
     }

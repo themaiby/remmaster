@@ -19,7 +19,7 @@ export const snack = {
   }),
   secondary: (text: string, values: object = {}, timeout: number = 3000) => applicationStore.setSnackbar({
     text: i18n.t(text, values) as string,
-    color: 'secondary',
+    color: "secondary",
     timeout,
   }),
   err: (text: string, timeout: number = 3000) => applicationStore.setSnackbar({
@@ -27,5 +27,8 @@ export const snack = {
     color: 'error',
     timeout,
   }),
-  custom: (text: string, color: string, timeout: number = 3000) => applicationStore.setSnackbar({text, color, timeout}),
+  custom: (text: string,
+           color: 'error' | 'warning' | 'success' | 'info' | 'secondary' | 'primary',
+           timeout: number = 3000
+  ) => applicationStore.setSnackbar({text, color, timeout}),
 };

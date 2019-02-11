@@ -128,9 +128,7 @@
 
     beforeCreate() {
       // restrict access if not allowed
-      if (!usersStore.currentUser.can('vendors.show')) {
-        this.$router.push({name: routeNamesObj.errors.notFound})
-      }
+      if (!usersStore.currentUser.can('vendors.show')) this.$router.push({name: routeNamesObj.errors.notFound});
     }
 
     // set current page name
@@ -172,18 +170,17 @@
 
     resetFilter() {
       vendorsStore.resetFilter();
+      vendorsStore.getVendors();
     }
 
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
-      const vendor: Vendor | undefined = Vendor.find(id);
+      const vendor: Vendor | undefined = vendorsStore.vendors.find(vendor => vendor.id === id);
 
       let deleteVendor: boolean = false;
       if (vendor) {
-        deleteVendor = confirm(
-          `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
-        );
-        deleteVendor ? vendorsStore.deleteVendor({id, name: vendor.name}) : false;
+        deleteVendor = confirm(`${this.$t('vendors.confirmDelete', {value: vendor.name})}`);
+        if (deleteVendor ? vendorsStore.deleteVendor({id, name: vendor.name}) : false;
       }
     }
 

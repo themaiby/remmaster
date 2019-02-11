@@ -218,6 +218,7 @@
   import {routeNames} from "../../router/routeNames";
   import {IComponentsFilter} from "../../interfaces/ITableParams";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import {Filter} from "../../models/Filter";
 
   @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
@@ -225,7 +226,7 @@
     }
 
     dialog: boolean = true;
-    filter: IComponentsFilter = {categories: []};
+    filter: Filter.Component | null = new Filter.Component();
     createdAtInput: object = {min: '', max: ''};
 
     get availableVendors() {
@@ -237,8 +238,8 @@
     }
 
     beforeMount() {
-      const filterStore = componentsStore.tableParams.filter;
-      if (componentsStore.tableParams.filter) this.filter = {...filterStore};
+      const filterStore = componentsStore.filter;
+      if (componentsStore.filter) this.filter = filterStore;
 
       componentsStore.getAvailableVendors();
       componentsStore.getAvailableCategories();
@@ -249,7 +250,8 @@
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            componentsStore.setTableParams({...componentsStore.tableParams, filter: this.filter});
+            if (this.filter) componentsStore.setFilter(this.filter);
+            componentsStore.getComponents();
             this.dialog = false;
           }
         }

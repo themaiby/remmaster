@@ -28,12 +28,9 @@ class ComponentResource extends JsonResource
             'cost' => round($this->cost, 2),
             'summary_cost' => round($this->summary_cost, 2),
             'category' => $this->whenLoaded('category', $this->category),
-            'vendor' => $this->whenLoaded('vendor', [
-                'id' => $this->vendor->id,
-                'name' => $this->vendor->name,
-            ]),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'vendor' => $this->whenLoaded('vendor', ['id' => $this->vendor->id, 'name' => $this->vendor->name]),
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
+            'updated_at' => ['date' => $this->updated_at->toATOMstring()],
         ];
     }
 }

@@ -171,7 +171,7 @@
     }
 
     get filter() {
-      return this.tableParams.filter;
+      return componentsStore.filter;
     }
 
     get components() {
@@ -188,6 +188,7 @@
 
     resetFilter() {
       componentsStore.resetFilter();
+      componentsStore.getComponents();
     }
 
     deleteComponent(id: number, $event: Event,) {

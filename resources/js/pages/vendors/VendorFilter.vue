@@ -140,6 +140,7 @@
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import {IVendorsFilter} from "../../interfaces/ITableParams";
+  import {Filter} from "../../models/Filter";
 
   @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
@@ -148,24 +149,18 @@
 
     beforeMount() {
       const filterStore = vendorsStore.filter;
-      if (vendorsStore.filter) this.filter = {...filterStore};
+      if (vendorsStore.filter) this.filter = filterStore;
     }
 
     dialog: boolean = true;
-    filter: IVendorsFilter = {
-      name: '',
-      componentsMin: undefined,
-      componentsMax: undefined,
-      createdAtMin: '',
-      createdAtMax: '',
-    };
+    filter: Filter.Vendor | null = new Filter.Vendor();
     createdAtInput: object = {min: '', max: ''};
 
     apply() {
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            vendorsStore.setFilter(this.filter);
+            if (this.filter) vendorsStore.setFilter(this.filter);
             vendorsStore.getVendors();
             this.dialog = false;
           }

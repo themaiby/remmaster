@@ -128,11 +128,11 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {createVendorModel, defaultVendorModel, Vendor} from "../../models/Vendor";
+  import {Vendor} from "../../models/Vendor";
   import {Contact, createContactModel, defaultContactModel} from "../../models/Contact";
 
   @Component export default class VendorCreate extends Vue {
-    vendor: Vendor = createVendorModel(defaultVendorModel);
+    vendor: Vendor = new Vendor;
 
     dialog: boolean = true;
     icons = [
@@ -194,9 +194,7 @@
     }
 
     create() {
-      this.$validator.validate().then(valid => {
-        if (valid) vendorsStore.createVendor(this.vendor);
-      });
+      this.$validator.validate().then(valid => valid ? vendorsStore.createVendor(this.vendor) : false);
     }
   }
 </script>
@@ -208,5 +206,3 @@
     background: linear-gradient(to right, #605C3C, #3C3B3F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
 </style>
-
-
