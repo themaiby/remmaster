@@ -1,10 +1,5 @@
 <?php
 
-/* tmp */
-Route::get('/test', function () {
-    return \App\Models\ComponentCategory::with('childs')->find(1);
-});
-
 /* Auth routes */
 Route::post('/login', 'Auth\AuthController@login')
     ->name('auth.login');
