@@ -27,6 +27,11 @@ class OrderResource extends JsonResource
         ];
     }
 
+    /**
+     * Single entry
+     * @param array $data
+     * @return array
+     */
     public function filter($data)
     {
         return [
@@ -35,14 +40,16 @@ class OrderResource extends JsonResource
             'type' => $this->whenLoaded('type', $this->type),
             'user' => $this->whenLoaded('user', $this->user),
             'components' => $this->whenLoaded('components', $this->components),
+            'works' => $this->whenLoaded('works', $this->works),
             'urgent' => $this->urgent,
             'breakage' => $this->breakage,
-            'complete_date' => $this->complete_date,
             'client_name' => $this->client_name,
             'client_number' => $this->client_number,
             'device_name' => $this->device_name,
             'device_imei' => $this->device_imei,
+            'complete_date' => ['date' => $this->complete_date->toATOMstring()],
             'created_at' => ['date' => $this->created_at->toATOMstring()],
+            'updated_at' => ['date' => $this->created_at->toATOMstring()],
         ];
     }
 }

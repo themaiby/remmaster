@@ -95,6 +95,10 @@ Route::group(['middleware' => 'jwt'], function () {
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/', 'OrderController@index')
             ->middleware('permission:orders.show')
+            ->name('orders.index');
+
+        Route::get('/{order}', 'OrderController@show')
+            ->middleware('permission:orders.show')
             ->name('orders.show');
     });
 

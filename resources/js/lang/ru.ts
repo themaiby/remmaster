@@ -96,6 +96,9 @@ export const ru = {
     device_name: 'Устройство',
     device_imei: 'IMEI/SN',
     created_at: 'Дата',
+    show: 'Заявка',
+    client: 'Клиент',
+    orderData: 'Данные заявки',
   },
   pluralized: {
     items: '{n} единиц | {n} единица | {n} единицы | {n} единиц'

@@ -8,6 +8,12 @@ export const orderRoutes = [
     component: () => import('../pages/orders/OrderList.vue'),
     meta: {middleware: [Auth]},
   },
+  {
+    path: '/orders/:id',
+    name: routeNames.orders.show,
+    component: () => import('../pages/orders/OrderShow.vue'),
+    meta: {middleware: [Auth]},
+  },
 ];
 
 

@@ -92,6 +92,8 @@ class Order extends Model
      */
     protected $fillable = [];
 
+    public $dates = ['created_at', 'updated_at', 'deleted_at', 'complete_date'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -121,7 +123,14 @@ class Order extends Model
      */
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        $u = $this->belongsTo(User::class, 'user_id', 'id');
-        return $u;
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function works(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderWork::class);
     }
 }

@@ -6,6 +6,7 @@ import {OrderStatus} from "./OrderStatus";
 import {Response as ResponseModel, ResponseScheme} from "./Response";
 import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
+import {OrderWork} from "./OrderWork";
 
 export class Order {
   id: number = 0;
@@ -22,6 +23,7 @@ export class Order {
   device_note: string = '';
 
   @Type(() => User) user: User = new User();
+  @Type(() => OrderWork) works: OrderWork[] = [];
   @Type(() => DateTime) created_at: DateTime = new DateTime();
   @Type(() => DateTime) updated_at: DateTime = new DateTime();
   @Type(() => DateTime) deleted_at: DateTime = new DateTime();

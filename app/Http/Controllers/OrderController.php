@@ -52,8 +52,8 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     * @return void
      */
     public function store(OrderRequest $request)
     {
@@ -64,11 +64,15 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Order $order
-     * @return \Illuminate\Http\Response
+     * @return OrderResource
      */
-    public function show(Order $order)
+    public function show(Order $order): OrderResource
     {
-        //
+        return new OrderResource(
+            $order->load(
+                'user', 'type', 'status', 'components', 'works'
+            )
+        );
     }
 
     /**

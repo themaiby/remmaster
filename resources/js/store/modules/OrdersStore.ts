@@ -60,6 +60,19 @@ class OrdersStore extends VuexModule {
       this.setIsRequest(false);
     }
   }
+
+  @Action
+  async getOrder(id: number) {
+    this.setIsRequest(true);
+    try {
+      const order = await Order.get(id);
+      this.setOrder(order.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
+    } finally {
+      this.setIsRequest(false);
+    }
+  }
 }
 
 export const ordersStore = getModule(OrdersStore);
