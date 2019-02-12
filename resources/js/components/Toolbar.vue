@@ -1,7 +1,7 @@
 <template>
   <v-toolbar
-    id="core-toolbar"
     flat
+    id="core-toolbar"
     prominent
   >
     <div>
@@ -9,10 +9,10 @@
         class="font-weight-medium"
       >
         <v-btn
-          v-if="responsive"
+          @click.stop="onMenuClick"
           dark
           icon
-          @click.stop="onMenuClick"
+          v-if="responsive"
         >
           <v-icon color="black">mdi-view-list</v-icon>
         </v-btn>
@@ -50,7 +50,7 @@
     ];
     responsive: boolean = false;
 
-    get title(): {text: string, image?: string} {
+    get title(): { text: string, image?: string } {
       return applicationStore.currentPageTitle;
     }
 

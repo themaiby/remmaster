@@ -53,7 +53,7 @@ class Status extends Model
 {
     use HasRoles, SoftDeletes, Sortable, Filterable;
 
-    protected $table = 'statuses';
+    protected $table = 'order_statuses';
     protected $guard_name = 'api';
 
     /**

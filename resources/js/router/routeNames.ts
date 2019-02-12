@@ -20,6 +20,11 @@ export const routeNames = {
   },
   orders: {
     index: 'orders.index',
+    show: 'orders.show',
+    create: 'orders.create',
+    delete: 'orders.delete',
+    update: 'orders.update',
+    filter: 'orders.filter',
   },
   settings: {
     index: 'settings.index'

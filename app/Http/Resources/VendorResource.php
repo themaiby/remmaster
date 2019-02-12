@@ -16,7 +16,7 @@ class VendorResource extends JsonResource
     {
         $componentsPriceSummary = 0;
         foreach ($this->components as $component) {
-            $componentsPriceSummary += $component->cost * $component->count;
+            $componentsPriceSummary += $component->summary_cost;
         }
 
         return [
@@ -24,7 +24,7 @@ class VendorResource extends JsonResource
             'name' => $this->name,
             'components_count' => $this->components_count,
             'components_cost' => round($componentsPriceSummary, 2),
-            'created_at' => $this->created_at,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
         ];
     }
 
@@ -42,8 +42,8 @@ class VendorResource extends JsonResource
             'note' => $this->note,
             'contacts' => $this->whenLoaded('contacts'),
             'components' => $this->whenLoaded('components', ComponentResource::collection($this->components)),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
+            'updated_at' => ['date' => $this->updated_at->toATOMstring()],
         ];
     }
 }

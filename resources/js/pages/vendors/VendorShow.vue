@@ -1,21 +1,21 @@
 <template>
   <v-container fillheight="isRequest"
                fluid="isRequest">
-    <v-layout v-if="isRequest"
-              align-center
-              justify-center>
+    <v-layout align-center
+              justify-center
+              v-if="isRequest">
       <v-progress-circular indeterminate size="100"></v-progress-circular>
     </v-layout>
     <div v-if="!isRequest">
       <v-layout align-end justify-end v-if="userCanUpdate">
-        <v-btn primary :to="{name: vendorUpdateRoute}">{{ $t('vendors.update') }}</v-btn>
+        <v-btn :to="{name: vendorUpdateRoute}" primary>{{ $t('vendors.update') }}</v-btn>
       </v-layout>
 
       <v-toolbar
-        slot="header"
         class="mb-2"
         color="transparent"
         flat
+        slot="header"
       >
         <v-subheader>
           {{ vendor.note }}
@@ -25,13 +25,13 @@
       <v-layout row wrap>
         <!-- CONTACTS -->
         <VFlex
-          xs12
-          sm6
           md6
           pr-1
+          sm6
+          xs12
         >
           <VCard>
-            <v-toolbar dense color="blue-grey darken-2" dark>
+            <v-toolbar color="blue-grey darken-2" dark dense>
               <VIcon color="white">
                 mdi-contacts
               </VIcon>
@@ -39,12 +39,12 @@
               <VSpacer/>
             </v-toolbar>
 
-            <VList two-line dense>
+            <VList dense two-line>
               <template v-for="(contact, index) in vendor.contacts">
                 <VDivider
-                  v-if="index > 0"
                   :inset="false"
                   :key="index"
+                  v-if="index > 0"
                 />
                 <VListTile
                   :key="contact.id"
@@ -69,38 +69,38 @@
 
         <!-- COMPONENTS -->
         <VFlex
-          xs12
-          sm6
           md6
           pl-1
+          sm6
+          xs12
         >
           <VCard>
-            <VToolbar dense color="blue-grey darken-2" dark>
+            <VToolbar color="blue-grey darken-2" dark dense>
               <VIcon color="white">
                 mdi-cart
               </VIcon>
               <VToolbarTitle>{{ $t('menu.components') }}</VToolbarTitle>
               <VSpacer/>
               <VBtn
-                icon
                 @click="$router.push({name: 'components.create'})"
+                icon
               >
                 <VIcon>mdi-plus</VIcon>
               </VBtn>
             </VToolbar>
 
-            <VList two-line dense>
+            <VList dense two-line>
               <template v-for="(component, index) in vendor.components">
                 <VDivider
-                  v-if="index > 0"
                   :inset="false"
                   :key="index"
+                  v-if="index > 0"
                 />
                 <VListTile
                   :key="component.id"
+                  :to="{name: 'components.show', params: {id: component.id}}"
                   avatar
                   ripple
-                  :to="{name: 'components.show', params: {id: component.id}}"
                 >
                   <!-- Content -->
                   <VListTileContent>
@@ -122,7 +122,7 @@
         <!-- END COMPONENTS -->
       </v-layout>
     </div>
-    <router-view />
+    <router-view/>
   </v-container>
 </template>
 
@@ -131,22 +131,21 @@
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import {vendorsStore} from "../../store/modules/VendorsStore";
   import i18n from "../../plugins/i18n";
-  import IVendor from "../../models/IVendor";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
+  import {Vendor} from "../../models/Vendor";
 
   @Component
   export default class VendorShow extends Vue {
     pageTitle: string = String(i18n.t('vendors.vendor'));
     vendorUpdateRoute: string = routeNames.vendors.update;
 
-    @Watch('vendor') updateTitleAfterVendorReceived(vendor: IVendor) {
+    @Watch('vendor') updateTitleAfterVendorReceived(vendor: Vendor) {
       applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${vendor.name}"`});
     }
 
     get userCanUpdate() {
-      return userHelper.can(usersStore.currentUser, 'vendors.update');
+      return usersStore.currentUser.can('vendors.update');
     }
 
     get isRequest() {
@@ -159,10 +158,10 @@
     }
 
     destroyed() {
-      vendorsStore.setVendor({name: ''});
+      vendorsStore.setVendor(new Vendor());
     }
 
-    get vendor(): IVendor {
+    get vendor(): Vendor {
       return vendorsStore.vendor;
     }
   }

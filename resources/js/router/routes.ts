@@ -5,6 +5,7 @@ import {vendorRoutes} from "./vendorRoutes";
 
 import {componentRoutes} from "./componentRoutes";
 import Guest from "../middleware/Guest";
+import {orderRoutes} from "./orderRoutes";
 
 
 export const routes: RouteConfig[] = [
@@ -19,11 +20,11 @@ export const routes: RouteConfig[] = [
     path: '', name: routeNames.layout, component: Layout, redirect: {name: routeNames.dashboard}, children: [
       /* todo: make this pages */
       {path: '/dashboard', name: routeNames.dashboard, component: () => import('../pages/Dashboard.vue')},
-      {path: '/orders', name: routeNames.orders.index, component: () => import('../pages/Dashboard.vue')},
       {path: '/settings', name: routeNames.settings.index, component: () => import('../pages/Dashboard.vue')},
 
       ...componentRoutes,
       ...vendorRoutes,
+      ...orderRoutes,
     ],
   },
 

@@ -1,17 +1,17 @@
 <template>
   <v-container fillheight="isRequest"
                fluid="isRequest">
-    <v-layout v-if="isRequest"
-              align-center
-              justify-center>
+    <v-layout align-center
+              justify-center
+              v-if="isRequest">
       <v-progress-circular indeterminate size="100"></v-progress-circular>
     </v-layout>
     <div v-if="!isRequest">
       <v-layout align-end justify-end v-if="userCanUpdate">
-        <v-btn primary :to="{name: componentUpdateRoute}">{{ $t('components.update') }}</v-btn>
+        <v-btn :to="{name: componentUpdateRoute}" primary>{{ $t('components.update') }}</v-btn>
       </v-layout>
       <v-layout>
-        <v-flex md12 lg12 sm12 mt-3>
+        <v-flex lg12 md12 mt-3 sm12>
           <v-card>
             <v-card-title><h4>Сводка</h4></v-card-title>
             <v-divider></v-divider>
@@ -49,7 +49,7 @@
         </v-flex>
       </v-layout>
       <v-layout>
-        <v-flex sm12 md12 lg12 mt-5>
+        <v-flex lg12 md12 mt-5 sm12>
           <v-card>
             <v-list dense>
               <v-list-tile>
@@ -62,7 +62,7 @@
         </v-flex>
       </v-layout>
     </div>
-    <router-view />
+    <router-view/>
   </v-container>
 </template>
 
@@ -70,11 +70,10 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import i18n from "../../plugins/i18n";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
-  import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component
   export default class VendorShow extends Vue {
@@ -82,16 +81,16 @@
     componentUpdateRoute: string = routeNames.components.update;
     vendorShowRoute: string = routeNames.vendors.show;
 
-    @Watch('component') updateTitleAfterComponentReceived(component: IComponent) {
+    @Watch('component') updateTitleAfterComponentReceived(component: ComponentModel) {
       applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${component.title}"`});
     }
 
-    get component(): IComponent {
+    get component(): ComponentModel {
       return componentsStore.component;
     }
 
     get userCanUpdate() {
-      return userHelper.can(usersStore.currentUser, 'components.update');
+      return usersStore.currentUser.can('components.update');
     }
 
     get isRequest() {
@@ -104,7 +103,7 @@
     }
 
     destroyed() {
-      componentsStore.setComponent({article: '', title: '', cost: 0, count: 0});
+      componentsStore.setComponent(new ComponentModel());
     }
   }
 </script>
