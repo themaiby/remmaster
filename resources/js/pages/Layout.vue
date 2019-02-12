@@ -109,12 +109,9 @@
     </VNavigationDrawer>
     <VContent>
       <Toolbar class="transparent"/>
-      <Transition
-        mode="out-in"
-        name="fade"
-      >
-        <RouterView/>
-      </Transition>
+      <transition mode="out-in" name="fade">
+        <router-view/>
+      </transition>
     </VContent>
 
     <!-- Snackbar -->
@@ -178,7 +175,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   #app-drawer {
     background: rgba(27, 27, 27, .84);
     padding: 0;
@@ -193,16 +190,28 @@
         margin-bottom: 17px;
       }
     }
+  }
 
-    .v-image__image--contain {
-      top: 9px;
-      height: 60%;
-    }
+  .v-image__image--contain {
+    top: 9px;
+    height: 60%;
+  }
 
-    .search-input {
-      margin-bottom: 30px !important;
-      padding-left: 15px;
-      padding-right: 15px;
-    }
+  .search-input {
+    margin-bottom: 30px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-duration: 0.1s;
+    transition-property: opacity;
+    transition-timing-function: linear;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0
   }
 </style>

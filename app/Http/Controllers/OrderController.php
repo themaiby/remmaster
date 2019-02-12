@@ -30,7 +30,7 @@ class OrderController extends Controller
         $orders = Order::with(
             'type:id,title',
             'status:id,title,color,opener,finisher',
-            'user:id,first_name,last_name'
+            'components'
         )
             ->sortable(['created_at' => 'desc'])
             ->filter($request->all())
@@ -38,7 +38,6 @@ class OrderController extends Controller
                 'id',
                 'status_id',
                 'order_type_id',
-                'user_id',
                 'urgent',
                 'client_name',
                 'client_number',

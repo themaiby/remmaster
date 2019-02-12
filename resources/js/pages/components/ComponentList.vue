@@ -65,8 +65,8 @@
         slot-scope="props"
       >
         <tr
-          :class="props.item.count === 0 ? 'darken' : ''"
           :key="props.item.id"
+          :style="!props.item.count ? {color: '#cccccc'} : ''"
         >
           <td>{{ props.item.title }}</td>
           <td>{{ props.item.article }}</td>

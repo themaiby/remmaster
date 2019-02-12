@@ -2,7 +2,7 @@ import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decor
 
 import {store} from "../store";
 import {Vendor} from "../../models/Vendor";
-import {createMetaModel, Meta, MetaScheme} from "../../models/Meta";
+import {Meta} from "../../models/Meta";
 import {Filter} from "../../models/Filter";
 import {TableParams} from "../../models/TableParams";
 import {applicationStore} from "./ApplicationStore";
@@ -39,7 +39,7 @@ class VendorsStore extends VuexModule {
   }
 
   @Mutation setTableParams(params: TableParams) {
-    this.tableParams = new TableParams(params);
+    this.tableParams = this.tableParams.set(params);
   }
 
   @Mutation setFilter(filter: Filter.Vendor) {
@@ -50,8 +50,8 @@ class VendorsStore extends VuexModule {
     this.filter = new Filter.Vendor;
   }
 
-  @Mutation setMeta(meta: MetaScheme) {
-    this.meta = createMetaModel(meta);
+  @Mutation setMeta(meta: Meta) {
+    this.meta = meta;
   }
 
 

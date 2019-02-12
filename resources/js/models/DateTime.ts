@@ -8,5 +8,5 @@ export class DateTime {
   /* Converts ATOM string -> JS Date -> moment.js */
   @Type(() => Date)
   @Transform((value: Date) => moment(value).tz(usersStore.currentUser.timezone, true), {toClassOnly: true})
-  date: Moment;
+  date: Moment = moment('');
 }

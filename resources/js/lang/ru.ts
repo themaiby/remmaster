@@ -69,7 +69,7 @@ export const ru = {
     title: 'Наименование',
     article: 'Артикул',
     count: 'Количество',
-    cost: 'Цена',
+    cost: 'Стоимость',
     summaryCost: 'Суммарная стоимость',
     created_at: 'Добавлен',
     show: 'Подробнее',
@@ -88,6 +88,14 @@ export const ru = {
   },
   orders: {
     index: 'Заявки',
+    id: '№',
+    status: 'Статус',
+    type: 'Тип',
+    client_name: 'Имя клиента',
+    client_number: 'Контактный номер',
+    device_name: 'Устройство',
+    device_imei: 'IMEI/SN',
+    created_at: 'Дата',
   },
   pluralized: {
     items: '{n} единиц | {n} единица | {n} единицы | {n} единиц'

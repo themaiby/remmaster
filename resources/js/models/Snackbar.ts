@@ -14,7 +14,7 @@ export class Snackbar {
   mode: string = '';
   timeout: number = 3000;
   text: string = 'Application loaded';
-  color: ISnackbarColors;
+  color: ISnackbarColors = ISnackbarColors.primary;
 
   call(text: string, color: ISnackbarColors, timeout: number = 3000) {
     this.show = true;

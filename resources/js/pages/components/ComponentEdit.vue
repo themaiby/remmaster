@@ -142,7 +142,6 @@
           @click="dialog = false"
           color="blue darken-1"
           flat
-          v-if="!isRequest"
         >
           {{ $t('menu.cancel') }}
         </VBtn>
@@ -167,7 +166,6 @@
 
   @Component export default class VendorsEdit extends Vue {
     private componentModel: ComponentModel = new ComponentModel();
-    private isLoaded: boolean = false;
     private dialog: boolean = true;
 
     @Watch('dialog') routeBack(value: boolean) {

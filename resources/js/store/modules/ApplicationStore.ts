@@ -46,7 +46,6 @@ class ApplicationStore extends VuexModule {
   async getMenu() {
     try {
       const menu = await Menu.get();
-      console.log(menu);
       this.setMenu(menu.data);
     } catch (e) {
       this.snackbar.call(e.response.data.message, ISnackbarColors.err);
