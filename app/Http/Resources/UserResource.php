@@ -20,10 +20,11 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'timezone' => $this->timezone,
+            'created_at' => ['date' => $this->created_at->toATOMstring()],
+            'updated_at' => ['date' => $this->updated_at->toATOMstring()],
         ];
     }
 }

@@ -35,55 +35,69 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\OrderType $type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order filter($input = array(), $filter = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order filter($input = array(), $filter = null)
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order paginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order permission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Order onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order paginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order role($roles)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order simplePaginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order sortable($defaultParameters = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereBeginsWith($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereBreakage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClientEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClientName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClientNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClientNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCompleteDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeviceImei($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeviceName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeviceNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeviceVisual($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereEndsWith($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereLike($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUrgent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order role($roles)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order simplePaginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order sortable($defaultParameters = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereBeginsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereBreakage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCompleteDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeviceImei($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeviceName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeviceNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeviceVisual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereEndsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereLike($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUrgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|Order withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Order withoutTrashed()
  * @mixin \Eloquent
  */
 class Order extends Model
 {
     use HasRoles, SoftDeletes, Sortable, Filterable;
 
+    /**
+     * @var string
+     */
     protected $table = 'orders';
+
+    /**
+     * @var string
+     */
     protected $guard_name = 'api';
+
+    /**
+     * @var array
+     */
+    protected $fillable = [];
+
+    public $dates = ['created_at', 'updated_at', 'deleted_at', 'complete_date'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function status()
+    public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Status::class);
     }
@@ -91,16 +105,32 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function type()
+    public function type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderType::class);
+        return $this->belongsTo(OrderType::class, 'order_type_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function components()
+    public function components(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Component::class, 'order_components');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function works(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderWork::class);
     }
 }

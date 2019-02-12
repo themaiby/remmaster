@@ -1,9 +1,9 @@
 <template>
   <VDialog
-    v-model="dialog"
     max-width="1000px"
-    scrollable
     persistent
+    scrollable
+    v-model="dialog"
   >
     <VCard>
       <VToolbar
@@ -18,25 +18,25 @@
         <VContainer grid-list-md>
           <VLayout wrap>
             <!-- Input -->
-            <VFlex xs12 sm12 md12>
+            <VFlex md12 sm12 xs12>
               <VTextField
-                :label="$t('vendors.name')"
-                name="name"
-                v-validate="'required'"
-                :error-messages="errors.collect('name')"
-                v-model="vendor.name"
                 :data-vv-as="$t('vendors.name')"
-                @keypress.enter.native="create"
-                solo
                 :disabled="isRequest"
+                :error-messages="errors.collect('name')"
+                :label="$t('vendors.name')"
+                @keypress.enter.native="create"
+                name="name"
+                solo
+                v-model="vendor.name"
+                v-validate="'required'"
               />
             </VFlex>
-            <VFlex xs12 sm12 md12>
+            <VFlex md12 sm12 xs12>
               <v-textarea
-                name="name"
-                v-model="vendor.note"
-                solo
                 :disabled="isRequest"
+                name="name"
+                solo
+                v-model="vendor.note"
               >
                 <div slot="label">
                   {{ $t('vendors.note') }}
@@ -46,14 +46,14 @@
             </VFlex>
 
             <template v-for="(contact, idx) in vendor.contacts">
-              <VFlex xs1 sm1 md1>
-                <v-select :items="icons"
-                          solo
-                          ingle-line
-                          dense
+              <VFlex md1 sm1 xs1>
+                <v-select :disabled="isRequest"
+                          :items="icons"
                           autofocus
+                          dense
+                          ingle-line
+                          solo
                           v-model="vendor.contacts[idx].icon"
-                          :disabled="isRequest"
                 >
                   <template slot="selection" slot-scope="{item, index}">
                     <v-icon>{{ item }}</v-icon>
@@ -63,39 +63,39 @@
                   </template>
                 </v-select>
               </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
+              <VFlex md5 ml3 sm5 xs5>
                 <VTextField
-                  :label="$t('vendors.contactTitle')"
-                  v-model="vendor.contacts[idx].title"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactTitle[${idx}]`"
-                  :error-messages="errors.collect(`contactTitle[${idx}]`)"
                   :data-vv-as="$t('vendors.contactTitle')"
                   :disabled="isRequest"
+                  :error-messages="errors.collect(`contactTitle[${idx}]`)"
+                  :label="$t('vendors.contactTitle')"
+                  :name="`contactTitle[${idx}]`"
+                  solo
+                  v-model="vendor.contacts[idx].title"
+                  v-validate="'required'"
                 />
               </VFlex>
-              <VFlex xs5 sm5 md5 ml3>
+              <VFlex md5 ml3 sm5 xs5>
                 <VTextField
-                  :label="$t('vendors.contactValue')"
-                  v-model="vendor.contacts[idx].value"
-                  solo
-                  v-validate="'required'"
-                  :name="`contactValue[${idx}]`"
-                  :error-messages="errors.collect(`contactValue[${idx}]`)"
                   :data-vv-as="$t('vendors.contactTitle')"
                   :disabled="isRequest"
+                  :error-messages="errors.collect(`contactValue[${idx}]`)"
+                  :label="$t('vendors.contactValue')"
+                  :name="`contactValue[${idx}]`"
+                  solo
+                  v-model="vendor.contacts[idx].value"
+                  v-validate="'required'"
                 />
               </VFlex>
               <v-spacer></v-spacer>
-              <VFlex xs1 sm1 md1>
-                <v-btn flat @click="deleteContact(idx)" icon ml3>
+              <VFlex md1 sm1 xs1>
+                <v-btn @click="deleteContact(idx)" flat icon ml3>
                   <v-icon color="error">mdi-close</v-icon>
                 </v-btn>
               </VFlex>
             </template>
-            <VFlex xs12 sm12 md12>
-              <v-btn class="gradient-button" block dark mt2 @click="addContact">{{ $t('vendors.addContact') }}</v-btn>
+            <VFlex md12 sm12 xs12>
+              <v-btn @click="addContact" block class="gradient-button" dark mt2>{{ $t('vendors.addContact') }}</v-btn>
             </VFlex>
           </VLayout>
         </VContainer>
@@ -104,18 +104,18 @@
       <VCardActions>
         <VSpacer/>
         <VBtn
-          v-if="!isRequest"
+          @click="dialog = false"
           color="blue darken-1"
           flat
-          @click="dialog = false"
+          v-if="!isRequest"
         >
           {{ $t('menu.cancel') }}
         </VBtn>
         <VBtn
+          :loading="isRequest"
+          @click="create"
           color="blue darken-1"
           flat
-          @click="create"
-          :loading="isRequest"
         >
           {{ $t('menu.submit') }}
         </VBtn>
@@ -127,23 +127,11 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IVendor from "../../models/IVendor";
-  import IContact from "../../models/IContact";
   import {vendorsStore} from "../../store/modules/VendorsStore";
+  import {Vendor} from "../../models/Vendor";
 
   @Component export default class VendorCreate extends Vue {
-    @Watch('dialog') routeBack(value: boolean) {
-      if (!value) this.$router.push({name: routeNames.vendors.index});
-    }
-
-    @Watch('createdVendor') redirectToCreatedVendor(vendor: IVendor) {
-      if (vendor.id) this.$router.push({
-        name: routeNames.vendors.show,
-        params: {
-          id: String(vendor.id)
-        }
-      });
-    }
+    vendor: Vendor = new Vendor;
 
     dialog: boolean = true;
     icons = [
@@ -158,11 +146,18 @@
       'mdi-home-city',
     ];
 
-    vendor: IVendor = {
-      name: '',
-      note: '',
-      contacts: null,
-    };
+    @Watch('dialog') routeBack(value: boolean) {
+      if (!value) this.$router.push({name: routeNames.vendors.index});
+    }
+
+    @Watch('createdVendor') redirectToCreatedVendor(vendor: Vendor) {
+      if (vendor.id) this.$router.push({
+        name: routeNames.vendors.show,
+        params: {
+          id: String(vendor.id)
+        }
+      });
+    }
 
     get isRequest() {
       return vendorsStore.isVendorCreatingRequest;
@@ -174,24 +169,11 @@
 
     addContact() {
       const icon = this.icons[this.getIconIndex(this.vendor.contacts ? this.vendor.contacts.length : 0)];
-      const contact: IContact = {
-        icon,
-        title: '',
-        value: ''
-      };
-      if (!this.vendor.contacts) {
-        this.vendor.contacts = [contact];
-      } else {
-        this.vendor.contacts = [...this.vendor.contacts, contact];
-      }
+      this.vendor.addContact(icon, '', '');
     }
 
     deleteContact(idxToDelete: number) {
-      if (this.vendor.contacts) {
-        this.vendor.contacts = this.vendor.contacts.filter(
-          (contact, idx) => idx !== idxToDelete
-        );
-      }
+      this.vendor.removeContact(idxToDelete);
     }
 
     // if its more contacts that icons then return from start
@@ -216,5 +198,3 @@
     background: linear-gradient(to right, #605C3C, #3C3B3F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
 </style>
-
-

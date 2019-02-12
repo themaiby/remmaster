@@ -1,26 +1,26 @@
 <template>
   <v-container>
-    <VToolbar flat color="white" class="vendors-gradient">
-      <v-btn flat icon @click="refresh">
+    <VToolbar class="vendors-gradient" color="white" flat>
+      <v-btn @click="refresh" flat icon>
         <v-icon small>mdi-refresh</v-icon>
       </v-btn>
       <VSpacer/>
       <VBtn
-        v-if="true"
-        dark
-        color="blue-grey darken-4"
-        class="mb-2"
         :to="{name: routeNames.vendors.create}"
+        class="mb-2"
+        color="blue-grey darken-4"
+        dark
         flat
         icon
+        v-if="true"
       >
         <VIcon>mdi-plus</VIcon>
       </VBtn>
       <VBtn
         :color="filter ? 'primary' : 'blue-grey darken-4'"
-        dark
-        class="mb-2"
         :to="{name: routeNames.vendors.filter}"
+        class="mb-2"
+        dark
         flat
         icon
       >
@@ -29,14 +29,14 @@
         </VIcon>
       </VBtn>
       <VBtn
-        small
-        color="red accent-2"
+        @click="resetFilter"
         class="mb-2"
+        color="red accent-2"
         dark
         flat
-        v-if="filter"
-        @click="resetFilter"
         icon
+        small
+        v-if="Object.keys(filter).length"
       >
         <VIcon small>
           mdi-filter-remove
@@ -47,13 +47,13 @@
     <v-data-table
       :headers="headers"
       :items="vendors"
-      :pagination.sync="tableParams"
-      :total-items="meta.total"
       :loading="isRequest"
+      :pagination.sync="tableParams"
       :rows-per-page-items="[5, 10, 25, 50, 100]"
+      :total-items="meta.total"
       class="elevation-24"
     >
-      <v-progress-linear slot="progress" color="grey" indeterminate height="2"/>
+      <v-progress-linear color="grey" height="2" indeterminate slot="progress"/>
 
       <!-- todo: transition -->
       <template
@@ -61,8 +61,8 @@
         slot-scope="props"
       >
         <tr
-          :key="props.item.id"
           :bgcolor="props.item.highlight ? 'yellow' : ''"
+          :key="props.item.id"
         >
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.components_count }}</td>
@@ -90,10 +90,10 @@
             <v-tooltip top>
               <a
                 :href="`/vendors/${props.item.id}/delete`"
-                slot="activator"
                 @click="deleteVendor(props.item.id, $event)"
+                slot="activator"
               >
-                <VIcon color="error" class="mr-2" small>
+                <VIcon class="mr-2" color="error" small>
                   mdi-delete
                 </VIcon>
               </a>
@@ -113,9 +113,8 @@
   import i18n from "../../plugins/i18n";
   import {routeNames as routeNamesObj} from "../../router/routeNames";
   import {applicationStore} from "../../store/modules/ApplicationStore";
-  import IVendor from "../../models/IVendor";
-  import {userHelper} from "../../utils/UserHelpers";
   import {usersStore} from "../../store/modules/UsersStore";
+  import {Vendor} from "../../models/Vendor";
 
   @Component
   export default class VendorList extends Vue {
@@ -129,9 +128,7 @@
 
     beforeCreate() {
       // restrict access if not allowed
-      if (!userHelper.can(usersStore.currentUser, 'vendors.show')) {
-        this.$router.push({name: routeNamesObj.errors.notFound})
-      }
+      if (!usersStore.currentUser.can('vendors.show')) this.$router.push({name: routeNamesObj.errors.notFound});
     }
 
     // set current page name
@@ -156,7 +153,7 @@
     }
 
     get filter() {
-      return this.tableParams.filter;
+      return vendorsStore.filter;
     }
 
     get vendors() {
@@ -173,17 +170,16 @@
 
     resetFilter() {
       vendorsStore.resetFilter();
+      vendorsStore.getVendors();
     }
 
     deleteVendor(id: number, $event: Event,) {
       $event.preventDefault();
-      const vendor: IVendor | undefined = vendorsStore.getVendorById(id);
+      const vendor: Vendor | undefined = vendorsStore.vendors.find(vendor => vendor.id === id);
 
       let deleteVendor: boolean = false;
       if (vendor) {
-        deleteVendor = confirm(
-          `${this.$t('vendors.confirmDelete', {value: vendor.name})}`
-        );
+        deleteVendor = confirm(`${this.$t('vendors.confirmDelete', {value: vendor.name})}`);
         if (deleteVendor) vendorsStore.deleteVendor({id, name: vendor.name});
       }
     }

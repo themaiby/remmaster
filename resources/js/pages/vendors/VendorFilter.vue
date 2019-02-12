@@ -1,8 +1,8 @@
 <template>
   <VDialog
-    v-model="dialog"
     max-width="1000px"
     scrollable
+    v-model="dialog"
   >
     <VCard>
       <VCardText>
@@ -10,103 +10,103 @@
           <VLayout wrap>
             <!-- Input -->
             <VFlex
-              xs12
-              sm12
               md12
+              sm12
+              xs12
             >
               <VTextField
-                :label="$t('vendors.name')"
                 :hint="$t('menu.approximate')"
+                :label="$t('vendors.name')"
+                @keypress.enter.native=""
                 name="name"
                 v-model="filter.name"
-                @keypress.enter.native=""
               />
             </VFlex>
 
 
             <!-- omponents count -->
-            <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('vendors.componentsCountMin')"
+            <v-flex md6 sm6 xs6>
+              <v-text-field :data-vv-as="$t('vendors.componentsCountMin')"
+                            :error-messages="errors.collect('componentsMin')"
+                            :label="$t('vendors.componentsCountMin')"
                             @keypress.enter.native=""
                             name="componentsMin"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('componentsMin')"
-                            :data-vv-as="$t('vendors.componentsCountMin')"
                             v-model="filter.componentsMin"
+                            v-validate="'numeric'"
               />
             </v-flex>
-            <v-flex xs6 sm6 md6>
-              <v-text-field :label="$t('vendors.componentsCountMax')"
+            <v-flex md6 sm6 xs6>
+              <v-text-field :data-vv-as="$t('vendors.componentsCountMax')"
+                            :error-messages="errors.collect('componentsMax')"
+                            :label="$t('vendors.componentsCountMax')"
                             @keypress.enter.native=""
                             name="componentsMax"
-                            v-validate="'numeric'"
-                            :error-messages="errors.collect('componentsMax')"
-                            :data-vv-as="$t('vendors.componentsCountMax')"
                             v-model="filter.componentsMax"
+                            v-validate="'numeric'"
               />
             </v-flex>
 
             <!-- Datepickers -->
             <VFlex
-              xs12
-              sm6
-              md6
               class="mt-3"
+              md6
+              sm6
+              xs12
             >
               <v-label>{{$t('vendors.createDate')}}</v-label>
               <VMenu
                 :close-on-content-click="false"
-                v-model="createdAtInput.min"
                 :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
                 full-width
+                lazy
                 min-width="290px"
+                offset-y
+                transition="scale-transition"
+                v-model="createdAtInput.min"
               >
                 <VTextField
-                  slot="activator"
-                  v-model="filter.createdAtMin"
                   prepend-icon="mdi-calendar"
                   readonly
+                  slot="activator"
+                  v-model="filter.createdAtMin"
                 />
                 <VDatePicker
-                  v-model="filter.createdAtMin"
-                  @input="createdAtInput.min = false"
                   :first-day-of-week="0"
+                  @input="createdAtInput.min = false"
                   locale="ru-ru"
+                  v-model="filter.createdAtMin"
                 />
               </VMenu>
             </VFlex>
 
             <VFlex
-              xs12
-              sm6
-              md6
               class="mt-3"
+              md6
+              sm6
+              xs12
             >
               <v-label>{{ $t('vendors.createDateTo') }}</v-label>
               <VMenu
                 :close-on-content-click="false"
-                v-model="createdAtInput.max"
                 :nudge-right="40"
-                lazy
-                transition="scale-transition"
-                offset-y
                 full-width
+                lazy
                 min-width="290px"
+                offset-y
+                transition="scale-transition"
+                v-model="createdAtInput.max"
               >
                 <VTextField
-                  slot="activator"
-                  v-model="filter.createdAtMax"
                   prepend-icon="mdi-calendar"
                   readonly
+                  slot="activator"
+                  v-model="filter.createdAtMax"
                 />
                 <VDatePicker
-                  v-model="filter.createdAtMax"
-                  @input="createdAtInput.max = false"
                   :first-day-of-week="0"
+                  @input="createdAtInput.max = false"
                   locale="ru-ru"
+                  v-model="filter.createdAtMax"
                 />
               </VMenu>
             </VFlex>
@@ -117,16 +117,16 @@
       <VCardActions>
         <VSpacer/>
         <VBtn
+          @click="dialog = false"
           color="blue darken-1"
           flat
-          @click="dialog = false"
         >
           {{ $t('menu.cancel') }}
         </VBtn>
         <VBtn
+          @click="apply"
           color="blue darken-1"
           flat
-          @click="apply"
         >
           {{ $t('menu.apply') }}
         </VBtn>
@@ -139,7 +139,7 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {IVendorsFilter} from "../../models/ITableParams";
+  import {Filter} from "../../models/Filter";
 
   @Component export default class VendorFilter extends Vue {
     @Watch('dialog') routeBack(value: boolean) {
@@ -147,25 +147,20 @@
     }
 
     beforeMount() {
-      const filterStore = vendorsStore.tableParams.filter;
-      if (vendorsStore.tableParams.filter) this.filter = {...filterStore};
+      const filterStore = vendorsStore.filter;
+      if (vendorsStore.filter) this.filter = filterStore;
     }
 
     dialog: boolean = true;
-    filter: IVendorsFilter = {
-      name: '',
-      componentsMin: undefined,
-      componentsMax: undefined,
-      createdAtMin: '',
-      createdAtMax: '',
-    };
+    filter: Filter.Vendor = new Filter.Vendor();
     createdAtInput: object = {min: '', max: ''};
 
     apply() {
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            vendorsStore.setTableParams({...vendorsStore.tableParams, filter: this.filter});
+            vendorsStore.setFilter(this.filter);
+            vendorsStore.getVendors();
             this.dialog = false;
           }
         }

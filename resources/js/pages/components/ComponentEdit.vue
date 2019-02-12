@@ -1,9 +1,9 @@
 <template>
   <VDialog
-    v-model="dialog"
     max-width="1000px"
-    scrollable
     persistent
+    scrollable
+    v-model="dialog"
   >
     <VCard>
       <VToolbar
@@ -18,110 +18,110 @@
           <VLayout wrap>
 
             <!-- title -->
-            <VFlex xs6 sm6 md6>
+            <VFlex md6 sm6 xs6>
               <VTextField
-                :label="$t('components.title')"
-                name="title"
-                v-validate="'required'"
-                :error-messages="errors.collect('title')"
-                v-model="componentModel.title"
                 :data-vv-as="$t('components.title')"
-                @keypress.enter.native="update"
-                solo
                 :disabled="isRequest"
+                :error-messages="errors.collect('title')"
+                :label="$t('components.title')"
+                @keypress.enter.native="update"
+                name="title"
+                solo
+                v-model="componentModel.title"
+                v-validate="'required'"
               />
             </VFlex>
             <!-- article -->
-            <VFlex xs6 sm6 md6>
+            <VFlex md6 sm6 xs6>
               <VTextField
-                :label="$t('components.article')"
-                name="article"
-                v-validate="'required'"
-                :error-messages="errors.collect('article')"
-                v-model="componentModel.article"
                 :data-vv-as="$t('components.article')"
-                @keypress.enter.native="update"
-                solo
                 :disabled="isRequest"
+                :error-messages="errors.collect('article')"
+                :label="$t('components.article')"
+                @keypress.enter.native="update"
+                name="article"
+                solo
+                v-model="componentModel.article"
+                v-validate="'required'"
               />
             </VFlex>
 
             <!-- vendor-->
             <VFlex
-              xs12
-              sm12
               md12
+              sm12
+              xs12
             >
               <v-autocomplete
-                v-model="componentModel.vendor_id"
+                :data-vv-as="$t('components.vendor')"
+                :error-messages="errors.collect('vendor')"
                 :items="availableVendors"
                 :label="$t('components.vendor')"
-                prepend-icon="mdi-truck-fast"
+                @keypress.enter.native="apply"
                 item-text="name"
                 item-value="id"
                 name="vendor"
-                @keypress.enter.native="apply"
+                prepend-icon="mdi-truck-fast"
+                v-model="componentModel.vendor_id"
                 v-validate="'required'"
-                :error-messages="errors.collect('vendor')"
-                :data-vv-as="$t('components.vendor')"
               >
                 <v-slide-x-reverse-transition
-                  slot="append-outer"
                   mode="out-in"
+                  slot="append-outer"
                 >
                 </v-slide-x-reverse-transition>
               </v-autocomplete>
             </VFlex>
 
             <!-- count -->
-            <VFlex xs6 sm6 md6>
+            <VFlex md6 sm6 xs6>
               <VTextField
-                :hint="$t('components.count')"
-                persistent-hint
-                name="count"
-                v-validate="'required|numeric'"
-                :error-messages="errors.collect('count')"
-                v-model="componentModel.count"
                 :data-vv-as="$t('components.count')"
-                @keypress.enter.native="update"
-                solo
                 :disabled="isRequest"
+                :error-messages="errors.collect('count')"
+                :hint="$t('components.count')"
+                @keypress.enter.native="update"
+                name="count"
+                persistent-hint
+                solo
+                v-model="componentModel.count"
+                v-validate="'required|numeric'"
               />
             </VFlex>
             <!-- cost -->
-            <VFlex xs6 sm6 md6>
+            <VFlex md6 sm6 xs6>
               <VTextField
-                :hint="$t('components.cost')"
-                persistent-hint
-                name="cost"
-                v-validate="{required: true, regex: /^\$?[\d,]+(\.\d*)?$/}"
-                :error-messages="errors.collect('cost')"
                 :data-vv-as="$t('components.cost')"
-                v-model="componentModel.cost"
-                @keypress.enter.native="update"
-                solo
                 :disabled="isRequest"
+                :error-messages="errors.collect('cost')"
+                :hint="$t('components.cost')"
+                @keypress.enter.native="update"
+                name="cost"
+                persistent-hint
+                solo
+                v-model="componentModel.cost"
+                v-validate="{required: true, regex: /^\$?[\d,]+(\.\d*)?$/}"
               />
             </VFlex>
 
             <!-- categories tree view -->
-            <v-flex xs12 md12 lg12 mt-3>
+            <v-flex lg12 md12 mt-3 xs12>
               <v-label>{{ $t('components.categoryChoice') }}</v-label>
             </v-flex>
-            <v-flex xs12 md12 lg12>
+            <v-flex lg12 md12 xs12>
               <div class="pa-3">
                 <v-treeview
-                  item-key="id"
-                  item-text="title"
-                  item-children="child"
                   :items="availableCategories"
                   active-class="grey lighten-4 indigo--text"
                   expand-icon="mdi-chevron-down"
+                  item-children="child"
+                  item-key="id"
+                  item-text="title"
                 >
                   <template slot="prepend" slot-scope="{ item }">
                     <v-icon
-                      @click="componentModel.category.id = item.id"
-                      :color="componentModel.category.id === item.id ? 'success' : ''" small
+                      :color="componentModel.category.id === item.id ? 'success' : ''"
+                      @click="componentModel.category.id = item.id" small
                     >
                       {{ componentModel.category.id === item.id ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank' }}
                     </v-icon>
@@ -139,18 +139,17 @@
       <VCardActions>
         <VSpacer/>
         <VBtn
-          v-if="!isRequest"
+          @click="dialog = false"
           color="blue darken-1"
           flat
-          @click="dialog = false"
         >
           {{ $t('menu.cancel') }}
         </VBtn>
         <VBtn
+          :loading="isRequest"
+          @click="update"
           color="blue darken-1"
           flat
-          @click="update"
-          :loading="isRequest"
         >
           {{ $t('menu.submit') }}
         </VBtn>
@@ -162,20 +161,11 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import IComponent from "../../models/IComponent";
   import {componentsStore} from "../../store/modules/ComponentsStore";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component export default class VendorsEdit extends Vue {
-    private componentModel: IComponent = {
-      title: '',
-      count: 0,
-      cost: 0,
-      article: '',
-      category_id: 0,
-      vendor_id: 0,
-      category: {id: 0, title: ''}
-    };
-    private isLoaded: boolean = false;
+    private componentModel: ComponentModel = new ComponentModel();
     private dialog: boolean = true;
 
     @Watch('dialog') routeBack(value: boolean) {
@@ -187,7 +177,7 @@
       });
     }
 
-    get component(): IComponent {
+    get component(): ComponentModel {
       return componentsStore.component;
     }
 
@@ -200,7 +190,7 @@
     }
 
     get isRequest() {
-      return componentsStore.isUpdateRequest;
+      return componentsStore.isRequest;
     }
 
     async created() {

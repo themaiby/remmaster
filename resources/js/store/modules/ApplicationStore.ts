@@ -1,68 +1,56 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
-import IMenu from "../../models/IMenu";
-import ApiResponse from "../../models/IResponse";
-import {AxiosResponse} from "axios";
-import {http} from "../../plugins/axios";
-import {ISnackbar} from "../../models/ISnackbar";
+import {Menu} from "../../models/Menu";
+import {ISnackbarColors, Snackbar} from "../../models/Snackbar";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+
+  menu: Menu[] = [];
+  snackbar: Snackbar = new Snackbar();
+
   currentPageTitle: { text: string, image?: string } = {text: '', image: ''};
   currentPageImage: string | null = null;
   drawer: boolean = true;
   errors: [] = [];
   message: string = '';
   loaded: boolean = false;
-  menu: IMenu[] = [];
   requestInProgress: boolean = false;
   itWasTokenRefreshAttempt: boolean = false;
-  snackbar: ISnackbar = {show: false, y: 'top', x: 'right', mode: '', timeout: 3000, text: '', color: 'secondary'};
 
-  @Mutation
-  setSnackbar(snackbar: ISnackbar) {
-    this.snackbar = {...this.snackbar, ...snackbar, show: true};
+  @Mutation hideSnackbar() {
+    this.snackbar = new Snackbar();
   }
 
-  @Mutation
-  hideSnackbar() {
-    this.snackbar = {...this.snackbar, show: false};
-  }
-
-  @Mutation
-  setTokenRefreshAttempt(attempted: boolean) {
+  @Mutation setTokenRefreshAttempt(attempted: boolean) {
     this.itWasTokenRefreshAttempt = attempted;
   }
 
-  @Mutation
-  setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
+  @Mutation setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
     this.currentPageTitle = parameters;
   }
 
-  @Mutation
-  setDrawer(enabled: boolean) {
+  @Mutation setDrawer(enabled: boolean) {
     this.drawer = enabled;
   }
 
-  @Mutation
-  setAppLoaded(): void {
+  @Mutation setAppLoaded(): void {
     this.loaded = true;
   }
 
-  @Mutation
-  setMenu(menu: IMenu[]) {
+  @Mutation setMenu(menu: Menu[]) {
     this.menu = menu;
   }
 
   @Action
   async getMenu() {
     try {
-      const menu: AxiosResponse<ApiResponse<IMenu[]>> = await http.get(apiRoutes.app.menu);
-      this.context.commit('setMenu', menu.data.data);
+      const menu = await Menu.get();
+      this.setMenu(menu.data);
     } catch (e) {
+      this.snackbar.call(e.response.data.message, ISnackbarColors.err);
     }
-    this.context.commit('setAppLoaded');
+    this.setAppLoaded();
   }
 }
 

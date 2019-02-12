@@ -1,117 +1,97 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
-import IComponent from "../../models/IComponent";
-import ITableParams, {IComponentsFilter} from "../../models/ITableParams";
-import {QueryBuilder} from "../../utils/QueryBuilder";
-import {AxiosResponse} from "axios";
-import IResponse from "../../models/IResponse";
-import {http} from "../../plugins/axios";
-import {apiRoutes} from "../../apiRoutes";
-import IMeta from "../../models/IMeta";
-import IVendor from "../../models/IVendor";
-import {snack} from "../../utils/snack";
+import {Component} from "../../models/Component";
+import {ComponentCategory} from "../../models/ComponentCategory";
+import {Meta} from "../../models/Meta";
+import {Vendor} from "../../models/Vendor";
+import {TableParams} from "../../models/TableParams";
+import {ISnackbarColors} from "../../models/Snackbar";
+import {Filter} from "../../models/Filter";
+import {applicationStore} from "./ApplicationStore";
+import i18n from "../../plugins/i18n";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
-  component: IComponent = {article: '', cost: 0, count: 0, title: ''};
-  components: IComponent[] = [];
+  component: Component = new Component();
+  components: Component[] = [];
+  tableParams: TableParams = new TableParams();
+  meta: Meta = new Meta();
+  availableVendors: Vendor[] = [];
+  availableCategories: ComponentCategory[] = [];
+  filter: Filter.Component = new Filter.Component;
+
   isRequest: boolean = false;
   isUpdateRequest: boolean = false;
   isFilterLoading: boolean = false;
-  meta: IMeta = {};
   message: string = '';
   errors: [] = [];
-  tableParams: ITableParams<IComponentsFilter> = {
-    page: 1,
-    descending: false,
-    filter: null,
-    rowsPerPage: Number(localStorage.getItem('componentsPerPage')) || 5,
-    sortBy: '',
-  };
-  availableVendors: IVendor[] = [];
-  availableCategories: { id: number, title: string }[] = [];
   isComponentCreatingRequest: boolean = false;
 
-  @Mutation
-  setIsComponentCreatingRequest(isRequest: boolean) {
+  get getComponentById() {
+    return (id: number) => this.components.find(c => c.id === id); /* todo: move to component*/
+  }
+
+  @Mutation setIsComponentCreatingRequest(isRequest: boolean) {
     this.isComponentCreatingRequest = isRequest;
   }
 
-  @Mutation
-  setComponents(components: IComponent[]) {
+  @Mutation setComponents(components: Component[]) {
     this.components = components;
   }
 
-  @Mutation
-  setIsRequest(isRequest: boolean) {
+  @Mutation setIsRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setIsUpdateRequest(isRequest: boolean) {
+  @Mutation setIsUpdateRequest(isRequest: boolean) {
     this.isRequest = isRequest;
   }
 
-  @Mutation
-  setTableParams(params: ITableParams<IComponentsFilter>) {
-    if (params.rowsPerPage) localStorage.setItem('componentsPerPage', params.rowsPerPage.toString());
+  @Mutation setTableParams(params: TableParams) {
     this.tableParams = params;
   }
 
-  @Mutation
-  setMeta(meta: IMeta) {
+  @Mutation setMeta(meta: Meta) {
     this.meta = meta;
   }
 
-  @Mutation
-  setMessage(message: string) {
+  @Mutation setMessage(message: string) {
     this.message = message;
   }
 
-  @Mutation
-  resetFilter() {
-    this.tableParams = {...this.tableParams, filter: null};
+  @Mutation setFilter(filter: Filter.Component) {
+    this.filter = filter;
   }
 
-  @Mutation
-  setFilterLoading(isLoading: boolean) {
+  @Mutation resetFilter() {
+    this.filter = new Filter.Component;
+  }
+
+  @Mutation setFilterLoading(isLoading: boolean) {
     this.isFilterLoading = isLoading;
   }
 
-  @Mutation
-  setAvailableVendors(vendors: IVendor[]) {
+  @Mutation setAvailableVendors(vendors: Vendor[]) {
     this.availableVendors = vendors;
   }
 
-  @Mutation
-  setAvailableCategories(categories: { id: number, title: string }[]) {
+  @Mutation setAvailableCategories(categories: { id: number, title: string }[]) {
     this.availableCategories = categories;
   }
 
-  @Mutation
-  setComponent(component: IComponent) {
+  @Mutation setComponent(component: Component) {
     this.component = component;
-  }
-
-  /* GETTERS */
-  get getComponentById() {
-    return (id: number) => this.components.find(c => c.id === id);
   }
 
   @Action
   async getComponents() {
     this.setIsRequest(true);
     try {
-      const queryString = (new QueryBuilder<IComponentsFilter>(this.tableParams)).build();
-      const componentsRes: AxiosResponse<IResponse<IComponent[]>> = (
-        await http.get(apiRoutes.components.index, {params: queryString})
-      );
-      this.setMeta(componentsRes.data.meta);
-      this.setComponents(componentsRes.data.data);
-
+      const components = await Component.all({...this.tableParams, ...this.filter});
+      this.setMeta(components.meta);
+      this.setComponents(components.data);
     } catch (e) {
-      this.setMessage(e.response.data.message);
-
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -121,8 +101,10 @@ class ComponentsStore extends VuexModule {
   async getAvailableVendors() {
     this.setFilterLoading(true);
     try {
-      const vendorsRes: AxiosResponse<IResponse<IVendor[]>> = await http.get(apiRoutes.components.availableVendors);
-      this.setAvailableVendors(vendorsRes.data.data);
+      const availableVendors = await Vendor.getAvailable();
+      this.setAvailableVendors(availableVendors.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setFilterLoading(false);
     }
@@ -132,26 +114,30 @@ class ComponentsStore extends VuexModule {
   async getAvailableCategories() {
     this.setFilterLoading(true);
     try {
-      const categoriesRes: AxiosResponse<IResponse<{ id: number, title: string }[]>>
-        = await http.get(apiRoutes.components.availableCategories);
-      this.setAvailableCategories(categoriesRes.data.data);
+      const categories = await ComponentCategory.getAvailable();
+      this.setAvailableCategories(categories.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setFilterLoading(false);
     }
   }
 
   @Action
-  async createComponent(component: IComponent) {
+  async createComponent(component: Component) {
     this.setIsComponentCreatingRequest(true);
     try {
-      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.post(apiRoutes.components.create, component);
-      this.setComponent(componentRes.data.data);
-      snack.success('messages.components.createdSuccess', {
-        title: this.component.title,
-        article: this.component.article
-      });
+      const storedComponent = await Component.create(component);
+
+      this.setComponent(storedComponent.data);
+
+      const snackText = i18n.t('messages.components.createdSuccess', {
+        title: this.component.title, article: this.component.article
+      }) as string;
+      applicationStore.snackbar.call(snackText, ISnackbarColors.success);
+
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsComponentCreatingRequest(false);
     }
@@ -161,39 +147,42 @@ class ComponentsStore extends VuexModule {
   async getComponent(id: number) {
     this.setIsRequest(true);
     try {
-      const componentRes: AxiosResponse<IResponse<IComponent>> = await http.get(apiRoutes.components.show(id));
-      this.setComponent(componentRes.data.data);
+      const component = await Component.get(id);
+      this.setComponent(component.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
   }
 
   @Action
-  async updateComponent(component: IComponent) {
+  async updateComponent(component: Component) {
     this.setIsUpdateRequest(true);
     try {
       if (component.id != null) {
-        const componentRes: AxiosResponse<IResponse<IComponent>> = await http.put(apiRoutes.components.update(component.id), component);
-        this.setComponent(componentRes.data.data);
-        snack.success('messages.components.updatedSuccess');
+        const updatedComponent = await Component.update(component);
+        this.setComponent(updatedComponent.data);
+        applicationStore.snackbar.call('messages.components.updatedSuccess', ISnackbarColors.success);
       }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsUpdateRequest(false);
     }
   }
 
   @Action
-  async deleteComponent({id, title = ''}: { id: number, title: string }) {
+  async deleteComponent({id, title = ''}: { id: number, title: string | null }) {
     this.setIsRequest(true);
     try {
-      const response: AxiosResponse<IResponse<{}>> = await http.delete(apiRoutes.components.delete(id));
-      if (title) snack.info('messages.components.deletedSuccess', {title});
+      await Component.delete(id);
+      if (title) {
+        const snackText = i18n.t('messages.components.deletedSuccess', {title}) as string;
+        applicationStore.snackbar.call(snackText, ISnackbarColors.info);
+      }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.getComponents();
     }

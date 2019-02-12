@@ -1,16 +1,12 @@
 const mix = require('laravel-mix');
 const CompressionPlugin = require('compression-webpack-plugin');
 const zopfli = require('@gfx/zopfli');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 /* DEV OPTIONS */
 let wpPluginsDev = [];
 let chunkNamesDev = 'js/[name].js';
 if (!mix.inProduction()) {
-    // hot reload
-    mix.browserSync('homestead.test');
-    // debug helper
-    mix.sourceMaps();
+    mix.webpackConfig({devtool: "inline-source-map"});
 }
 
 
