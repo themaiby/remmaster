@@ -192,7 +192,7 @@
     }
 
     get isRequest() {
-      return componentsStore.isUpdateRequest;
+      return componentsStore.isRequest;
     }
 
     async created() {

@@ -63,7 +63,7 @@
                 name="vendor"
                 prepend-icon="mdi-truck-fast"
                 v-model="component.vendor_id"
-                v-validate="'required'"
+                v-validate="'required|min_value:1'"
               >
                 <v-slide-x-reverse-transition
                   mode="out-in"
