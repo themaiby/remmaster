@@ -139,7 +139,6 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {vendorsStore} from "../../store/modules/VendorsStore";
-  import {IVendorsFilter} from "../../interfaces/ITableParams";
   import {Filter} from "../../models/Filter";
 
   @Component export default class VendorFilter extends Vue {
@@ -153,14 +152,14 @@
     }
 
     dialog: boolean = true;
-    filter: Filter.Vendor | null = new Filter.Vendor();
+    filter: Filter.Vendor = new Filter.Vendor();
     createdAtInput: object = {min: '', max: ''};
 
     apply() {
       this.$validator.validate().then(
         valid => {
           if (valid) {
-            if (this.filter) vendorsStore.setFilter(this.filter);
+            vendorsStore.setFilter(this.filter);
             vendorsStore.getVendors();
             this.dialog = false;
           }

@@ -7,18 +7,18 @@ import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
 
 export class Component {
-  id: number | null = null;
-  title: string | null = null;
-  article: string | null = null;
-  category_id: number | null = null;
-  cost: number | null = null;
-  count: number | null = null;
-  vendor_id: number | null = null;
-  @Type(() => ComponentCategory) category: ComponentCategory | null = null;
-  @Type(() => Vendor) vendor: Vendor | null = null;
-  @Type(() => DateTime) created_at: DateTime | null = null;
-  @Type(() => DateTime) deleted_at: DateTime | null = null;
-  @Type(() => DateTime) updated_at: DateTime | null = null;
+  id: number = 0;
+  title: string = '';
+  article: string = '';
+  category_id: number = ComponentCategory.ROOT_CATEGORY;
+  cost: number = 0;
+  count: number = 0;
+  vendor_id: number = 0;
+  @Type(() => ComponentCategory) category: ComponentCategory = new ComponentCategory();
+  @Type(() => Vendor) vendor: Vendor = new Vendor();
+  @Type(() => DateTime) created_at: DateTime = new DateTime();
+  @Type(() => DateTime) deleted_at: DateTime = new DateTime();
+  @Type(() => DateTime) updated_at: DateTime = new DateTime();
 
   /**
    * @param query

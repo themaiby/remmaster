@@ -163,10 +163,10 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {componentsStore} from "../../store/modules/ComponentsStore";
-  import {Component as ComponentModel, createComponentModel, defaultComponentModel} from "../../models/Component";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component export default class VendorsEdit extends Vue {
-    private componentModel: ComponentModel = createComponentModel(defaultComponentModel);
+    private componentModel: ComponentModel = new ComponentModel();
     private isLoaded: boolean = false;
     private dialog: boolean = true;
 

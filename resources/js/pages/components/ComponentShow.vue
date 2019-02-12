@@ -73,7 +73,7 @@
   import {usersStore} from "../../store/modules/UsersStore";
   import {routeNames} from "../../router/routeNames";
   import {componentsStore} from "../../store/modules/ComponentsStore";
-  import {Component as ComponentModel, ComponentScheme, defaultComponentModel} from "../../models/Component";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component
   export default class VendorShow extends Vue {
@@ -81,7 +81,7 @@
     componentUpdateRoute: string = routeNames.components.update;
     vendorShowRoute: string = routeNames.vendors.show;
 
-    @Watch('component') updateTitleAfterComponentReceived(component: ComponentScheme) {
+    @Watch('component') updateTitleAfterComponentReceived(component: ComponentModel) {
       applicationStore.setCurrentPageTitle({text: `${this.pageTitle} "${component.title}"`});
     }
 
@@ -103,7 +103,7 @@
     }
 
     destroyed() {
-      componentsStore.setComponent(defaultComponentModel);
+      componentsStore.setComponent(new ComponentModel());
     }
   }
 </script>

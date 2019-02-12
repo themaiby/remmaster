@@ -36,7 +36,7 @@
         flat
         icon
         small
-        v-if="filter"
+        v-if="Object.keys(filter).length"
       >
         <VIcon small>
           mdi-filter-remove
@@ -180,7 +180,7 @@
       let deleteVendor: boolean = false;
       if (vendor) {
         deleteVendor = confirm(`${this.$t('vendors.confirmDelete', {value: vendor.name})}`);
-        if (deleteVendor ? vendorsStore.deleteVendor({id, name: vendor.name}) : false;
+        if (deleteVendor) vendorsStore.deleteVendor({id, name: vendor.name});
       }
     }
 

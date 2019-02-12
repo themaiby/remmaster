@@ -1,7 +1,8 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
+import {applicationStore} from "./ApplicationStore";
+import {ISnackbarColors} from "../../models/Snackbar";
 import {User} from "../../models/User";
-import {snack} from "../../utils/snack";
 
 @Module({name: 'users', store: store, namespaced: true, dynamic: true})
 class UsersStore extends VuexModule {
@@ -36,10 +37,9 @@ class UsersStore extends VuexModule {
     this.setIsRequest(true);
     try {
       const user = await User.getCurrent();
-      console.log(user.data.can('s'));
       this.setCurrentUser(user.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -54,7 +54,7 @@ class UsersStore extends VuexModule {
       this.setAuthorized(true);
       await this.getCurrentUser();
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
       this.setErrors(e.response.data.errors);
     } finally {
       this.setIsRequest(false);

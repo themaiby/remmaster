@@ -1,15 +1,14 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {apiRoutes} from "../../apiRoutes";
 import {store} from "../store";
-import ApiResponse from "../../interfaces/IResponse";
-import {AxiosResponse} from "axios";
-import {http} from "../../plugins/axios";
-import {ISnackbar} from "../../interfaces/ISnackbar";
-import {createMenuModel, Menu, MenuScheme} from "../../models/Menu";
+import {Menu} from "../../models/Menu";
+import {ISnackbarColors, Snackbar} from "../../models/Snackbar";
 
 @Module({name: 'application', store: store, namespaced: true, dynamic: true})
 class ApplicationStore extends VuexModule {
+
   menu: Menu[] = [];
+  snackbar: Snackbar = new Snackbar();
+
   currentPageTitle: { text: string, image?: string } = {text: '', image: ''};
   currentPageImage: string | null = null;
   drawer: boolean = true;
@@ -18,51 +17,41 @@ class ApplicationStore extends VuexModule {
   loaded: boolean = false;
   requestInProgress: boolean = false;
   itWasTokenRefreshAttempt: boolean = false;
-  snackbar: ISnackbar = {show: false, y: 'top', x: 'right', mode: '', timeout: 3000, text: '', color: 'secondary'};
 
-  @Mutation
-  setSnackbar(snackbar: ISnackbar) {
-    this.snackbar = {...this.snackbar, ...snackbar, show: true};
+  @Mutation hideSnackbar() {
+    this.snackbar = new Snackbar();
   }
 
-  @Mutation
-  hideSnackbar() {
-    this.snackbar = {...this.snackbar, show: false};
-  }
-
-  @Mutation
-  setTokenRefreshAttempt(attempted: boolean) {
+  @Mutation setTokenRefreshAttempt(attempted: boolean) {
     this.itWasTokenRefreshAttempt = attempted;
   }
 
-  @Mutation
-  setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
+  @Mutation setCurrentPageTitle(parameters: { text: string, image?: string } = {text: '', image: ''}) {
     this.currentPageTitle = parameters;
   }
 
-  @Mutation
-  setDrawer(enabled: boolean) {
+  @Mutation setDrawer(enabled: boolean) {
     this.drawer = enabled;
   }
 
-  @Mutation
-  setAppLoaded(): void {
+  @Mutation setAppLoaded(): void {
     this.loaded = true;
   }
 
-  @Mutation
-  setMenu(menu: MenuScheme[]) {
-    this.menu = menu.map(item => createMenuModel(item));
+  @Mutation setMenu(menu: Menu[]) {
+    this.menu = menu;
   }
 
   @Action
   async getMenu() {
     try {
-      const menu: AxiosResponse<ApiResponse<MenuScheme[]>> = await http.get(apiRoutes.app.menu);
-      this.context.commit('setMenu', menu.data.data);
+      const menu = await Menu.get();
+      console.log(menu);
+      this.setMenu(menu.data);
     } catch (e) {
+      this.snackbar.call(e.response.data.message, ISnackbarColors.err);
     }
-    this.context.commit('setAppLoaded');
+    this.setAppLoaded();
   }
 }
 

@@ -40,7 +40,7 @@
         flat
         icon
         small
-        v-if="filter"
+        v-if="Object.keys(filter).length"
       >
         <VIcon small>
           mdi-filter-remove
@@ -209,13 +209,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .darken {
-    opacity: 0.5;
-  }
-
-  .count-warning {
-    background: #ffedf0;
-  }
-</style>

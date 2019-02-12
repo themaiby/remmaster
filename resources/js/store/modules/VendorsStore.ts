@@ -1,11 +1,13 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 
 import {store} from "../store";
-import {snack} from "../../utils/snack";
 import {Vendor} from "../../models/Vendor";
 import {createMetaModel, Meta, MetaScheme} from "../../models/Meta";
 import {Filter} from "../../models/Filter";
 import {TableParams} from "../../models/TableParams";
+import {applicationStore} from "./ApplicationStore";
+import {ISnackbarColors} from "../../models/Snackbar";
+import i18n from "../../plugins/i18n";
 
 @Module({name: 'vendors', store: store, namespaced: true, dynamic: true})
 class VendorsStore extends VuexModule {
@@ -14,7 +16,7 @@ class VendorsStore extends VuexModule {
   vendor: Vendor = new Vendor;
   vendors: Vendor[] = [];
   tableParams = new TableParams;
-  filter: Filter.Vendor | null = null;
+  filter: Filter.Vendor = new Filter.Vendor;
 
   isRequest: boolean = false;
   isVendorCreatingRequest: boolean = false;
@@ -41,11 +43,11 @@ class VendorsStore extends VuexModule {
   }
 
   @Mutation setFilter(filter: Filter.Vendor) {
-    this.filter = new Filter.Vendor(filter);
+    this.filter = Filter.Vendor.set(filter);
   }
 
   @Mutation resetFilter() {
-    this.filter = null;
+    this.filter = new Filter.Vendor;
   }
 
   @Mutation setMeta(meta: MetaScheme) {
@@ -61,7 +63,7 @@ class VendorsStore extends VuexModule {
       this.setMeta(vendors.meta);
       this.setVendors(vendors.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -74,7 +76,7 @@ class VendorsStore extends VuexModule {
       const vendor = await Vendor.get(id);
       this.setVendor(vendor.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -86,9 +88,10 @@ class VendorsStore extends VuexModule {
     try {
       const vendorRes = await Vendor.create(vendor);
       this.setVendor(vendorRes.data);
-      snack.success('messages.vendors.createdSuccess', {name: this.vendor.name});
+      const snackText = i18n.t('messages.vendors.createdSuccess', {name: this.vendor}) as string;
+      applicationStore.snackbar.call(snackText, ISnackbarColors.success);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsVendorCreatingRequest(false);
     }
@@ -99,9 +102,12 @@ class VendorsStore extends VuexModule {
     this.setIsRequest(true);
     try {
       await Vendor.delete(id);
-      if (name) snack.info('messages.vendors.deletedSuccess', {name: name});
+      if (name) {
+        const snackText = i18n.t('messages.vendors.deletedSuccess', {name}) as string;
+        applicationStore.snackbar.call(snackText, ISnackbarColors.info);
+      }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.getVendors();
     }
@@ -114,10 +120,10 @@ class VendorsStore extends VuexModule {
       if (vendor.id != null) {
         const vendorResp = await Vendor.update(vendor);
         this.setVendor(vendorResp.data);
-        snack.success('messages.vendors.updatedSuccess');
+        applicationStore.snackbar.call(i18n.t('messages.vendors.updatedSuccess') as string, ISnackbarColors.success);
       }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsVendorCreatingRequest(false);
     }

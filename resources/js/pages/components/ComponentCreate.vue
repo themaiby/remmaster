@@ -171,24 +171,19 @@
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
   import {componentsStore} from "../../store/modules/ComponentsStore";
-  import {
-    Component as ComponentModel,
-    ComponentScheme,
-    createComponentModel,
-    defaultComponentModel
-  } from "../../models/Component";
+  import {Component as ComponentModel} from "../../models/Component";
 
   @Component export default class VendorCreate extends Vue {
     dialog: boolean = true;
     continueCreating: boolean = false;
-    component: ComponentModel = createComponentModel(defaultComponentModel);
+    component: ComponentModel = new ComponentModel();
 
     @Watch('dialog') routeBack(value: boolean) {
       if (!value) this.$router.push({name: routeNames.components.index});
     }
 
     // redirect when component will created
-    @Watch('createdComponent') redirectToCreatedComponent(component: ComponentScheme) {
+    @Watch('createdComponent') redirectToCreatedComponent(component: ComponentModel) {
       if (component.id && !this.continueCreating) {
         this.$router.push({
           name: routeNames.components.show,
@@ -236,7 +231,7 @@
           await componentsStore.createComponent(this.component);
 
           // reset component's model
-          this.component = createComponentModel(defaultComponentModel);
+          this.component = new ComponentModel();
 
           // disable validator after reset
           this.$validator.reset();

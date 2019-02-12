@@ -23,8 +23,8 @@ export class Response<T> implements ResponseScheme<T> {
     if (Array.isArray(res.data)) res.data = res.data.map(item => plainToClass(mapResponseTo as ClassType<T>, item));
     if (!Array.isArray(res)) this.data = plainToClass(mapResponseTo as ClassType<T>, res.data);
 
-    this.meta = plainToClass(Meta, res.meta);
+    this.meta = plainToClass(Meta, res.meta || {});
     this.message = res.message || '';
-    this.errors = res.errors;
+    this.errors = res.errors || [];
   }
 }

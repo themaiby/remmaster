@@ -119,7 +119,7 @@
 
     <!-- Snackbar -->
     <v-snackbar
-      :bottom="snackbar.y === 'bottom'"
+      :bottom="snackbar.y === true"
       :color="snackbar.color"
       :left="snackbar.x === 'left'"
       :multi-line="snackbar.mode === 'multi-line'"
@@ -131,7 +131,7 @@
     >
       {{ snackbar.text }}
       <v-btn
-        @click="hideSnack"
+        @click="snackbar.hide()"
         flat
         icon
       >

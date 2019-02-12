@@ -216,7 +216,6 @@
 <script lang="ts">
   import {Component, Vue, Watch} from "vue-property-decorator";
   import {routeNames} from "../../router/routeNames";
-  import {IComponentsFilter} from "../../interfaces/ITableParams";
   import {componentsStore} from "../../store/modules/ComponentsStore";
   import {Filter} from "../../models/Filter";
 
@@ -246,7 +245,6 @@
     }
 
     apply() {
-      console.log(this.filter.categories);
       this.$validator.validate().then(
         valid => {
           if (valid) {

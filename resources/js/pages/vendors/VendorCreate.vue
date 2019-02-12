@@ -184,7 +184,9 @@
     }
 
     create() {
-      this.$validator.validate().then(valid => valid ? vendorsStore.createVendor(this.vendor) : false);
+      this.$validator.validate().then(valid => {
+        if (valid) vendorsStore.createVendor(this.vendor);
+      });
     }
   }
 </script>

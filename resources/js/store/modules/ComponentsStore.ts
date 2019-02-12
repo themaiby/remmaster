@@ -1,12 +1,14 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {store} from "../store";
-import {snack} from "../../utils/snack";
 import {Component} from "../../models/Component";
 import {ComponentCategory} from "../../models/ComponentCategory";
 import {Meta} from "../../models/Meta";
 import {Vendor} from "../../models/Vendor";
 import {TableParams} from "../../models/TableParams";
+import {ISnackbarColors} from "../../models/Snackbar";
 import {Filter} from "../../models/Filter";
+import {applicationStore} from "./ApplicationStore";
+import i18n from "../../plugins/i18n";
 
 @Module({name: 'components', store: store, namespaced: true, dynamic: true})
 class ComponentsStore extends VuexModule {
@@ -16,7 +18,7 @@ class ComponentsStore extends VuexModule {
   meta: Meta = new Meta();
   availableVendors: Vendor[] = [];
   availableCategories: ComponentCategory[] = [];
-  filter: Filter.Component | null = null;
+  filter: Filter.Component = new Filter.Component;
 
   isRequest: boolean = false;
   isUpdateRequest: boolean = false;
@@ -62,7 +64,7 @@ class ComponentsStore extends VuexModule {
   }
 
   @Mutation resetFilter() {
-    this.filter = null;
+    this.filter = new Filter.Component;
   }
 
   @Mutation setFilterLoading(isLoading: boolean) {
@@ -89,7 +91,7 @@ class ComponentsStore extends VuexModule {
       this.setMeta(components.meta);
       this.setComponents(components.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -102,7 +104,7 @@ class ComponentsStore extends VuexModule {
       const availableVendors = await Vendor.getAvailable();
       this.setAvailableVendors(availableVendors.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setFilterLoading(false);
     }
@@ -114,6 +116,8 @@ class ComponentsStore extends VuexModule {
     try {
       const categories = await ComponentCategory.getAvailable();
       this.setAvailableCategories(categories.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setFilterLoading(false);
     }
@@ -127,11 +131,13 @@ class ComponentsStore extends VuexModule {
 
       this.setComponent(storedComponent.data);
 
-      snack.success('messages.components.createdSuccess', {
+      const snackText = i18n.t('messages.components.createdSuccess', {
         title: this.component.title, article: this.component.article
-      });
+      }) as string;
+      applicationStore.snackbar.call(snackText, ISnackbarColors.success);
+
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsComponentCreatingRequest(false);
     }
@@ -144,7 +150,7 @@ class ComponentsStore extends VuexModule {
       const component = await Component.get(id);
       this.setComponent(component.data);
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
     }
@@ -157,10 +163,10 @@ class ComponentsStore extends VuexModule {
       if (component.id != null) {
         const updatedComponent = await Component.update(component);
         this.setComponent(updatedComponent.data);
-        snack.success('messages.components.updatedSuccess');
+        applicationStore.snackbar.call('messages.components.updatedSuccess', ISnackbarColors.success);
       }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsUpdateRequest(false);
     }
@@ -171,9 +177,12 @@ class ComponentsStore extends VuexModule {
     this.setIsRequest(true);
     try {
       await Component.delete(id);
-      if (title) snack.info('messages.components.deletedSuccess', {title});
+      if (title) {
+        const snackText = i18n.t('messages.components.deletedSuccess', {title}) as string;
+        applicationStore.snackbar.call(snackText, ISnackbarColors.info);
+      }
     } catch (e) {
-      snack.err(e.response.data.message);
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.getComponents();
     }

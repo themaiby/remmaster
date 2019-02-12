@@ -1,26 +1,20 @@
-import {plainToClass, Type} from "class-transformer";
+import {Type} from "class-transformer";
+import {Response as ResponseModel, ResponseScheme} from "./Response";
+import {AxiosResponse} from "axios";
+import {http} from "../plugins/axios";
 
-export interface MenuScheme {
-  icon: string | null;
-  routeName: string | null;
-  text: string | null;
-  ['icon-alt']: string | null;
-  children?: MenuScheme | null;
+export class Menu {
+  "icon-alt": string = '';
+  icon: string = '';
+  routeName: string = '';
+  text: string = '';
+  @Type(() => Menu) children: Menu | null = null; // null default to prevent n(O)
+
+  /**
+   * Get application global menu for current user
+   */
+  static async get(): Promise<ResponseModel<Menu[]>> {
+    const res: AxiosResponse<ResponseScheme<Menu[]>> = await http.get(`menu`);
+    return new ResponseModel(res.data, Menu);
+  }
 }
-
-export class Menu implements MenuScheme {
-  "icon-alt": string | null = null;
-  icon: string | null = null;
-  routeName: string | null = null;
-  text: string | null = null;
-  @Type(() => Menu) children: Menu | null = null;
-}
-
-export const createMenuModel = (menu: MenuScheme) => plainToClass(Menu, menu);
-export const defaultMenuModel: MenuScheme = {
-  "icon-alt": null,
-  children: null,
-  icon: null,
-  routeName: null,
-  text: null
-};

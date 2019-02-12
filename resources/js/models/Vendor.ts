@@ -1,4 +1,3 @@
-import Vue from "vue";
 import {plainToClass, Type} from "class-transformer";
 import {Contact} from "./Contact";
 import {DateTime} from "./DateTime";
@@ -9,16 +8,16 @@ import {http} from "../plugins/axios";
 
 export class Vendor {
 
-  id?: number;
-  name?: string;
-  note?: string;
-  components_cost?: number;
-  components_count?: number;
-  @Type(() => ComponentModel) components?: ComponentModel[];
-  @Type(() => Contact) contacts?: Contact[];
-  @Type(() => DateTime) created_at?: DateTime;
-  @Type(() => DateTime) deleted_at?: DateTime;
-  @Type(() => DateTime) updated_at?: DateTime;
+  id: number = 0;
+  name: string = '';
+  note: string = '';
+  components_cost: number = 0;
+  components_count: number = 0;
+  @Type(() => ComponentModel) components: ComponentModel[] = [];
+  @Type(() => Contact) contacts: Contact[] = [];
+  @Type(() => DateTime) created_at: DateTime = new DateTime();
+  @Type(() => DateTime) deleted_at: DateTime = new DateTime();
+  @Type(() => DateTime) updated_at: DateTime = new DateTime();
 
   /**
    * @param identifier
@@ -77,18 +76,14 @@ export class Vendor {
    * @param value
    */
   public addContact(icon: string, title: string, value: string) {
-    const newContact = plainToClass(Contact, {icon, title, value});
-    this.contacts ?
-      Vue.set(this, 'contacts', [...this.contacts, newContact]) :
-      Vue.set(this, 'contacts', [newContact]);
+    this.contacts = [...this.contacts, plainToClass(Contact, {icon, title, value})];
   }
 
+  /**
+   * @param index
+   */
   public removeContact(index: number) {
-    if (this.contacts) {
-      this.contacts = this.contacts.filter(
-        (contact, idx) => idx !== index
-      );
-    }
+    if (this.contacts) this.contacts = this.contacts.filter((contact, idx) => idx !== index);
   }
 }
 
