@@ -28,7 +28,7 @@ class CreateOrdersTable extends Migration
             /* Status types */
             $table->boolean('opener')->default(false);
             $table->boolean('finisher')->default(false);
-            $table->string('color')->default('primary');
+            $table->string('color')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
