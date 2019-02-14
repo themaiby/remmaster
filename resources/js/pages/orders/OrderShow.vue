@@ -8,11 +8,10 @@
 
       <v-flex xs12 sm12 lg12 pa-1>
         <!-- status -->
-        <v-chip label :color="order.status.color" text-color="white">
-          {{ order.status.title }}
-        </v-chip>
         <v-menu>
-          <v-btn slot="activator" flat>{{ $t('orders.status_change') }}</v-btn>
+          <v-btn slot="activator" :color="order.status.color">
+            {{ order.status.title }}
+          </v-btn>
           <v-list>
             <v-list-tile v-for="status in statuses" :key="status.id" @click="updateStatus(status)">
               <v-list-tile-title>{{ status.title }}</v-list-tile-title>
@@ -94,7 +93,8 @@
 
             <h4 class="oneline">
               {{ $t('orders.complete_date') }}:
-              <span v-if="!order.status.finisher">
+            </h4>
+            <span v-if="!order.status.finisher">
                   <span v-if="completeDateDiff > 0">
                     {{ $tc('pluralized.days_more', completeDateDiff) }}
                     <v-icon :color="completeDateDiff > 1 ? 'success' : 'warning'">mdi-clock-outline</v-icon>
@@ -106,12 +106,11 @@
                   </span>
 
                   <span v-else="completeDateDiff">({{ $t('orders.last_day')}})</span>
-              </span>
+            </span>
 
-              <span v-else class="success--text">
+            <span v-else class="success--text">
                 {{ $t('orders.issued') }}
-              </span>
-            </h4>
+            </span>
             <!-- order end -->
 
             <!-- Client -->
@@ -159,6 +158,15 @@
         <v-card height="100%">
           <v-card-text>
             <h3 class="headline mb-2">{{ $t('orders.components') }}</h3>
+            <v-divider class="headline mb-3"></v-divider>
+            <ul>
+              <li>Component 1</li>
+              <li>Component 2</li>
+              <li>Component 3</li>
+              <li>Component 4</li>
+            </ul>
+
+            <h3 class="headline mt-5">{{ $t('orders.works') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
           </v-card-text>
         </v-card>
