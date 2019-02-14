@@ -93,14 +93,29 @@ export const ru = {
     type: 'Тип',
     client_name: 'Имя клиента',
     client_number: 'Контактный номер',
+    client_email: 'E-Mail',
+    client_note: 'Заметка',
     device_name: 'Устройство',
     device_imei: 'IMEI/SN',
     created_at: 'Дата',
     show: 'Заявка',
     client: 'Клиент',
     orderData: 'Данные заявки',
+    notSpecified: 'Не указано',
+    device_visual: 'Внешний вид',
+    breakage: 'Недостаток',
+    device_note: 'Заметка об устройстве',
+    comment: 'Дополнительные комментарии',
+    complete_date: 'Дата выдачи',
+    order: 'Заявка',
+    last_day: 'сегодня',
+    issued: 'Выдано',
+    status_change: 'Изменить статус',
+    author: 'Владелец'
   },
   pluralized: {
-    items: '{n} единиц | {n} единица | {n} единицы | {n} единиц'
+    items: '{n} единиц | {n} единица | {n} единицы | {n} единиц',
+    days_more: 'через {n} дней | завтра | через {n} дня | через {n} дней',
+    days_end: 'просрочено на {n} дней | просрочено на {n} день | просрочено на {n} дня | просрочено на {n} дней',
   }
 };

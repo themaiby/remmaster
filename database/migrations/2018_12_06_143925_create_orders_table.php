@@ -103,6 +103,7 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedInteger('component_id')->index();
             $table->unsignedInteger('order_id')->index();
+            $table->unsignedInteger('count');
 
             $table->timestamps();
         });

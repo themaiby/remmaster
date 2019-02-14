@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -96,5 +97,13 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatuses(): array
+    {
+        return ['data' => OrderStatus::all()];
     }
 }

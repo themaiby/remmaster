@@ -94,7 +94,12 @@ Route::group(['middleware' => 'jwt'], function () {
 
         Route::get('/{order}', 'OrderController@show')
             ->middleware('permission:orders.show')
-            ->name('orders.show');
+            ->name('orders.show')
+            ->where(['order' => '[0-9]+']);
+
+        Route::get('/statuses', 'OrderController@getStatuses')
+            ->middleware('permission:orders.show')
+            ->name('orders.statuses');
     });
 
     Route::group(['prefix' => 'categories'], function () {

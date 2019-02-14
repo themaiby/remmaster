@@ -6,6 +6,7 @@ import {Meta} from "../../models/Meta";
 import {Filter} from "../../models/Filter";
 import {applicationStore} from "./ApplicationStore";
 import {ISnackbarColors} from "../../models/Snackbar";
+import {OrderStatus} from "../../models/OrderStatus";
 
 @Module({name: 'orders', store: store, namespaced: true, dynamic: true})
 class OrdersStore extends VuexModule {
@@ -15,6 +16,7 @@ class OrdersStore extends VuexModule {
   tableParams: TableParams = new TableParams();
   meta: Meta = new Meta;
   filter: Filter.Order = new Filter.Order();
+  statuses: OrderStatus[] = [];
 
   isRequest: boolean = false;
   errors: [] = [];
@@ -47,6 +49,10 @@ class OrdersStore extends VuexModule {
     this.filter = new Filter.Order;
   }
 
+  @Mutation setStatuses(statuses: OrderStatus[]) {
+    this.statuses = statuses;
+  }
+
   @Action
   async getOrders() {
     this.setIsRequest(true);
@@ -67,6 +73,19 @@ class OrdersStore extends VuexModule {
     try {
       const order = await Order.get(id);
       this.setOrder(order.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
+    } finally {
+      this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getStatuses() {
+    this.setIsRequest(true);
+    try {
+      const statuses = await OrderStatus.all();
+      this.setStatuses(statuses.data);
     } catch (e) {
       applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {

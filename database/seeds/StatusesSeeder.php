@@ -16,7 +16,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Принят',
                 'opener' => true,
                 'finisher' => false,
-                'color' => null,
+                'color' => 'primary',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -24,7 +24,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Ожидает запчасть',
                 'opener' => false,
                 'finisher' => false,
-                'color' => 'amber accent-1',
+                'color' => 'warning',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -32,7 +32,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Передан партнёру',
                 'opener' => false,
                 'finisher' => false,
-                'color' => 'amber accent-1',
+                'color' => 'warning',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -40,7 +40,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Отказ в ремонте',
                 'opener' => false,
                 'finisher' => true,
-                'color' => 'red lighten-4',
+                'color' => 'error',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -48,7 +48,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Отказ в гарантийном обслуживании',
                 'opener' => false,
                 'finisher' => true,
-                'color' => 'red lighten-4',
+                'color' => 'error',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -56,7 +56,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Готов',
                 'opener' => false,
                 'finisher' => false,
-                'color' => 'light-green lighten-4',
+                'color' => 'success',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -64,7 +64,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Выдан',
                 'opener' => false,
                 'finisher' => true,
-                'color' => null,
+                'color' => 'grey',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

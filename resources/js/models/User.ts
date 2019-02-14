@@ -22,6 +22,10 @@ export class User {
   @Type(() => DateTime) updated_at: DateTime = new DateTime();
   @Type(() => DateTime) deleted_at: DateTime = new DateTime();
 
+  get fullname() {
+    return this.first_name + ' ' + this.last_name;
+  }
+
   /**
    * Get authorized user
    */
