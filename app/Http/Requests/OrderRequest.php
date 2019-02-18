@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Component;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest
@@ -23,6 +24,50 @@ class OrderRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            /* required */
+            'order_type_id' => 'required|int|exists:order_types,id',
+            'status_id' => 'required|int|exists:order_statuses,id',
+            'urgent' => 'required|boolean',
+            'breakage' => 'required|string',
+            'client_name' => 'required|string',
+            'client_number' => 'required|string',
+            'device_name' => 'required|string',
+            'device_imei' => 'required|string',
+            'complete_date' => 'required|date',
+
+            /* optional */
+            'comment' => 'sometimes|string',
+            'client_email' => 'sometimes|email',
+            'client_note' => 'sometimes|string',
+            'device_visual' => 'sometimes|string',
+            'device_note' => 'sometimes|string',
+
+            /* components */
+            'components' => ['sometimes', 'array', function ($attr, array $value, $fail) {
+                $componentsData = collect($value);
+
+                /* get specified components */
+                $components = Component::findMany($componentsData->pluck('component_id'));
+
+                /* check existing in single query */
+                if ($components->count() !== $componentsData->count()) {
+                    $fail('One or several components are not present'); /* todo: translate */
+                }
+
+                /* checking component count */
+                foreach ($componentsData as $component) {
+                    $dbComponent = $components->find($component['component_id']);
+                    if ($dbComponent->count < $component['count']) {
+                        $fail("Not enough $dbComponent->title's [$dbComponent->article] count"); /* todo: translate */
+                    }
+                }
+            }],
+
+            /* works */
+            'works' => 'required|array',
+            'works.*.title' => 'required|string',
+            'works.*.cost' => 'required|numeric',
+        ];
     }
 }

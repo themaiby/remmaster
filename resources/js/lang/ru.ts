@@ -111,7 +111,11 @@ export const ru = {
     last_day: 'сегодня',
     issued: 'Выдано',
     status_change: 'Изменить статус',
-    author: 'Владелец'
+    author: 'Владелец',
+    components: 'Использованные запчасти',
+    works: 'Список работ',
+    status_history: 'История изменений статуса',
+    worksSummary: 'Суммарная стоимость'
   },
   pluralized: {
     items: '{n} единиц | {n} единица | {n} единицы | {n} единиц',

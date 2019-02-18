@@ -1,10 +1,6 @@
 <template>
   <v-container>
     <v-layout row wrap v-if="order.id">
-      <!-- author -->
-      <v-flex xs12 md12 lg12 pa-1>
-        <h4>{{ $t('orders.author' )}}:</h4> <span>{{ order.user.fullname }}</span>
-      </v-flex>
 
       <v-flex xs12 sm12 lg12 pa-1>
         <!-- status -->
@@ -22,7 +18,7 @@
         <!-- invoice -->
         <v-menu>
           <v-btn slot="activator" flat icon>
-            <v-icon>mdi-file-document-outline</v-icon>
+            <v-icon>mdi-file-download-outline</v-icon>
           </v-btn>
           <v-list>
             <v-list-tile @click="">
@@ -105,7 +101,7 @@
                     {{ $tc('pluralized.days_end', Math.abs(completeDateDiff)) }}
                   </span>
 
-                  <span v-else="completeDateDiff">({{ $t('orders.last_day')}})</span>
+                  <span v-else="completeDateDiff">{{ $t('orders.last_day')}}</span>
             </span>
 
             <span v-else class="success--text">
@@ -153,26 +149,62 @@
         </v-card>
       </v-flex>
 
-      <!-- components -->
       <v-flex xs12 sm6 lg6 pa-1>
         <v-card height="100%">
           <v-card-text>
-            <h3 class="headline mb-2">{{ $t('orders.components') }}</h3>
+            <!-- works -->
+            <h3 class="headline mb-2">{{ $t('orders.works') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
-            <ul>
-              <li>Component 1</li>
-              <li>Component 2</li>
-              <li>Component 3</li>
-              <li>Component 4</li>
-            </ul>
 
-            <h3 class="headline mt-5">{{ $t('orders.works') }}</h3>
+            <v-list two-line>
+              <v-list-tile v-for="work in order.works" :key="work.id">
+
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ work.title }}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{ work.cost }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+
+              <v-divider></v-divider>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    {{ $t('orders.worksSummary') }}:
+                    {{ sum(order.works) }}
+                  </v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+
+            <!-- components -->
+            <h3 class="headline mt-5">{{ $t('orders.components') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
+
+            <v-list three-line subheader>
+              <v-list-tile v-for="component in order.components" :key="component.id">
+
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ component.title }}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{ $t('components.article') }}: {{ component.article }}</v-list-tile-sub-title>
+                  <v-list-tile-sub-title>{{ $t('components.count') }}: {{ component.getInOrderCount() }}
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+
+                <v-list-tile-action>
+                  <router-link :to="{name: componentShowRoute, params: {id: component.id}}">
+                    <v-btn icon ripple>
+                      <v-icon color="primary">mdi-information</v-icon>
+                    </v-btn>
+                  </router-link>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list>
+
           </v-card-text>
         </v-card>
       </v-flex>
 
-      <!-- work list -->
+      <!-- status history-->
       <v-flex xs12 sm12 lg12 pa-1>
         <v-card height="100%">
           <v-card-text>
@@ -193,6 +225,10 @@
   import {usersStore} from "../../store/modules/UsersStore";
   import * as moment from "moment";
   import {OrderStatus} from "../../models/OrderStatus";
+  import {routeNames} from "../../router/routeNames";
+  import {OrderWork} from "../../models/OrderWork";
+
+  /* todo: implement work completing */
 
   @Component
   export default class OrderShow extends Vue {
@@ -210,12 +246,26 @@
       applicationStore.setCurrentPageTitle({text: `[#${order.id}]`});
     }
 
+    sum(works: OrderWork[]): number {
+      console.log(works);
+      let sum = 0;
+      works.forEach(work => {
+        sum += Number(work.cost)
+      });
+
+      return sum;
+    }
+
     get statuses() {
       return ordersStore.statuses;
     }
 
     get order() {
       return ordersStore.order;
+    }
+
+    get componentShowRoute() {
+      return routeNames.components.show;
     }
 
     get completeDateDiff() {

@@ -92,6 +92,10 @@ Route::group(['middleware' => 'jwt'], function () {
             ->middleware('permission:orders.show')
             ->name('orders.index');
 
+        Route::post('/', 'OrderController@store')
+            ->middleware('permission:orders.store')
+            ->name('orders.store');
+
         Route::get('/{order}', 'OrderController@show')
             ->middleware('permission:orders.show')
             ->name('orders.show')

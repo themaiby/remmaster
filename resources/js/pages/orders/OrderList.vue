@@ -77,8 +77,8 @@
             ></v-checkbox>
           </td>
           <td>
-            {{ props.item.id }}
             <v-icon v-if="props.item.urgent" color="error">mdi-fire</v-icon>
+            {{ props.item.id }}
           </td>
           <td>
             <v-chip label :color="props.item.status.color" text-color="white">

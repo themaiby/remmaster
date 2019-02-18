@@ -7,6 +7,7 @@ import {Response as ResponseModel, ResponseScheme} from "./Response";
 import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
 import {OrderWork} from "./OrderWork";
+import {Component as ComponentModel} from "./Component";
 
 export class Order {
   id: number = 0;
@@ -30,6 +31,7 @@ export class Order {
   @Type(() => DateTime) complete_date: DateTime = new DateTime();
   @Type(() => OrderType) type: OrderType = new OrderType();
   @Type(() => OrderStatus) status: OrderStatus = new OrderStatus();
+  @Type(() => ComponentModel) components: ComponentModel[] = [];
 
   /**
    * @param query

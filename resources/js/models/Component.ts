@@ -5,6 +5,7 @@ import {Type} from "class-transformer";
 import {Response as ResponseModel, ResponseScheme} from "./Response";
 import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
+import {ComponentPivot} from "./ComponentPivot";
 
 export class Component {
   id: number = 0;
@@ -14,6 +15,7 @@ export class Component {
   cost: number = 0;
   count: number = 0;
   vendor_id: number = 0;
+  @Type(() => ComponentPivot) pivot: ComponentPivot = new ComponentPivot(); /* count in order */
   @Type(() => ComponentCategory) category: ComponentCategory = new ComponentCategory();
   @Type(() => Vendor) vendor: Vendor = new Vendor();
   @Type(() => DateTime) created_at: DateTime = new DateTime();
@@ -61,6 +63,10 @@ export class Component {
       message?: string;
       errors?: [];
     });
+  }
+
+  getInOrderCount() {
+    return this.pivot.count;
   }
 }
 

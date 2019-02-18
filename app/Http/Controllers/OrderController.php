@@ -51,14 +51,17 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. todo: return resource
      *
      * @param OrderRequest $request
-     * @return void
+     * @return OrderResource
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): OrderResource
     {
         $order = $this->service->handleStore($request);
+        return new OrderResource($order->load(['works', 'componentsAttached.parentComponent',]));
     }
 
     /**
