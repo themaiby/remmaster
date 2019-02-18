@@ -146,7 +146,7 @@
             />
           </v-flex>
 
-          <v-flex xs12 sm12 lg12 md12 pa-4 mb-3>
+          <v-flex xs12 sm12 lg12 md12 pa-1 mb-3>
             <v-textarea v-model="order.comment"
                         :label="$t('orders.comment')"
                         :hint="$t('attributes.optional')"
