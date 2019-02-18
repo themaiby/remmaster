@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent fullscreen>
+  <v-dialog v-model="dialog" persistent max-width="1200px">
     <v-card>
       <v-toolbar>
         <v-btn icon @click="dialog = false">
@@ -10,7 +10,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn @click="log">{{ $t('orders.save') }}</v-btn>
+          <v-btn @click="log" flat>{{ $t('orders.save') }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
