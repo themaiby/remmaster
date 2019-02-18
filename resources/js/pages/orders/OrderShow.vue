@@ -168,10 +168,10 @@
               <v-divider></v-divider>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-list-tile-title>
+                  <v-list-tile-sub-title>
                     {{ $t('orders.worksSummary') }}:
                     {{ sum(order.works) }}
-                  </v-list-tile-title>
+                  </v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -243,11 +243,10 @@
     }
 
     @Watch('order') updateTitle(order: Order) {
-      applicationStore.setCurrentPageTitle({text: `[#${order.id}]`});
+      applicationStore.setCurrentPageTitle({text: `#${order.id}`});
     }
 
     sum(works: OrderWork[]): number {
-      console.log(works);
       let sum = 0;
       works.forEach(work => {
         sum += Number(work.cost)
@@ -270,9 +269,12 @@
 
     get completeDateDiff() {
       const today = moment().tz(usersStore.currentUser.timezone);
-      const completeDate = this.order.complete_date.date;
 
-      return completeDate.diff(today, 'days');
+      if (typeof this.order.complete_date === "object") {
+        return this.order.complete_date.date.diff(today, 'days');
+      }
+
+      return moment(this.order.complete_date).diff(today, 'days');
     }
 
     updateStatus(status: OrderStatus) {

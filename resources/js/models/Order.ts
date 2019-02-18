@@ -28,7 +28,7 @@ export class Order {
   @Type(() => DateTime) created_at: DateTime = new DateTime();
   @Type(() => DateTime) updated_at: DateTime = new DateTime();
   @Type(() => DateTime) deleted_at: DateTime = new DateTime();
-  @Type(() => DateTime) complete_date: DateTime = new DateTime();
+  @Type(() => DateTime) complete_date: DateTime | string = new DateTime();
   @Type(() => OrderType) type: OrderType = new OrderType();
   @Type(() => OrderStatus) status: OrderStatus = new OrderStatus();
   @Type(() => ComponentModel) components: ComponentModel[] = [];

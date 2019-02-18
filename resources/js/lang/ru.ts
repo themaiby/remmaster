@@ -15,7 +15,12 @@ export const ru = {
   },
   attributes: {
     email: 'E-Mail',
-    password: 'Пароль'
+    password: 'Пароль',
+    beforeStep: 'Предыдущий шаг',
+    continue: 'Продолжить',
+    required: 'Обязательно',
+    optional: 'Опционально',
+    save: 'Сохранить'
   },
   common: {
     dashboard: 'Обзорная панель'
@@ -115,7 +120,19 @@ export const ru = {
     components: 'Использованные запчасти',
     works: 'Список работ',
     status_history: 'История изменений статуса',
-    worksSummary: 'Суммарная стоимость'
+    worksSummary: 'Суммарная стоимость',
+    create: 'Новая заявка',
+    urgent: 'Срочно',
+    specifyDate: 'Указать дату выдачи (по умолч. через 2 дня)',
+    save: 'Сохранить',
+
+    clientStep: 'Клиент',
+    clientStepSubheader: 'Информация о клиенте',
+    deviceStep: 'Устройство',
+    deviceStepSubheader: 'Информация об устройстве и причине обращения',
+    orderStep: 'Заявка',
+    orderStepSubheader: 'Причина обращения и дополнительная информация',
+
   },
   pluralized: {
     items: '{n} единиц | {n} единица | {n} единицы | {n} единиц',
