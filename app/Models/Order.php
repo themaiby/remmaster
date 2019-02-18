@@ -72,6 +72,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Query\Builder|Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Order withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderComponent[] $componentsAttached
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderWork[] $works
  */
 class Order extends Model
 {
@@ -90,7 +93,23 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'order_type_id',
+        'status_id',
+        'user_id',
+        'urgent',
+        'breakage',
+        'complete_date',
+        'comment',
+        'client_name',
+        'client_number',
+        'client_email',
+        'client_note',
+        'device_name',
+        'device_imei',
+        'device_visual',
+        'device_note',
+    ];
 
     public $dates = ['created_at', 'updated_at', 'deleted_at', 'complete_date'];
 
@@ -115,7 +134,7 @@ class Order extends Model
      */
     public function components(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Component::class, 'order_components');
+        return $this->belongsToMany(Component::class, 'order_components')->withPivot(['count']);
     }
 
     /**
@@ -132,5 +151,13 @@ class Order extends Model
     public function works(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(OrderWork::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function componentsAttached(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderComponent::class);
     }
 }
