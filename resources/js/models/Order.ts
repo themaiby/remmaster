@@ -8,6 +8,7 @@ import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
 import {OrderWork} from "./OrderWork";
 import {Component as ComponentModel} from "./Component";
+import {StatusHistory} from "./StatusHistory";
 
 export class Order {
   id: number = 0;
@@ -34,6 +35,7 @@ export class Order {
   @Type(() => OrderType) type: OrderType = new OrderType();
   @Type(() => OrderStatus) status: OrderStatus = new OrderStatus();
   @Type(() => ComponentModel) components: ComponentModel[] = [];
+  @Type(() => StatusHistory) status_history: StatusHistory[] = [];
 
   /**
    * @param query

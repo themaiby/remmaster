@@ -41,6 +41,7 @@ class OrderResource extends JsonResource
             'user' => $this->whenLoaded('user', $this->user),
             'components' => $this->whenLoaded('components', $this->components),
             'works' => $this->whenLoaded('works', $this->works),
+            'status_history' => $this->whenLoaded('statusHistory', StatusHistoryResource::collection($this->statusHistory)),
             'urgent' => $this->urgent,
             'breakage' => $this->breakage,
             'client_name' => $this->client_name,

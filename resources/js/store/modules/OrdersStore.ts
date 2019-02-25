@@ -8,6 +8,7 @@ import {applicationStore} from "./ApplicationStore";
 import {ISnackbarColors} from "../../models/Snackbar";
 import {OrderStatus} from "../../models/OrderStatus";
 import {OrderType} from "../../models/OrderType";
+import i18n from "../../plugins/i18n";
 
 @Module({name: 'orders', store: store, namespaced: true, dynamic: true})
 class OrdersStore extends VuexModule {
@@ -123,6 +124,8 @@ class OrdersStore extends VuexModule {
     try {
       const orderRes = await Order.create(order);
       this.setOrder(orderRes.data);
+      applicationStore.snackbar
+        .call(i18n.t('messages.orders.createdSuccess', {order_id: orderRes.data.id}) as string, ISnackbarColors.success);
     } catch (e) {
       applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {

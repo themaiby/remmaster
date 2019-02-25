@@ -1,15 +1,15 @@
 <template>
   <v-container>
-    <v-layout row wrap v-if="order.id">
+    <v-layout row v-if="order.id" wrap>
 
-      <v-flex xs12 sm12 lg12 pa-1>
+      <v-flex lg12 pa-1 sm12 xs12>
         <!-- status -->
         <v-menu>
-          <v-btn slot="activator" :color="order.status.color">
+          <v-btn :color="order.status.color" slot="activator">
             {{ order.status.title }}
           </v-btn>
           <v-list>
-            <v-list-tile v-for="status in statuses" :key="status.id" @click="updateStatus(status)">
+            <v-list-tile :key="status.id" @click="updateStatus(status)" v-for="status in statuses">
               <v-list-tile-title>{{ status.title }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -17,7 +17,7 @@
 
         <!-- invoice -->
         <v-menu>
-          <v-btn slot="activator" flat icon>
+          <v-btn flat icon slot="activator">
             <v-icon>mdi-file-download-outline</v-icon>
           </v-btn>
           <v-list>
@@ -32,11 +32,11 @@
       </v-flex>
 
       <!-- order data -->
-      <v-flex xs12 sm6 lg6 pa-1>
+      <v-flex lg6 pa-1 sm6 xs12>
         <v-card height="100%">
           <v-card-text>
             <!-- order -->
-            <h3 class="headline mb-2">{{ $t('orders.order') }}</h3>
+            <h3 class="headline mb-2">{{ $t('orders.common_information') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
 
             <h4 class="oneline">
@@ -96,7 +96,7 @@
                     <v-icon :color="completeDateDiff > 1 ? 'success' : 'warning'">mdi-clock-outline</v-icon>
                   </span>
 
-                  <span v-else-if="completeDateDiff < 0" class="error--text">
+                  <span class="error--text" v-else-if="completeDateDiff < 0">
                     <v-icon color="error">mdi-clock-outline</v-icon>
                     {{ $tc('pluralized.days_end', Math.abs(completeDateDiff)) }}
                   </span>
@@ -104,7 +104,7 @@
                   <span v-else="completeDateDiff">{{ $t('orders.last_day')}}</span>
             </span>
 
-            <span v-else class="success--text">
+            <span class="success--text" v-else>
                 {{ $t('orders.issued') }}
             </span>
             <!-- order end -->
@@ -149,7 +149,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs12 sm6 lg6 pa-1>
+      <v-flex lg6 pa-1 sm6 xs12>
         <v-card height="100%">
           <v-card-text>
             <!-- works -->
@@ -157,7 +157,7 @@
             <v-divider class="headline mb-3"></v-divider>
 
             <v-list two-line>
-              <v-list-tile v-for="work in order.works" :key="work.id">
+              <v-list-tile :key="work.id" v-for="work in order.works">
 
                 <v-list-tile-content>
                   <v-list-tile-title>{{ work.title }}</v-list-tile-title>
@@ -180,8 +180,8 @@
             <h3 class="headline mt-5">{{ $t('orders.components') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
 
-            <v-list three-line subheader>
-              <v-list-tile v-for="component in order.components" :key="component.id">
+            <v-list subheader three-line>
+              <v-list-tile :key="component.id" v-for="component in order.components">
 
                 <v-list-tile-content>
                   <v-list-tile-title>{{ component.title }}</v-list-tile-title>
@@ -205,11 +205,15 @@
       </v-flex>
 
       <!-- status history-->
-      <v-flex xs12 sm12 lg12 pa-1>
+      <v-flex lg12 pa-1 sm12 xs12>
         <v-card height="100%">
           <v-card-text>
             <h3 class="headline mb-2">{{ $t('orders.status_history') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
+            <StatusHistory :order_created_at="order.created_at.date"
+                           :statusHistory="order.status_history"
+                           :user="order.user"
+            />
           </v-card-text>
         </v-card>
       </v-flex>
@@ -227,10 +231,12 @@
   import {OrderStatus} from "../../models/OrderStatus";
   import {routeNames} from "../../router/routeNames";
   import {OrderWork} from "../../models/OrderWork";
+  import StatusHistory from "./OrderShow/StatusHistory.vue";
 
   /* todo: implement work completing */
-
-  @Component
+  @Component({
+    components: {StatusHistory}
+  })
   export default class OrderShow extends Vue {
     docIcons = {
       'word': {'icon': 'mdi-file-word', color: 'primary'},

@@ -160,4 +160,12 @@ class Order extends Model
     {
         return $this->hasMany(OrderComponent::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function statusHistory(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderStatusHistory::class, 'order_id', 'id');
+    }
 }

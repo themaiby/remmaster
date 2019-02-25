@@ -11,6 +11,9 @@ export const ru = {
       createdSuccess: 'Поставщик «{name}» добавлен',
       updatedSuccess: 'Информация о поставщике обновлена',
       deletedSuccess: 'Поставщик «{name}» удалён',
+    },
+    orders: {
+      createdSuccess: 'Создана заявка №{order_id}',
     }
   },
   attributes: {
@@ -129,6 +132,8 @@ export const ru = {
     work: 'Наименование работ',
     cost: 'Стоимость',
     summaryCost: 'Суммарная стоимость',
+    created: 'Создана',
+    common_information: 'Общая информация',
 
     clientStep: 'Клиент',
     clientStepSubheader: 'Информация о клиенте',
