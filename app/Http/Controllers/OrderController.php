@@ -6,6 +6,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\OrderType;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -108,5 +109,13 @@ class OrderController extends Controller
     public function getStatuses(): array
     {
         return ['data' => OrderStatus::all()];
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypes(): array
+    {
+        return ['data' => OrderType::all()];
     }
 }

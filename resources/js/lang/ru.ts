@@ -89,7 +89,7 @@ export const ru = {
     ordersNow: 'Заявки на данный момент',
     showOrderList: 'Отобразить заявки',
     confirmDelete: 'Подтвердите удаление поставщика "{value}"',
-
+    add: 'Добавить запчасть',
   },
   orders: {
     index: 'Заявки',
@@ -108,7 +108,7 @@ export const ru = {
     orderData: 'Данные заявки',
     notSpecified: 'Не указано',
     device_visual: 'Внешний вид',
-    breakage: 'Недостаток',
+    breakage: 'Причина обращения',
     device_note: 'Заметка об устройстве',
     comment: 'Дополнительные комментарии',
     complete_date: 'Дата выдачи',
@@ -118,13 +118,17 @@ export const ru = {
     status_change: 'Изменить статус',
     author: 'Владелец',
     components: 'Использованные запчасти',
-    works: 'Список работ',
+    works: 'Наименования работ',
     status_history: 'История изменений статуса',
     worksSummary: 'Суммарная стоимость',
     create: 'Новая заявка',
     urgent: 'Срочно',
     specifyDate: 'Указать дату выдачи (по умолч. через 2 дня)',
     save: 'Сохранить',
+    addWork: 'Добавить наименование',
+    work: 'Наименование работ',
+    cost: 'Стоимость',
+    summaryCost: 'Суммарная стоимость',
 
     clientStep: 'Клиент',
     clientStepSubheader: 'Информация о клиенте',
@@ -132,7 +136,6 @@ export const ru = {
     deviceStepSubheader: 'Информация об устройстве и причине обращения',
     orderStep: 'Заявка',
     orderStepSubheader: 'Причина обращения и дополнительная информация',
-
   },
   pluralized: {
     items: '{n} единиц | {n} единица | {n} единицы | {n} единиц',

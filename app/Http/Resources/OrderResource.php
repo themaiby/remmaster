@@ -45,6 +45,7 @@ class OrderResource extends JsonResource
             'breakage' => $this->breakage,
             'client_name' => $this->client_name,
             'client_number' => $this->client_number,
+            'client_email' => $this->client_email,
             'device_name' => $this->device_name,
             'device_imei' => $this->device_imei,
             'complete_date' => ['date' => $this->complete_date->toATOMstring()],

@@ -8,6 +8,28 @@
         <v-progress-circular :size="100" color="primary" indeterminate/>
       </VLayout>
     </VContainer>
+
+    <!-- Snackbar -->
+    <v-snackbar
+      :bottom="snackbar.y === true"
+      :color="snackbar.color"
+      :left="snackbar.x === 'left'"
+      :multi-line="snackbar.mode === 'multi-line'"
+      :right="snackbar.x === 'right'"
+      :timeout="snackbar.timeout"
+      :top="snackbar.y === 'top'"
+      :vertical="snackbar.mode === 'vertical'"
+      v-model="snackbar.show"
+    >
+      {{ snackbar.text }}
+      <v-btn
+        @click="snackbar.hide()"
+        flat
+        icon
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -19,6 +41,11 @@
   export default class Application extends Vue {
     get applicationLoaded() {
       return applicationStore.loaded;
+    }
+
+
+    get snackbar() {
+      return applicationStore.snackbar;
     }
   }
 </script>

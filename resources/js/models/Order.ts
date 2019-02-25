@@ -22,6 +22,8 @@ export class Order {
   device_imei: string = '';
   device_visual: string = '';
   device_note: string = '';
+  status_id: number = 0;
+  order_type_id: number = 0;
 
   @Type(() => User) user: User = new User();
   @Type(() => OrderWork) works: OrderWork[] = [];
@@ -46,6 +48,14 @@ export class Order {
    */
   static async get(identifier: number): Promise<ResponseModel<Order>> {
     const res: AxiosResponse<ResponseScheme<Order>> = await http.get(`orders/${identifier}`);
+    return new ResponseModel(res.data, Order);
+  }
+
+  /**
+   * @param order
+   */
+  static async create(order: Order): Promise<ResponseModel<Order>> {
+    const res: AxiosResponse<ResponseScheme<Order>> = await http.post(`orders`, order);
     return new ResponseModel(res.data, Order);
   }
 }

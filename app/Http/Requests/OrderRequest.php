@@ -37,11 +37,11 @@ class OrderRequest extends FormRequest
             'complete_date' => 'required|date',
 
             /* optional */
-            'comment' => 'sometimes|string',
-            'client_email' => 'sometimes|email',
-            'client_note' => 'sometimes|string',
-            'device_visual' => 'sometimes|string',
-            'device_note' => 'sometimes|string',
+            'comment' => 'sometimes|string|nullable',
+            'client_email' => 'sometimes|email|nullable',
+            'client_note' => 'sometimes|string|nullable',
+            'device_visual' => 'sometimes|string|nullable',
+            'device_note' => 'sometimes|string|nullable',
 
             /* components */
             'components' => ['sometimes', 'array', function ($attr, array $value, $fail) {

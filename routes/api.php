@@ -104,6 +104,10 @@ Route::group(['middleware' => 'jwt'], function () {
         Route::get('/statuses', 'OrderController@getStatuses')
             ->middleware('permission:orders.show')
             ->name('orders.statuses');
+
+        Route::get('/types', 'OrderController@getTypes')
+            ->middleware('permission:orders.show')
+            ->name('orders.types');
     });
 
     Route::group(['prefix' => 'categories'], function () {

@@ -7,6 +7,7 @@ import {Filter} from "../../models/Filter";
 import {applicationStore} from "./ApplicationStore";
 import {ISnackbarColors} from "../../models/Snackbar";
 import {OrderStatus} from "../../models/OrderStatus";
+import {OrderType} from "../../models/OrderType";
 
 @Module({name: 'orders', store: store, namespaced: true, dynamic: true})
 class OrdersStore extends VuexModule {
@@ -19,7 +20,9 @@ class OrdersStore extends VuexModule {
   statuses: OrderStatus[] = [];
 
   isRequest: boolean = false;
+  isCreateRequest: boolean = false;
   errors: [] = [];
+  orderTypes: OrderType[] = [];
 
   @Mutation setOrders(orders: Order[]) {
     this.orders = orders;
@@ -41,6 +44,10 @@ class OrdersStore extends VuexModule {
     this.isRequest = isRequest;
   }
 
+  @Mutation setIsCreateRequest(isRequest: boolean) {
+    this.isCreateRequest = isRequest;
+  }
+
   @Mutation setFilter(filter: Filter.Order) {
     this.filter = Filter.Order.set(filter);
   }
@@ -51,6 +58,10 @@ class OrdersStore extends VuexModule {
 
   @Mutation setStatuses(statuses: OrderStatus[]) {
     this.statuses = statuses;
+  }
+
+  @Mutation setOrderTypes(types: OrderType[]) {
+    this.orderTypes = types;
   }
 
   @Action
@@ -90,6 +101,32 @@ class OrdersStore extends VuexModule {
       applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getTypes() {
+    this.setIsRequest(true);
+    try {
+      const types = await OrderType.all();
+      this.setOrderTypes(types.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
+    } finally {
+      this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async createOrder(order: Order) {
+    this.setIsCreateRequest(true);
+    try {
+      const orderRes = await Order.create(order);
+      this.setOrder(orderRes.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
+    } finally {
+      this.setIsCreateRequest(false);
     }
   }
 }

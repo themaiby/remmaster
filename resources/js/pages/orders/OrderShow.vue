@@ -33,7 +33,7 @@
 
       <!-- order data -->
       <v-flex xs12 sm6 lg6 pa-1>
-        <v-card>
+        <v-card height="100%">
           <v-card-text>
             <!-- order -->
             <h3 class="headline mb-2">{{ $t('orders.order') }}</h3>

@@ -15,6 +15,7 @@ export class Component {
   cost: number = 0;
   count: number = 0;
   vendor_id: number = 0;
+  component_id: number = 0; /* for create request */
   @Type(() => ComponentPivot) pivot: ComponentPivot = new ComponentPivot(); /* count in order */
   @Type(() => ComponentCategory) category: ComponentCategory = new ComponentCategory();
   @Type(() => Vendor) vendor: Vendor = new Vendor();
