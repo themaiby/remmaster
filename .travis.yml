@@ -12,7 +12,6 @@ addons:
 
 services:
   - postgresql
-  - mysql
   - redis-server
 
 before_install:
@@ -24,13 +23,18 @@ install:
   - composer install --no-interaction
   - npm install
   - php artisan key:generate
-  - php artisan jwt:secret
+  - php artisan jwt:secret -f
   - php artisan migrate --seed
-script:
-  - # branches:
-    #  only:
-    #    - master
-    #    - dev
+  - npm run prod
+
+after_success:
+  - rm -rf node_modules/
+  - rm -rf resources/js
+
+# branches:
+#  only:
+#    - master
+#    - dev
 
 notifications:
   email:
