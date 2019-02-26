@@ -6,10 +6,6 @@ php:
 node_js:
   - '10'
 
-addons:
-  artifacts:
-    s3_region: 'eu-central-1'
-
 services:
   - redis-server
   - postgresql
@@ -51,3 +47,8 @@ notifications:
     on_failure: always
     on_success: never
 
+deploy:
+  provider: s3
+  bucket: 'remmaster'
+  access_key_id: {ARTIFACTS_KEY}
+  secret_access_key: {ARTIFACTS_SECRET}
