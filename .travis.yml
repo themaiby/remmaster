@@ -53,6 +53,7 @@ deploy:
   access_key_id: '$ARTIFACTS_KEY'
   secret_access_key: '$ARTIFACTS_SECRET'
   region: 'eu-central-1'
+  upload-dir: '$UPLOAD_DIR'
   on:
     # tags: true
-    branch: 'master'
+    branch: 'feature/orders' #'master'
