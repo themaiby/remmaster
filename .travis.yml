@@ -9,18 +9,15 @@ node_js:
 addons:
   artifacts:
     s3_region: 'eu-central-1'
-  apt:
-    sources:
-      - mysql-8.0-trusty
-    packages:
-      - mysql-server
-      - mysql-client
 
 services:
   - redis-server
-  - mysql
 
 before_install:
+  - sudo apt remove mysql-server -y
+  - wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
+  - sudo dpkg -i mysql-apt-config_0.8.10-1_all.deb
+  - sudo apt-get install mysql-server -y
   - mysql -e 'create database test;'
 
 install:
