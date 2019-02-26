@@ -11,11 +11,19 @@ export const ru = {
       createdSuccess: 'Поставщик «{name}» добавлен',
       updatedSuccess: 'Информация о поставщике обновлена',
       deletedSuccess: 'Поставщик «{name}» удалён',
+    },
+    orders: {
+      createdSuccess: 'Создана заявка №{order_id}',
     }
   },
   attributes: {
     email: 'E-Mail',
-    password: 'Пароль'
+    password: 'Пароль',
+    beforeStep: 'Предыдущий шаг',
+    continue: 'Продолжить',
+    required: 'Обязательно',
+    optional: 'Опционально',
+    save: 'Сохранить'
   },
   common: {
     dashboard: 'Обзорная панель'
@@ -84,7 +92,7 @@ export const ru = {
     ordersNow: 'Заявки на данный момент',
     showOrderList: 'Отобразить заявки',
     confirmDelete: 'Подтвердите удаление поставщика "{value}"',
-
+    add: 'Добавить запчасть',
   },
   orders: {
     index: 'Заявки',
@@ -93,14 +101,50 @@ export const ru = {
     type: 'Тип',
     client_name: 'Имя клиента',
     client_number: 'Контактный номер',
+    client_email: 'E-Mail',
+    client_note: 'Заметка',
     device_name: 'Устройство',
     device_imei: 'IMEI/SN',
     created_at: 'Дата',
     show: 'Заявка',
     client: 'Клиент',
     orderData: 'Данные заявки',
+    notSpecified: 'Не указано',
+    device_visual: 'Внешний вид',
+    breakage: 'Причина обращения',
+    device_note: 'Заметка об устройстве',
+    comment: 'Дополнительные комментарии',
+    complete_date: 'Дата выдачи',
+    order: 'Заявка',
+    last_day: 'сегодня',
+    issued: 'Выдано',
+    status_change: 'Изменить статус',
+    author: 'Владелец',
+    components: 'Использованные запчасти',
+    works: 'Наименования работ',
+    status_history: 'История изменений статуса',
+    worksSummary: 'Суммарная стоимость',
+    create: 'Новая заявка',
+    urgent: 'Срочно',
+    specifyDate: 'Указать дату выдачи (по умолч. через 2 дня)',
+    save: 'Сохранить',
+    addWork: 'Добавить наименование',
+    work: 'Наименование работ',
+    cost: 'Стоимость',
+    summaryCost: 'Суммарная стоимость',
+    created: 'Новая заявка',
+    common_information: 'Общая информация',
+
+    clientStep: 'Клиент',
+    clientStepSubheader: 'Информация о клиенте',
+    deviceStep: 'Устройство',
+    deviceStepSubheader: 'Информация об устройстве и причине обращения',
+    orderStep: 'Заявка',
+    orderStepSubheader: 'Причина обращения и дополнительная информация',
   },
   pluralized: {
-    items: '{n} единиц | {n} единица | {n} единицы | {n} единиц'
+    items: '{n} единиц | {n} единица | {n} единицы | {n} единиц',
+    days_more: 'через {n} дней | завтра | через {n} дня | через {n} дней',
+    days_end: 'просрочено на {n} дней | просрочено на {n} день | просрочено на {n} дня | просрочено на {n} дней',
   }
 };

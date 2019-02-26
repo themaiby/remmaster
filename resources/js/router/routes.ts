@@ -1,11 +1,11 @@
 import {RouteConfig} from "vue-router";
 import {routeNames} from "./routeNames";
 import Layout from "../pages/Layout.vue";
-import {vendorRoutes} from "./vendorRoutes";
+import {vendorRoutes} from "./modules/vendorRoutes";
 
-import {componentRoutes} from "./componentRoutes";
+import {componentRoutes} from "./modules/componentRoutes";
 import Guest from "../middleware/Guest";
-import {orderRoutes} from "./orderRoutes";
+import {orderRoutes} from "./modules/orderRoutes";
 
 
 export const routes: RouteConfig[] = [

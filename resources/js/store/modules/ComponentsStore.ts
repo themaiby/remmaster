@@ -18,6 +18,7 @@ class ComponentsStore extends VuexModule {
   meta: Meta = new Meta();
   availableVendors: Vendor[] = [];
   availableCategories: ComponentCategory[] = [];
+  availableComponents: Component[] = [];
   filter: Filter.Component = new Filter.Component;
 
   isRequest: boolean = false;
@@ -83,6 +84,10 @@ class ComponentsStore extends VuexModule {
     this.component = component;
   }
 
+  @Mutation setAvailableComponents(components: Component[]) {
+    this.availableComponents = components;
+  }
+
   @Action
   async getComponents() {
     this.setIsRequest(true);
@@ -94,6 +99,20 @@ class ComponentsStore extends VuexModule {
       applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
     } finally {
       this.setIsRequest(false);
+    }
+  }
+
+  @Action
+  async getAvailableComponents() {
+    this.setIsRequest(true);
+    try {
+      const filter: Filter.Component = {countMin: 1};
+      const availableComponents = await Component.all(filter);
+      this.setAvailableComponents(availableComponents.data);
+    } catch (e) {
+      applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
+    } finally {
+      this.setFilterLoading(false);
     }
   }
 

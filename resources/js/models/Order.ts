@@ -7,6 +7,8 @@ import {Response as ResponseModel, ResponseScheme} from "./Response";
 import {AxiosResponse} from "axios";
 import {http} from "../plugins/axios";
 import {OrderWork} from "./OrderWork";
+import {Component as ComponentModel} from "./Component";
+import {StatusHistory} from "./StatusHistory";
 
 export class Order {
   id: number = 0;
@@ -21,15 +23,19 @@ export class Order {
   device_imei: string = '';
   device_visual: string = '';
   device_note: string = '';
+  status_id: number = 0;
+  order_type_id: number = 0;
 
   @Type(() => User) user: User = new User();
   @Type(() => OrderWork) works: OrderWork[] = [];
   @Type(() => DateTime) created_at: DateTime = new DateTime();
   @Type(() => DateTime) updated_at: DateTime = new DateTime();
   @Type(() => DateTime) deleted_at: DateTime = new DateTime();
-  @Type(() => DateTime) complete_date: DateTime = new DateTime();
+  @Type(() => DateTime) complete_date: DateTime | string = new DateTime();
   @Type(() => OrderType) type: OrderType = new OrderType();
   @Type(() => OrderStatus) status: OrderStatus = new OrderStatus();
+  @Type(() => ComponentModel) components: ComponentModel[] = [];
+  @Type(() => StatusHistory) status_history: StatusHistory[] = [];
 
   /**
    * @param query
@@ -44,6 +50,14 @@ export class Order {
    */
   static async get(identifier: number): Promise<ResponseModel<Order>> {
     const res: AxiosResponse<ResponseScheme<Order>> = await http.get(`orders/${identifier}`);
+    return new ResponseModel(res.data, Order);
+  }
+
+  /**
+   * @param order
+   */
+  static async create(order: Order): Promise<ResponseModel<Order>> {
+    const res: AxiosResponse<ResponseScheme<Order>> = await http.post(`orders`, order);
     return new ResponseModel(res.data, Order);
   }
 }

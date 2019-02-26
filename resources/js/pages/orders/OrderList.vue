@@ -55,6 +55,8 @@
       :rows-per-page-items="[5, 10, 25, 50, 100]"
       :total-items="meta.total"
       class="elevation-24"
+      select-all
+      v-model="selected"
     >
       <v-progress-linear color="grey" height="2" indeterminate slot="progress"/>
 
@@ -64,26 +66,52 @@
         slot-scope="props"
       >
         <tr
-          :class="props.item.status.color"
-          :style="[props.item.status.finisher ? {color: '#cccccc'} : '', {cursor: 'pointer'}]"
+          :style="[props.item.status.finisher ? {color: '#cccccc'} : '']"
           :key="props.item.id"
-          @click="$router.push({name: routeNames.orders.show, params: {id: props.item.id}})"
         >
+          <td>
+            <v-checkbox
+              v-model="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
+          </td>
           <td>
             <v-icon v-if="props.item.urgent" color="error">mdi-fire</v-icon>
             {{ props.item.id }}
           </td>
-          <td>{{ props.item.status.title }}</td>
+          <td>
+            <v-chip label :color="props.item.status.color" text-color="white">
+              {{ props.item.status.title }}
+            </v-chip>
+          </td>
           <td>{{ props.item.type.title }}</td>
-          <td>{{ props.item.client_name }}</td>
-          <td>{{ props.item.client_number }}</td>
-          <td>{{ props.item.device_name }}</td>
-          <td>{{ props.item.device_imei }}</td>
+          <td>
+            {{ props.item.client_name }}
+            <v-list-tile-sub-title>
+              <small>{{ props.item.client_number }}</small>
+            </v-list-tile-sub-title>
+          </td>
+          <td>
+            {{ props.item.device_name }}
+            <v-list-tile-sub-title>
+              <small>{{ props.item.device_imei }}</small>
+            </v-list-tile-sub-title>
+          </td>
           <td>{{ props.item.created_at.date | moment('DD/MM/YYYY HH:mm:ss') }}</td>
+          <td>
+            <router-link :to="{name: routeNames.orders.show, params: {id: props.item.id}}">
+              <v-btn icon>
+                <v-icon color="primary">mdi-information</v-icon>
+              </v-btn>
+            </router-link>
+          </td>
         </tr>
       </template>
     </v-data-table>
-    <router-view/>
+    <transition name="fade">
+      <router-view/>
+    </transition>
   </v-container>
 </template>
 
@@ -94,6 +122,7 @@
   import {applicationStore} from "../../store/modules/ApplicationStore";
   import i18n from "../../plugins/i18n";
   import {ordersStore} from "../../store/modules/OrdersStore";
+  import {Order} from "../../models/Order";
 
   @Component
   export default class OrderList extends Vue {
@@ -102,12 +131,17 @@
       {text: i18n.t('orders.id') as string, value: 'id'},
       {text: i18n.t('orders.status') as string, value: 'status.title'},
       {text: i18n.t('orders.type') as string, value: 'type.title'},
-      {text: i18n.t('orders.client_name') as string, value: 'client_name'},
-      {text: i18n.t('orders.client_number') as string, value: 'client_number'},
+      {text: i18n.t('orders.client') as string, value: 'client_name'},
       {text: i18n.t('orders.device_name') as string, value: 'device_name'},
-      {text: i18n.t('orders.device_imei') as string, value: 'device_imei'},
       {text: i18n.t('orders.created_at') as string, value: 'created_at'},
+      {text: '', value: '', sortable: false},
     ];
+
+    selected = [];
+
+    @Watch('selected') consoleLogSelected(value: Order) {
+      console.log(value);
+    }
 
     beforeCreate() {
       // restrict access if not allowed
@@ -156,5 +190,10 @@
 </script>
 
 <style scoped>
-
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
 </style>
