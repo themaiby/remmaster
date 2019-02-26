@@ -9,9 +9,14 @@ node_js:
 addons:
   artifacts:
     s3_region: 'eu-central-1'
+  apt:
+    sources:
+      - mysql-8.0=trusty
+    packages:
+      - mysql-server
+      - mysql-client
 
 services:
-  - postgresql
   - redis-server
 
 before_install:
