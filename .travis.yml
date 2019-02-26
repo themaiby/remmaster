@@ -67,16 +67,18 @@ deploy:
     bucket: '$ARTIFACTS_BUCKET'
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
-    region: 'eu-central-1'
     upload-dir: 'builds/$TRAVIS_BRANCH/${TRAVIS_TAG:-$(date +"%Y%m%d%H%M%S")-$(git log --format=%h -1)}'
+    region: 'eu-central-1'
+    skip_cleanup: true
     on:
       branch: 'dev'
   - provider: s3
     bucket: '$ARTIFACTS_BUCKET'
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
-    region: 'eu-central-1'
     upload-dir: 'builds/$TRAVIS_BRANCH/$TRAVIS_TAG'
+    region: 'eu-central-1'
+    skip_cleanup: true
     on:
       tags: true
       branch: 'master'
