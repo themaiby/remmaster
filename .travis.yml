@@ -20,7 +20,7 @@ before_install:
 install:
   - cp .env.example .env
   - composer self-update
-  - composer install --no-interaction
+  - composer install --no-interaction --no-dev
   - php artisan key:generate
   - php artisan jwt:secret -f
   - php artisan migrate --seed
