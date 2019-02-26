@@ -55,5 +55,5 @@ deploy:
   region: 'eu-central-1'
   upload-dir: '$UPLOAD_DIR'
   on:
-    # tags: true
-    branch: 'feature/orders' #'master'
+    tags: true
+    all_branches: true
