@@ -1,7 +1,7 @@
 language: php
 php:
-  - '7.1'
-  - '7.2'
+  # - '7.1'
+  # - '7.2'
   - '7.3'
 node_js:
   - '10'
@@ -11,13 +11,14 @@ addons:
     s3_region: 'eu-central-1'
   apt:
     sources:
-      - mysql-8.0=trusty
+      - mysql-8.0-trusty
     packages:
       - mysql-server
       - mysql-client
 
 services:
   - redis-server
+  - mysql
 
 before_install:
   - mysql -e 'create database test;'
