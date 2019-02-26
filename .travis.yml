@@ -34,6 +34,23 @@ after_success:
   - rm -rf resources/js/
   - rm -rf tests/
   - rm .env
+  - rm .env.test
+  - rm .babelrc
+  - rm .editorconfig
+  - rm .eslintrc.js
+  - rm .gitattributes
+  - rm .gitignore
+  - rm .travis.yml
+  - rm Vagrantfile
+  - rm after.sh
+  - rm aliases
+  - rm composer.json
+  - rm composer.lock
+  - rm package-lock.json
+  - rm package.json
+  - rm phpunit.xml
+  - rm tsconfig.json
+  - rm webpack.mix.js
 
 # branches:
 #  only:
@@ -49,8 +66,11 @@ notifications:
 
 deploy:
   provider: s3
-  bucket: 'remmaster'
-  access_key_id: {ARTIFACTS_KEY}
-  secret_access_key: {ARTIFACTS_SECRET}  
+  bucket: '$ARTIFACTS_BUCKET'
+  access_key_id: '$ARTIFACTS_KEY'
+  secret_access_key: '$ARTIFACTS_SECRET'
+  region: 'eu-central-1'
+  upload-dir: '$UPLOAD_DIR'
   on:
-    branch: master
+    tags: true
+    all_branches: true
