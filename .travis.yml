@@ -20,7 +20,7 @@ before_install:
 install:
   - cp .env.example .env
   - composer self-update
-  - composer install --no-interaction --no-dev
+  - composer install --no-interaction
   - php artisan key:generate
   - php artisan jwt:secret -f
   - php artisan migrate --seed
@@ -51,6 +51,7 @@ after_success:
   - rm webpack.mix.js
 
 before_deploy:
+  - composer install --no-dev
   - cd ..
   - tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz ${REPO}
 
