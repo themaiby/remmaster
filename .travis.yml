@@ -1,0 +1,54 @@
+language: php
+php:
+  # - '7.1'
+  # - '7.2'
+  - '7.3'
+node_js:
+  - '10'
+
+services:
+  - redis-server
+  - postgresql
+
+postgres:
+  adapter: postgresql
+  database: test
+  username: postgres
+
+before_install:
+  - composer global require hirak/prestissimo
+  - psql -c 'create database test;' -U postgres
+
+install:
+  - cp .env.example .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan jwt:secret -f
+  - php artisan migrate --seed
+  - npm install
+  - npm run prod
+
+after_success:
+  - rm -rf node_modules/
+  - rm -rf resources/js/
+  - rm -rf tests/
+  - rm .env
+
+# branches:
+#  only:
+#    - master
+#    - dev
+
+notifications:
+  email:
+    recipients:
+      - themaiby0@gmail.com
+    on_failure: always
+    on_success: never
+
+deploy:
+  provider: s3
+  bucket: 'remmaster'
+  access_key_id: {ARTIFACTS_KEY}
+  secret_access_key: {ARTIFACTS_SECRET}

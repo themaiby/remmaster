@@ -2,9 +2,9 @@
   <v-container>
     <v-layout row v-if="order.id" wrap>
 
-      <v-flex lg12 pa-1 sm12 xs12 style="display: inline;">
+      <v-flex lg12 pa-1 sm12 style="display: inline;" xs12>
         <!-- status -->
-        <order-status/>
+        <OrderStatusComponent/>
 
         <!-- invoice -->
         <v-menu>
@@ -213,9 +213,9 @@
           <v-card-text>
             <h3 class="headline mb-2">{{ $t('orders.status_history') }}</h3>
             <v-divider class="headline mb-3"></v-divider>
-            <StatusHistory :order_created_at="order.created_at.date"
-                           :statusHistory="order.status_history"
-                           :user="order.user"
+            <OrderStatusHistoryComponent :order_created_at="order.created_at.date"
+                                         :statusHistory="order.status_history"
+                                         :user="order.user"
             />
           </v-card-text>
         </v-card>
@@ -234,12 +234,12 @@
   import * as moment from "moment";
   import {routeNames} from "../../router/routeNames";
   import {OrderWork} from "../../models/OrderWork";
-  import StatusHistory from "./OrderShow/OrderStatusHistory.vue";
-  import OrderStatus from "./OrderShow/OrderStatus.vue";
+  import OrderStatusHistoryComponent from "./OrderShow/OrderStatusHistory.vue";
+  import OrderStatusComponent from "./OrderShow/OrderStatus.vue";
 
   /* todo: implement work completing */
   @Component({
-    components: {OrderStatus, StatusHistory}
+    components: {OrderStatusHistoryComponent, OrderStatusComponent}
   })
   export default class OrderShow extends Vue {
     docIcons = {

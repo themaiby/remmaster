@@ -9,9 +9,9 @@
         </v-layout>
       </v-timeline-item>
 
-      <v-timeline-item color="grey"
-                       :key="status.id"
+      <v-timeline-item :key="status.id"
                        class="mb-3"
+                       color="grey"
                        small
                        v-for="status in statusHistory">
         <v-layout justify-space-between>
@@ -40,9 +40,8 @@
   import {User} from "../../../models/User";
   import {Moment} from "moment";
 
-  @Component
-  export default class StatusHistory extends Vue {
-    @Prop(StatusHistoryModel) statusHistory!: StatusHistoryModel;
+  @Component export default class OrderStatusHistory extends Vue {
+    @Prop(Array) statusHistory!: StatusHistoryModel[];
     @Prop(Object) order_created_at!: Moment;
     @Prop(User) user!: User;
 
