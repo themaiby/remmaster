@@ -78,4 +78,5 @@ deploy:
     region: 'eu-central-1'
     upload-dir: 'builds/$TRAVIS_BRANCH/$TRAVIS_TAG'
     on:
+      tags: true
       branch: 'master'
