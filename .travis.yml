@@ -51,4 +51,6 @@ deploy:
   provider: s3
   bucket: 'remmaster'
   access_key_id: {ARTIFACTS_KEY}
-  secret_access_key: {ARTIFACTS_SECRET}
+  secret_access_key: {ARTIFACTS_SECRET}  
+  on:
+    branch: master
