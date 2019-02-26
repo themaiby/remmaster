@@ -49,20 +49,18 @@ after_success:
   - rm phpunit.xml
   - rm tsconfig.json
   - rm webpack.mix.js
-  -
-notifications:
-  email:
-    recipients:
-      - themaiby0@gmail.com
-    on_failure: always
-    on_success: never
+
+before_deploy:
+  - cd ..
+  - tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz ${REPO}
 
 deploy:
   - provider: s3
     bucket: '$ARTIFACTS_BUCKET'
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
-    upload-dir: 'builds/$TRAVIS_BRANCH/${TRAVIS_TAG:-$(date +"%Y%m%d%H%M%S")-$(git log --format=%h -1)}'
+    upload-dir: 'build/dev'
+    file: '${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
@@ -71,9 +69,17 @@ deploy:
     bucket: '$ARTIFACTS_BUCKET'
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
-    upload-dir: 'builds/$TRAVIS_BRANCH/$TRAVIS_TAG'
+    upload-dir: 'build/master'
+    file: '${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
       tags: true
       branch: 'master'
+
+notifications:
+  email:
+    recipients:
+      - themaiby0@gmail.com
+    on_failure: always
+    on_success: never
