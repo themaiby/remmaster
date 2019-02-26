@@ -163,6 +163,7 @@
   import {routeNames} from "../../router/routeNames";
   import {componentsStore} from "../../store/modules/ComponentsStore";
   import {Component as ComponentModel} from "../../models/Component";
+  import {plainToClass} from "class-transformer";
 
   @Component export default class VendorsEdit extends Vue {
     private componentModel: ComponentModel = new ComponentModel();
@@ -200,11 +201,11 @@
       if (!componentsStore.component.id) {
         await componentsStore.getComponent(Number(this.$route.params.id));
       }
-      this.componentModel = {
+      this.componentModel = plainToClass(ComponentModel, {
         ...componentsStore.component,
         category_id: this.component.category ? (this.component.category.id || 1) : 1,
         vendor_id: this.component.vendor ? (this.component.vendor.id || 0) : 0,
-      };
+      });
     }
 
     update() {

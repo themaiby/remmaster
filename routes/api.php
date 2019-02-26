@@ -92,9 +92,27 @@ Route::group(['middleware' => 'jwt'], function () {
             ->middleware('permission:orders.show')
             ->name('orders.index');
 
+        Route::post('/', 'OrderController@store')
+            ->middleware('permission:orders.store')
+            ->name('orders.store');
+
         Route::get('/{order}', 'OrderController@show')
             ->middleware('permission:orders.show')
-            ->name('orders.show');
+            ->name('orders.show')
+            ->where(['order' => '[0-9]+']);
+
+        Route::put('/{order}', 'OrderController@update')
+            ->middleware('permission:orders.update')
+            ->name('orders.update')
+            ->where(['order' => '[0-9]+']);
+
+        Route::get('/statuses', 'OrderController@getStatuses')
+            ->middleware('permission:orders.show')
+            ->name('orders.statuses');
+
+        Route::get('/types', 'OrderController@getTypes')
+            ->middleware('permission:orders.show')
+            ->name('orders.types');
     });
 
     Route::group(['prefix' => 'categories'], function () {

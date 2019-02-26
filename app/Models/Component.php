@@ -25,40 +25,40 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read \App\Models\Vendor $vendor
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component filter($input = array(), $filter = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component filter($input = array(), $filter = null)
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Component onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component paginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component permission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Component newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Component newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Component onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Component paginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component role($roles)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component simplePaginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component sortable($defaultParameters = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereArticle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereBeginsWith($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereEndsWith($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereLike($column, $value, $boolean = 'and')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereVendorId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Component withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Component withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Component role($roles)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component simplePaginateFilter($perPage = null, $columns = array(), $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component sortable($defaultParameters = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereArticle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereBeginsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereEndsWith($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereLike($column, $value, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereVendorId($value)
+ * @method static \Illuminate\Database\Query\Builder|Component withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Component withoutTrashed()
  * @mixin \Eloquent
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereDeletedAt($value)
  * @property float $summary_cost
  * @property int $category_id
  * @property-read \App\Models\ComponentCategory $category
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Component whereSummaryCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Component whereSummaryCost($value)
  */
 class Component extends Model
 {
@@ -95,7 +95,7 @@ class Component extends Model
      * @param $direction
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function vendorSortable(\Illuminate\Database\Eloquent\Builder $query, $direction)
+    public function vendorSortable(\Illuminate\Database\Eloquent\Builder $query, $direction): \Illuminate\Database\Eloquent\Builder
     {
         return $query->join('vendors', 'components.vendor_id', '=', 'vendors.id')
             ->orderBy('vendors.name', $direction)
@@ -105,7 +105,7 @@ class Component extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ComponentCategory::class);
     }

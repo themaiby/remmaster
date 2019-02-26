@@ -28,7 +28,7 @@
                 v-validate="'required|email'"
               />
               <VTextField
-                :append-icon="show ? 'visibility_off' : 'visibility'"
+                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :disabled="isRequest"
                 :error-messages="errors.collect('password')"
                 :label="$t('attributes.password')"
@@ -37,7 +37,6 @@
                 @keypress.enter.native="login"
                 name="password"
                 prepend-icon="mdi-lock"
-                type="password"
                 v-model="password"
                 v-validate="'required'"
               />

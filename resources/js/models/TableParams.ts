@@ -5,7 +5,7 @@ export class TableParams {
   descending: boolean = false;
   sortBy: string = '';
   @Exclude() private perPageCount: number = 5;
-  @Exclude() private perPageVariable: string = 'per_page';
+  @Exclude() private perPageVariable: string = 'perPage';
   perPage: number = Number(localStorage.getItem(this.perPageVariable)) || this.perPageCount;
 
   get rowsPerPage() {
@@ -13,6 +13,7 @@ export class TableParams {
   }
 
   set rowsPerPage(value: number) {
+    localStorage.setItem('perPage', value.toString());
     this.perPage = value;
   }
 

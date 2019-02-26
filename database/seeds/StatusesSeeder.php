@@ -64,7 +64,7 @@ class StatusesSeeder extends Seeder
                 'title' => 'Выдан',
                 'opener' => false,
                 'finisher' => true,
-                'color' => 'secondary',
+                'color' => 'grey',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

@@ -88,7 +88,7 @@ class VendorsStore extends VuexModule {
     try {
       const vendorRes = await Vendor.create(vendor);
       this.setVendor(vendorRes.data);
-      const snackText = i18n.t('messages.vendors.createdSuccess', {name: this.vendor}) as string;
+      const snackText = i18n.t('messages.vendors.createdSuccess', {name: this.vendor.name}) as string;
       applicationStore.snackbar.call(snackText, ISnackbarColors.success);
     } catch (e) {
       applicationStore.snackbar.call(e.response.data.message, ISnackbarColors.err);
