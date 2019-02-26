@@ -49,8 +49,8 @@ notifications:
 
 deploy:
   provider: s3
-  bucket: 'remmaster'
-  access_key_id: {ARTIFACTS_KEY}
-  secret_access_key: {ARTIFACTS_SECRET}  
+  bucket: '$ARTIFACTS_BUCKET'
+  access_key_id: '$ARTIFACTS_KEY'
+  secret_access_key: '$ARTIFACTS_SECRET'
   on:
-    branch: master
+    branch: 'feature/orders' # master
