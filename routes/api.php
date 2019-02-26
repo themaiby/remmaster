@@ -101,6 +101,11 @@ Route::group(['middleware' => 'jwt'], function () {
             ->name('orders.show')
             ->where(['order' => '[0-9]+']);
 
+        Route::put('/{order}', 'OrderController@update')
+            ->middleware('permission:orders.update')
+            ->name('orders.update')
+            ->where(['order' => '[0-9]+']);
+
         Route::get('/statuses', 'OrderController@getStatuses')
             ->middleware('permission:orders.show')
             ->name('orders.statuses');

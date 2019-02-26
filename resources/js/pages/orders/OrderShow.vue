@@ -2,18 +2,9 @@
   <v-container>
     <v-layout row v-if="order.id" wrap>
 
-      <v-flex lg12 pa-1 sm12 xs12>
+      <v-flex lg12 pa-1 sm12 xs12 style="display: inline;">
         <!-- status -->
-        <v-menu>
-          <v-btn :color="order.status.color" slot="activator">
-            {{ order.status.title }}
-          </v-btn>
-          <v-list>
-            <v-list-tile :key="status.id" @click="updateStatus(status)" v-for="status in statuses">
-              <v-list-tile-title>{{ status.title }}</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
+        <order-status/>
 
         <!-- invoice -->
         <v-menu>
@@ -36,7 +27,10 @@
         <v-card height="100%">
           <v-card-text>
             <!-- order -->
-            <h3 class="headline mb-2">{{ $t('orders.common_information') }}</h3>
+            <h3 class="headline mb-2">
+              {{ $t('orders.common_information') }}
+              <v-icon @click="" class="mb-1">mdi-pencil</v-icon>
+            </h3>
             <v-divider class="headline mb-3"></v-divider>
 
             <h4 class="oneline">
@@ -110,7 +104,10 @@
             <!-- order end -->
 
             <!-- Client -->
-            <h3 class="headline mb-2 mt-5">{{ $t('orders.client') }}</h3>
+            <h3 class="headline mb-2 mt-5">
+              {{ $t('orders.client') }}
+              <v-icon @click="" class="mb-1">mdi-pencil</v-icon>
+            </h3>
             <v-divider class="headline mb-3"></v-divider>
 
             <h4 class="oneline">
@@ -153,7 +150,10 @@
         <v-card height="100%">
           <v-card-text>
             <!-- works -->
-            <h3 class="headline mb-2">{{ $t('orders.works') }}</h3>
+            <h3 class="headline mb-2">
+              {{ $t('orders.works') }}
+              <v-icon @click="" class="mb-1">mdi-pencil</v-icon>
+            </h3>
             <v-divider class="headline mb-3"></v-divider>
 
             <v-list two-line>
@@ -177,7 +177,10 @@
             </v-list>
 
             <!-- components -->
-            <h3 class="headline mt-5">{{ $t('orders.components') }}</h3>
+            <h3 class="headline mt-5">
+              {{ $t('orders.components') }}
+              <v-icon @click="" class="mb-1">mdi-pencil</v-icon>
+            </h3>
             <v-divider class="headline mb-3"></v-divider>
 
             <v-list subheader three-line>
@@ -218,6 +221,7 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <router-view/>
   </v-container>
 </template>
 
@@ -228,14 +232,14 @@
   import {Order} from "../../models/Order";
   import {usersStore} from "../../store/modules/UsersStore";
   import * as moment from "moment";
-  import {OrderStatus} from "../../models/OrderStatus";
   import {routeNames} from "../../router/routeNames";
   import {OrderWork} from "../../models/OrderWork";
-  import StatusHistory from "./OrderShow/StatusHistory.vue";
+  import StatusHistory from "./OrderShow/OrderStatusHistory.vue";
+  import OrderStatus from "./OrderShow/OrderStatus.vue";
 
   /* todo: implement work completing */
   @Component({
-    components: {StatusHistory}
+    components: {OrderStatus, StatusHistory}
   })
   export default class OrderShow extends Vue {
     docIcons = {
@@ -281,10 +285,6 @@
       }
 
       return moment(this.order.complete_date).diff(today, 'days');
-    }
-
-    updateStatus(status: OrderStatus) {
-      console.log(status);
     }
 
     destroyed() {

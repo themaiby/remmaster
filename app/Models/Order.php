@@ -75,6 +75,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderComponent[] $componentsAttached
  * @property-read \App\Models\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderWork[] $works
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderStatusHistory[] $statusHistory
  */
 class Order extends Model
 {

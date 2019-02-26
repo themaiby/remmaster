@@ -62,7 +62,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request): OrderResource
     {
         $order = $this->service->handleStore($request);
-        return new OrderResource($order->load(['works', 'componentsAttached.parentComponent', 'statusHistory']));
+        return $this->show($order);
     }
 
     /**
@@ -84,22 +84,24 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param OrderRequest $request
      * @param  \App\Models\Order $order
-     * @return void
+     * @return OrderResource
+     * @throws \Throwable
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, Order $order): OrderResource
     {
-        //
+        $order = $this->service->handleUpdate($request, $order);
+        return $this->show($order);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Order $order
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): void
     {
         //
     }

@@ -132,7 +132,7 @@ export const ru = {
     work: 'Наименование работ',
     cost: 'Стоимость',
     summaryCost: 'Суммарная стоимость',
-    created: 'Создана',
+    created: 'Новая заявка',
     common_information: 'Общая информация',
 
     clientStep: 'Клиент',

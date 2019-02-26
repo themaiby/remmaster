@@ -21,6 +21,13 @@ export const orderRoutes: RouteConfig[] = [
     name: routeNames.orders.show,
     component: () => import('../../pages/orders/OrderShow.vue'),
     meta: {middleware: [Auth]},
+    children: [
+      {
+        path: '/orders/:id/edit',
+        name: routeNames.orders.update,
+        component: () => import('../../pages/orders/OrderEditCommon.vue'),
+      }
+    ]
   },
 ];
 

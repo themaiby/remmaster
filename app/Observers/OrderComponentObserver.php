@@ -13,7 +13,7 @@ class OrderComponentObserver
      * @param  \App\Models\OrderComponent $orderComponent
      * @return void
      */
-    public function created(OrderComponent $orderComponent)
+    public function created(OrderComponent $orderComponent): void
     {
         $storageComponent = Component::find($orderComponent->component_id);
         $storageComponent->update([
@@ -22,14 +22,12 @@ class OrderComponentObserver
     }
 
     /**
-     * Handle the order component "updated" event.
      *
      * @param  \App\Models\OrderComponent $orderComponent
      * @return void
      */
     public function updated(OrderComponent $orderComponent)
     {
-        //
     }
 
     /**
@@ -38,9 +36,12 @@ class OrderComponentObserver
      * @param  \App\Models\OrderComponent $orderComponent
      * @return void
      */
-    public function deleted(OrderComponent $orderComponent)
+    public function deleted(OrderComponent $orderComponent): void
     {
-        //
+        $storageComponent = Component::find($orderComponent->component_id);
+        $storageComponent->update([
+            'count' => $storageComponent->count + $orderComponent->count
+        ]);
     }
 
     /**
