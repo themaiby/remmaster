@@ -63,26 +63,6 @@ before_deploy:
   - ls -a
 
 deploy:
-  - provider: s3
-    bucket: '$ARTIFACTS_BUCKET'
-    access_key_id: '$ARTIFACTS_KEY'
-    secret_access_key: '$ARTIFACTS_SECRET'
-    upload-dir: 'build/dev'
-    file: '$TRAVIS_TAG.tar.gz'
-    region: 'eu-central-1'
-    skip_cleanup: true
-    on:
-      branch: 'dev'
-  - provider: s3
-    bucket: '$ARTIFACTS_BUCKET'
-    access_key_id: '$ARTIFACTS_KEY'
-    secret_access_key: '$ARTIFACTS_SECRET'
-    upload-dir: 'build/master'
-    file: '$TRAVIS_TAG.tar.gz'
-    region: 'eu-central-1'
-    skip_cleanup: true
-    on:
-      branch: 'master'
   - provider: releases
     api_key: '$GITHUB_API'
     file: '$TRAVIS_TAG.tar.gz'
