@@ -59,6 +59,9 @@ after_success:
   - GZIP=-9 tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
   - rm -rf $TRAVIS_BUILD_DIR
 
+before_deploy:
+  - cd ..
+
 deploy:
   - provider: s3
     bucket: '$ARTIFACTS_BUCKET'
