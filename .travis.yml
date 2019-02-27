@@ -66,7 +66,7 @@ before_deploy:
 deploy:
   - provider: releases
     api_key: '$GITHUB_API'
-    file: '$TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.bz2'
+    file: '$TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz'
     skip_cleanup: true
     on:
       tags: true
