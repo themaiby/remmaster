@@ -57,8 +57,10 @@ after_success:
   - rm webpack.mix.js
 
 before_deploy:
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - cd ..
-  - tar -zcf $TRAVIS_BUILD_DIR_$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.tar.gz $TRAVIS_BUILD_DIR
+  - tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
+  - rm -rf $TRAVIS_BUILD_DIR
 
 deploy:
   - provider: s3
@@ -66,7 +68,7 @@ deploy:
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
     upload-dir: 'build/dev'
-    file: '$TRAVIS_BUILD_DIR_$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.tar.gz'
+    file: '$TRAVIS_TAG.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
@@ -76,14 +78,14 @@ deploy:
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
     upload-dir: 'build/master'
-    file: '$TRAVIS_BUILD_DIR_$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.tar.gz'
+    file: '$TRAVIS_TAG.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
       branch: 'master'
   - provider: releases
     api_key: '$GITHUB_API'
-    file: '$TRAVIS_BUILD_DIR_$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.tar.gz'
+    file: '$TRAVIS_TAG.tar.gz'
     skip_cleanup: true
     on:
       tags: true
