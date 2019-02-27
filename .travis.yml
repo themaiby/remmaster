@@ -55,9 +55,8 @@ after_success:
   - rm phpunit.xml
   - rm tsconfig.json
   - rm webpack.mix.js
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - cd ..
-  - tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
+  - GZIP=-9 tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
   - rm -rf $TRAVIS_BUILD_DIR
 
 deploy:
