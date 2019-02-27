@@ -55,8 +55,9 @@ after_success:
   - rm phpunit.xml
   - rm tsconfig.json
   - rm webpack.mix.js
+  - .git
   - cd ..
-  - GZIP=-9 tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
+  - GZIP=-9 tar -zcf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR/*
   - rm -rf $TRAVIS_BUILD_DIR
 
 before_deploy:
@@ -65,7 +66,7 @@ before_deploy:
 deploy:
   - provider: releases
     api_key: '$GITHUB_API'
-    file: '$TRAVIS_TAG.tar.gz'
+    file: '$TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz'
     skip_cleanup: true
     on:
       tags: true
