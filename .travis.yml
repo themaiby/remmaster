@@ -28,6 +28,7 @@ install:
   - npm run prod
 
 after_success:
+  - composer install --no-dev
   - rm -rf node_modules/
   - rm -rf resources/js/
   - rm -rf tests/
@@ -51,7 +52,6 @@ after_success:
   - rm webpack.mix.js
 
 before_deploy:
-  - composer install --no-dev
   - cd ..
   - tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz ${REPO}
 
