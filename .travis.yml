@@ -56,8 +56,8 @@ after_success:
   - rm tsconfig.json
   - rm webpack.mix.js
   - rm .git
-  - cd $TRAVIS_BUILD_DIR
-  - GZIP=-9 tar -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz ./ --transform="s/\.\//$TRAVIS_BUILD_DIR-$TRAVIS_TAG\//"
+  - cd ..
+  - GZIP=-9 tar -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz -C $TRAVIS_BUILD_DIR  *
   - rm -rf $TRAVIS_BUILD_DIR
 
 before_deploy:
