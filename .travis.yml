@@ -58,9 +58,13 @@ after_success:
   - cd ..
   - GZIP=-9 tar -zcf $TRAVIS_TAG.tar.gz $TRAVIS_BUILD_DIR
   - rm -rf $TRAVIS_BUILD_DIR
+  - echo 'From install:'
+  - pwd
 
 before_deploy:
   - cd ..
+  - echo 'From deploy:'
+  - pwd
 
 deploy:
   - provider: s3
