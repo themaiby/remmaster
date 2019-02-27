@@ -57,8 +57,7 @@ after_success:
   - rm webpack.mix.js
   - rm .git
   - cd ..
-  - export REPLACE_PATTERN="s/\.\//$TRAVIS_BUILD_DIR-$TRAVIS_TAG\//g"
-  - GZIP=-9 tar -C $TRAVIS_BUILD_DIR -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz ./ --transform=$REPLACE_PATTERN
+  - GZIP=-9 tar -C $TRAVIS_BUILD_DIR -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz ./ --transform="s/\.\//$TRAVIS_BUILD_DIR-$TRAVIS_TAG\//"
   - rm -rf $TRAVIS_BUILD_DIR
 
 before_deploy:
