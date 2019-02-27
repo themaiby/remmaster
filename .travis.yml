@@ -53,7 +53,7 @@ after_success:
 
 before_deploy:
   - cd ..
-  - tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz ${REPO}
+  - tar -zcf ${TRAVIS_BUILD_DIR}_${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz ./${$TRAVIS_BUILD_DIR}
 
 deploy:
   - provider: s3
@@ -61,7 +61,7 @@ deploy:
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
     upload-dir: 'build/dev'
-    file: '${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
+    file: '${TRAVIS_BUILD_DIR}_${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
@@ -71,14 +71,14 @@ deploy:
     access_key_id: '$ARTIFACTS_KEY'
     secret_access_key: '$ARTIFACTS_SECRET'
     upload-dir: 'build/master'
-    file: '${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
+    file: '${TRAVIS_BUILD_DIR}_${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz'
     region: 'eu-central-1'
     skip_cleanup: true
     on:
       branch: 'master'
   - provider: releases
     api_key: '$GITHUB_API'
-    file: ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
+    file: ${TRAVIS_BUILD_DIR}_${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
     skip_cleanup: true
     on:
       tags: true
