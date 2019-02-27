@@ -55,9 +55,10 @@ after_success:
   - rm phpunit.xml
   - rm tsconfig.json
   - rm webpack.mix.js
-  - .git
+  - rm .git
   - cd ..
-  - GZIP=-9 tar -C $TRAVIS_BUILD_DIR -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz * --transform s/./${TRAVIS_BUILD_DIR}-${TRAVIS_TAG}/
+  - export REPLACE_PATTERN="s/\.\//$TRAVIS_BUILD_DIR-$TRAVIS_TAG\//g"
+  - GZIP=-9 tar -C $TRAVIS_BUILD_DIR -zcvf $TRAVIS_BUILD_DIR-$TRAVIS_TAG.tar.gz ./ --transform=$REPLACE_PATTERN
   - rm -rf $TRAVIS_BUILD_DIR
 
 before_deploy:
